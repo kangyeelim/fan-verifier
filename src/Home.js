@@ -17,7 +17,7 @@ class Home extends React.Component {
             <p>Complete the quiz and get all the questions correct to get a chance to put your twitter handle in our
             verified BTS-ARMY hall of fame! This hall of fame is renewed monthly so do come back to do this quick quiz
             to be back on the BTS-ARMY hall of fame.</p>
-            <h3 class="my-3">Quiz Rules</h3>
+            <h3 className="my-3">Quiz Rules</h3>
               <ul>
                 <li>Each question has 4 options</li>
                 <li>You are given 20 seconds per question</li>
