@@ -16,6 +16,7 @@ class Quiz extends React.Component {
       questions: null,
       score: 0,
       questionsAsked:[],
+      questionIndex: null,
     }
     this.updateScore = this.updateScore.bind(this);
     this.addIndexToAskedList = this.addIndexToAskedList.bind(this);
@@ -50,15 +51,18 @@ class Quiz extends React.Component {
   addIndexToAskedList(index) {
     var currentList = this.state.questionsAsked;
     currentList.push(index);
-    this.setState({questionsAsked:currentList});
+    this.state.questionsAsked = currentList;
   }
 
   getRandomQuestion() {
-    var totalQuestions = this.state.questions.length;
-    var randomIndex = Math.floor(Math.random() * totalQuestions);
-    console.log("here");
-    console.log("gave")
-    return this.state.questions[randomIndex];
+    while (true) {
+      var totalQuestions = this.state.questions.length;
+      var randomIndex = Math.floor(Math.random() * totalQuestions);
+      if (!(this.state.questionsAsked.includes(randomIndex))) {
+        this.state.questionIndex = randomIndex;
+        return this.state.questions[randomIndex];
+      }
+    }
   }
 
   updateScore(bool) {
@@ -82,7 +86,11 @@ class Quiz extends React.Component {
           this.state.isStarted && !this.state.isWrong &&
           ( <div>
               <h4 style={styles.score}>Score: {this.state.score}/6</h4>
-              <Question question={this.getRandomQuestion()} updateScore={this.updateScore}/>
+              <Question question={this.getRandomQuestion()}
+                updateScore={this.updateScore}
+                addIndexToAskedList={this.addIndexToAskedList}
+                questionIndex={this.state.questionIndex}
+              />
             </div>)
         }
         {

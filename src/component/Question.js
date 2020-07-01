@@ -21,6 +21,7 @@ class Question extends React.Component {
       counter: 20,
       countdown: 20,
       answer: null,
+      isTimesUp: false,
     }
     this.onAnswerChange = this.onAnswerChange.bind(this);
     this.submitAnswer = this.submitAnswer.bind(this);
@@ -38,6 +39,7 @@ class Question extends React.Component {
     }
     if (counter === 0) {
       this.setState({countdown: "Times up!"});
+      this.setState({isTimesUp: true});
     }
     if (counter < 0) {
       clearInterval(this.timer);
@@ -55,6 +57,7 @@ class Question extends React.Component {
     if (this.state.answer !== null) {
       if (this.state.answer === this.props.question.options[this.props.question.answer]) {
         this.props.updateScore(true);
+        this.props.addIndexToAskedList(this.props.questionIndex);
         this.setState({counter: 20});
       } else {
         this.props.updateScore(false);
@@ -71,33 +74,42 @@ class Question extends React.Component {
   render() {
     return (
       <Container style={styles.container} className="shadow">
-        <h4>Time Remaining:</h4>
-        <ProgressBar animated now={this.state.counter} label={`${this.state.counter} s`} min={0} max={20}/>
-        <h2 className="my-4">{this.props.question.question}</h2>
-        <Form>
-          <Form.Group as={Row}>
-            <Col sm={10}>
-            {
-              this.props.question.options.map((option)=> {
-                return (
-                  <Form.Check
-                    style={styles.radio}
-                    type="radio"
-                    label={option}
-                    value={option}
-                    name="answer"
-                    id="answer"
-                    onChange={this.onAnswerChange}
-                    key={option}
-                  />
-                )
-              })
-            }
-            <Button style={styles.button} onClick={this.submitAnswer}>Submit</Button>
-            </Col>
-          </Form.Group>
-        </Form>
-    </Container>
+      { this.state.isTimesUp && (
+        <h1>Sorry! Time's up. Do try our quiz again when you are ready.</h1>
+      )
+
+      }
+      { !this.state.isTimesUp && (
+        <div>
+          <h4>Time Remaining:</h4>
+          <ProgressBar animated now={this.state.counter} label={`${this.state.counter} s`} min={0} max={20}/>
+          <h2 className="my-4">{this.props.question.question}</h2>
+          <Form>
+            <Form.Group as={Row}>
+              <Col sm={10}>
+              {
+                this.props.question.options.map((option)=> {
+                  return (
+                    <Form.Check
+                      style={styles.radio}
+                      type="radio"
+                      label={option}
+                      value={option}
+                      name="answer"
+                      id="answer"
+                      onChange={this.onAnswerChange}
+                      key={option}
+                    />
+                  )
+                })
+              }
+              <Button style={styles.button} onClick={this.submitAnswer}>Submit</Button>
+              </Col>
+            </Form.Group>
+          </Form>
+        </div>
+      )}
+      </Container>
   );
   }
 }
