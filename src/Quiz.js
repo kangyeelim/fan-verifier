@@ -54,15 +54,11 @@ class Quiz extends React.Component {
   }
 
   getRandomQuestion() {
-    while (true) {
-      var totalQuestions = this.state.questions.length;
-      var randomIndex = Math.floor(Math.random() * totalQuestions);
-      if (!(this.state.questionsAsked.includes(randomIndex))) {
-        this.addIndexToAskedList(randomIndex);
-        return this.state.questions[randomIndex];
-      }
-    }
-
+    var totalQuestions = this.state.questions.length;
+    var randomIndex = Math.floor(Math.random() * totalQuestions);
+    console.log("here");
+    console.log("gave")
+    return this.state.questions[randomIndex];
   }
 
   updateScore(bool) {
@@ -71,10 +67,6 @@ class Quiz extends React.Component {
     } else {
       this.setState({isWrong: true});
     }
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return (nextProps.isStarted !== nextState.isStarted) || (nextProps.isWrong !== nextProps.isWrong);
   }
 
   render() {
