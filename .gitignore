@@ -23,6 +23,11 @@ backend/.env.local
 backend/.env.development.local
 backend/.env.test.local
 backend/.env.production.local
+src/.env
+src/.env.local
+src/.env.development.local
+src/.env.test.local
+src/.env.production.local
 
 npm-debug.log*
 yarn-debug.log*

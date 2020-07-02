@@ -13,11 +13,11 @@ class App extends React.Component {
     return (
       <Router>
         <Switch>
-          <Route path="/" exact component={Login}/>
+          <Route exact path="/" exact component={Login}/>
           <Route path="/publicHallOfFame" component={LoginHallOfFame}/>
-          <ProtectedRoute exact path="/home" component={Home}/>
-          <ProtectedRoute exact path="/hallOfFame" component={HallOfFame}/>
-          <ProtectedRoute exact path="/quiz" component={Quiz}/>
+          <ProtectedRoute  path="/home" component={Home}/>
+          <ProtectedRoute path="/hallOfFame" component={HallOfFame}/>
+          <ProtectedRoute path="/quiz" component={Quiz}/>
         </Switch>
 
       </Router>
