@@ -4,12 +4,17 @@ const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
   username: {
-    type: String,
-    required: true,
-    unique: true,
-    trim: true,
-    minlenght: 3
-  },
+      type: String,
+      required: true
+    },
+    email: {
+      type: String,
+      required: true
+    },
+    facebookId: {
+      type: String,
+      required: true
+    }
 }, {
   timestamp: true,
 });

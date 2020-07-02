@@ -1,13 +1,15 @@
 import React from 'react';
 import './App.css';
 import { Row, Col, Container, Image, Button } from 'react-bootstrap';
+import NavBar from './component/NavBar';
 
 class Home extends React.Component {
   render() {
     return (
+      <div>
+      <NavBar/>
       <Container>
         <h1 className="my-4">Am I a verified BTS-ARMY?</h1>
-
         <Row>
           <Col md={8}>
             <Image fluid src={require("./img/bts.jpeg")} alt=""/>
@@ -30,6 +32,7 @@ class Home extends React.Component {
           </Col>
         </Row>
     </Container>
+    </div>
   );
   }
 }

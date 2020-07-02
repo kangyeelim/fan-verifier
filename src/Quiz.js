@@ -2,8 +2,11 @@ import React from 'react';
 import { Container } from 'react-bootstrap';
 import Question from './component/Question';
 import axios from 'axios';
-import { Redirect } from 'react-router-dom';
-import Form from './component/Form';
+import InputForm from './component/InputForm';
+
+const months = ["January", "February", "March", "April", "May",
+        "June", "July", "August", "September", "October",
+        "November", "December"];
 
 class Quiz extends React.Component {
   constructor() {
@@ -75,7 +78,13 @@ class Quiz extends React.Component {
 
   render() {
     if (this.state.score === 6) {
-      return <Form/>
+      return (
+        <Container>
+          <h1 className="my-4">Congratulations on being a verified BTS-ARMY for this {months[new Date().getMonth()]}'s Hall of Fame!</h1>
+          <p>Now you may input your Twitter handle to be put up on our Hall of Fame where everyone can see. </p>
+          <InputForm/>
+        </Container>
+      )
     }
     return (
       <Container style={styles.container}>

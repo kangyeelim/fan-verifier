@@ -1,12 +1,12 @@
 import React from 'react';
 import { Container } from 'react-bootstrap';
-import NavBar from './component/NavBar';
+import LoginNavBar from './component/LoginNavBar';
 
-class HallOfFame extends React.Component {
+class LoginHallOfFame extends React.Component {
   render() {
     return (
       <div>
-      <NavBar/>
+      <LoginNavBar/>
       <Container>
         <h1 className="my-4">Hall of Fame</h1>
       </Container>
@@ -15,4 +15,4 @@ class HallOfFame extends React.Component {
   }
 }
 
-export default HallOfFame;
+export default LoginHallOfFame;
