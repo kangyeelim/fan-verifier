@@ -9,19 +9,17 @@ router.route('/').get((req, res) => {
 });
 
 //check if value exist in collections
-function isValueInCollections(name, value, res) {
-  var query = {};
-  query[name] = value;
-  Session.find(query)
-    .then(sessions => {
-      if (sessions.length == 0) {
-        return false;
-      } else {
-        console.log("session alr exist");
-        return true;
-      }
-    })
-    .catch(err => res.status(400).json('Error: ' + err));
+async function isValueInCollections(name, value, res) {
+  try {
+    var sessions = await Session.find({name:value});
+    if (await sessions.length) {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (err) {
+    return false;
+  }
 }
 
 //add a new session
@@ -32,31 +30,14 @@ router.route('/add').post((req, res) => {
   const tokenId = req.body.tokenId;
 
   //googleId does not exist so add new session
-  if (!isValueInCollections("googleId", googleId, res)) {
-    const newSession = new Session({
-      googleId,
-      tokenId
-    });
+  const newSession = new Session({
+    googleId,
+    tokenId
+  });
 
-    newSession.save()
+  newSession.save()
     .then(() => res.json('Session added!'))
     .catch(err => res.status(400).json('Error: ' + err));
-  //googleId exists so update session
-  } else {
-    console.log("should be here");
-    var query = {};
-    query["googleId"] = googleId;
-    Session.findOne(query)
-      .then(session => {
-        session.googleId = googleId;
-        session.tokenId = tokenId;
-
-        session.save()
-          .then(() => res.json('Existing session token updated!'))
-          .catch(err => res.status(400).json('Error: ' + err));
-      })
-      .catch(err => res.status(400).json('Error: ' + err));
-  }
 });
 
 //get session by id

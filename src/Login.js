@@ -34,6 +34,9 @@ class Login extends React.Component {
   }
 
   render() {
+    if (auth.isAuthenticated()) {
+      return <Redirect to="/home"/>
+    }
     return (
       <div>
       <LoginNavBar/>

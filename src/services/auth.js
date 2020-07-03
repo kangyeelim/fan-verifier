@@ -4,8 +4,20 @@ import { getFromStorage,
 import axios from 'axios';
 
 class Auth {
+  removeTokenOnLogout(tokenId) {
+    axios.delete(`http://localhost:5000/sessions/tokenId/${tokenId}`)
+      .then(response => {
+        console.log("Removed token from database");
+      })
+      .catch(err => {
+        console.err(err);
+      })
+  }
+
   logout(cb) {
+    const tokenId = getFromStorage("tokenId");
     removeFromStorage("tokenId")
+    this.removeTokenOnLogout(tokenId);
     cb();
   }
 
