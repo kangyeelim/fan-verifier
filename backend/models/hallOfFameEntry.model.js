@@ -2,31 +2,23 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
-const userSchema = new Schema({
-  name: {
+const hallOfFameEntrySchema = new Schema({
+    social: {
       type: String,
       required: true
     },
-    email: {
+    name: {
       type: String,
       required: true
     },
     googleId: {
       type: String,
       required: true
-    },
-    imageUrl: {
-      type: String
-    },
-    isLoggedOut: {
-      type: Boolean,
-      default: false,
-      required: true
     }
 }, {
   timestamp: true,
 });
 
-const User = mongoose.model('User', userSchema);
+const HallOfFameEntry = mongoose.model('HallOfFameEntry', hallOfFameEntrySchema);
 
-module.exports = User;
+module.exports = HallOfFameEntry;

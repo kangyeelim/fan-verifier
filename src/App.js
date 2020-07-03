@@ -6,7 +6,7 @@ import Quiz from './Quiz';
 import Login from './Login'
 import LoginHallOfFame from './LoginHallOfFame';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { ProtectedRoute } from './protected.route';
+import { ProtectedRoute } from './services/protected.route';
 
 class App extends React.Component {
   render() {

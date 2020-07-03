@@ -1,6 +1,6 @@
 import React from 'react';
 import { Navbar, Nav, Form, Button } from 'react-bootstrap';
-import auth from '../auth';
+import auth from '../services/auth';
 import { useHistory } from 'react-router-dom';
 
 export default function NavBar() {
