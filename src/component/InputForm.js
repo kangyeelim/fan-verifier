@@ -26,6 +26,9 @@ class InputForm extends React.Component {
   }
 
   onSubmit() {
+    console.log(this.props.profileObj.googleId)
+    console.log(this.state.social)
+    console.log(this.state.username)
     axios.post('http://localhost:5000/hallOfFameEntries/add', {
       googleId: this.props.profileObj.googleId,
       social: this.state.social,

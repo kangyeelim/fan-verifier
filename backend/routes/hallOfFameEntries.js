@@ -12,17 +12,20 @@ router.route('/add').post((req, res) => {
   const social = req.body.social;
   const name = req.body.name;
 
+  console.log("here")
+
   var query = {};
   query["googleId"] = googleId;
   Entry.find(query)
     .then(entries => {
       if (entries.length === 0) {
+        console.log("should be here")
         const newEntry = new Entry({
-          googleId,
           social,
           name,
+          googleId,
         });
-
+        console.log("here2")
         newEntry.save()
         .then(() => res.json('Entry added!'))
         .catch(err => res.status(400).json('Error: ' + err));

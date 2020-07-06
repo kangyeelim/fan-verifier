@@ -3,8 +3,35 @@ import { Navbar, Nav, Form, Button, Image } from 'react-bootstrap';
 import auth from '../services/auth';
 import { useHistory } from 'react-router-dom';
 
-export default function NavBar() {
-  let history= useHistory();
+class NavBar extends React.Component {
+
+  constructor() {
+    super();
+    this.toHome = this.toHome.bind(this);
+    this.toHallOfFame = this.toHallOfFame.bind(this);
+    this.handleLogout = this.handleLogout.bind(this);
+  }
+
+  toHome() {
+    this.props.history.push({
+      pathname: "/home",
+      profileObj: this.props.profileObj
+    })
+  }
+
+  toHallOfFame() {
+    this.props.history.push({
+      pathname: "/hallOfFame",
+      profileObj: this.props.profileObj
+    })
+  }
+
+  handleLogout(){
+    auth.logout();
+    this.props.history.push("/");
+  }
+
+  render() {
     return (
       <Navbar bg="light" expand="lg" className="shadow">
         <Navbar.Brand href="#">
@@ -14,19 +41,16 @@ export default function NavBar() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ml-auto">
-            <Nav.Link href="/home">Quiz</Nav.Link>
-            <Nav.Link href="/hallOfFame">Hall of Fame</Nav.Link>
+            <Nav.Link onSelect={this.toHome}>Quiz</Nav.Link>
+            <Nav.Link onSelect={this.toHallOfFame}>Hall of Fame</Nav.Link>
             <Form inline>
-              <Button onClick={() => {
-                auth.logout(() => {
-                  history.push("/");
-                })
-              }} variant="outline-success">Logout</Button>
+              <Button onClick={this.handleLogout} variant="outline-success">Logout</Button>
             </Form>
          </Nav>
         </Navbar.Collapse>
       </Navbar>
     );
+  }
 }
 
 const styles = {
@@ -35,3 +59,5 @@ const styles = {
     marginRight: 15
   }
 }
+
+export default NavBar;

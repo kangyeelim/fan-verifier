@@ -82,7 +82,7 @@ class Quiz extends React.Component {
     if (this.state.score === 6) {
       return (
         <div>
-        <NavBar profileObj={this.props.location.profileObj}/>
+        <NavBar profileObj={this.props.location.profileObj} history={this.props.history}/>
         <Container>
           <h3 className="my-4">Congratulations on being a verified BTS-ARMY for this {months[new Date().getMonth()]}'s Hall of Fame!</h3>
           <p>Now you may input your Twitter handle to be put up on our Hall of Fame where everyone can see. </p>
@@ -93,7 +93,7 @@ class Quiz extends React.Component {
     }
     return (
       <div>
-      <NavBar profileObj={this.props.location.profileObj}/>
+      <NavBar profileObj={this.props.location.profileObj} history={this.props.history}/>
       <Container style={styles.container}>
         { !this.state.isStarted && !this.state.isWrong &&
           (<h3 className="my-4">{this.state.countdown}</h3>)

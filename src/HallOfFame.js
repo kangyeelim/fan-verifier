@@ -3,51 +3,52 @@ import { Container, ListGroup } from 'react-bootstrap';
 import NavBar from './component/NavBar';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFacebookSquare, faInstagramSquare, faTwitterSquare } from '@fortawesome/free-brands-svg-icons'
 
-function Twitter() {
+function Twitter(props) {
   return (
     <div>
-      <FontAwesomeIcon icon="fab fa-twitter-square"/>
-      <a href={`twitter.com/${this.props.entry.name}`}>@{this.props.entry.name}</a>
+      <FontAwesomeIcon icon={faTwitterSquare} style={{marginRight:10}}/>
+      <a href={`twitter.com/${props.entry.name}`}>@{props.entry.name}</a>
     </div>
   )
 }
 
-function Facebook() {
+function Facebook(props) {
   return (
     <div>
-      <FontAwesomeIcon icon="fab fa-facebook-square"/>
-      <a href={`facebook.com/${this.props.entry.name}`}>@{this.props.entry.name}</a>
+      <FontAwesomeIcon icon={faFacebookSquare} style={{marginRight:10}}/>
+      <a href={`facebook.com/${props.entry.name}`}>@{props.entry.name}</a>
     </div>
   )
 }
 
-function Instagram() {
+function Instagram(props) {
   return (
     <div>
-      <FontAwesomeIcon icon="fab fa-instagram-square"/>
-      <a href={`instagram.com/${this.props.entry.name}`}>@{this.props.entry.name}</a>
+      <FontAwesomeIcon icon={faInstagramSquare} style={{marginRight:10}}/>
+      <a href={`instagram.com/${props.entry.name}`}>@{props.entry.name}</a>
     </div>
   )
 }
 
-function Entry() {
-  if (this.props.entry.social == "twitter") {
+function Entry(props) {
+  if (props.entry.social == "twitter") {
     return (
       <ListGroup.Item>
-        <Twitter entry={this.props.entry}/>
+        <Twitter entry={props.entry}/>
       </ListGroup.Item>
     );
-  } else if (this.props.entry.social == "instagram") {
+  } else if (props.entry.social == "instagram") {
     return (
       <ListGroup.Item>
-        <Instagram entry={this.props.entry}/>
+        <Instagram entry={props.entry}/>
       </ListGroup.Item>
     );
   } else {
     return (
       <ListGroup.Item>
-        <Facebook  entry={this.props.entry}/>
+        <Facebook  entry={props.entry}/>
       </ListGroup.Item>
     );
   }
@@ -76,7 +77,7 @@ class HallOfFame extends React.Component {
   render() {
     return (
       <div>
-      <NavBar/>
+      <NavBar profileObj={this.props.location.profileObj} history={this.props.history}/>
       <Container>
         <h1 className="my-4">Hall of Fame</h1>
         {this.state.entries && (

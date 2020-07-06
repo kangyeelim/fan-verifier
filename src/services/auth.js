@@ -14,11 +14,10 @@ class Auth {
       })
   }
 
-  logout(cb) {
+  logout() {
     const tokenId = getFromStorage("tokenId");
     removeFromStorage("tokenId")
     this.removeTokenOnLogout(tokenId);
-    cb();
   }
 
   isTokenStored(tokenId) {

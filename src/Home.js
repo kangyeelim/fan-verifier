@@ -49,7 +49,7 @@ class Home extends React.Component {
   render() {
     return (
       <div>
-      <NavBar profileObj={this.props.location.profileObj}/>
+      <NavBar profileObj={this.props.location.profileObj} history={this.props.history}/>
       <Container>
         <h1 className="my-4">Am I a verified BTS-ARMY?</h1>
         <Row>
