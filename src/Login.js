@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Button } from 'react-bootstrap';
+import { Container, Button, Card } from 'react-bootstrap';
 import LoginNavBar from './component/LoginNavBar';
 import auth from './services/auth';
 import GoogleLogin from 'react-google-login';
@@ -25,7 +25,8 @@ class Login extends React.Component {
     //check if googleId exists in user db, if yes update
     //if googleId do not exist, then add
     auth.login(response)
-    this.props.history.push("/home");
+    console.log(response.profileObj);
+    this.props.history.push({pathname: "/home", profileObj:response.profileObj});
   }
 
   responseGoogleFailure(response) {
@@ -41,21 +42,46 @@ class Login extends React.Component {
       <div>
       <LoginNavBar/>
       { this.state.isFailure && (
-        <h2>Login failed. Please try again.</h2>
+        <h3>Login failed. Please try again.</h3>
       )}
       <Container>
-        <h1 className="my-4">Login</h1>
-        <GoogleLogin
-        clientId= {GOOGLE_CLIENT_ID}
-        buttonText="Login with Google"
-        onSuccess={this.responseGoogleSuccess}
-        onFailure={this.responseGoogleFailure}
-        cookiePolicy={'single_host_origin'}
-        responseType='code,token'
-        />
+        <Card className="bg-dark text-white" style={styles.card}>
+          <Card.Img fluid src={require("./img/bts-festa.jpg")} alt="BTS image"/>
+          <Card.ImgOverlay>
+            <Card.Title as="h3">
+              Am I a verified BTS-ARMY?
+            </Card.Title>
+            <Card.Text style={styles.cardText}>
+              Login to try out our 2 minute quiz to become a verified BTS-ARMY and get your
+              social media handle on our Hall of Fame! Our Hall of Fame is renewed monthly so do
+              check back again next month to get back on it.
+            </Card.Text>
+            <GoogleLogin
+            style={styles.loginBtn}
+            clientId= {GOOGLE_CLIENT_ID}
+            buttonText="Login with Google"
+            onSuccess={this.responseGoogleSuccess}
+            onFailure={this.responseGoogleFailure}
+            cookiePolicy={'single_host_origin'}
+            responseType='code,token'
+            />
+          </Card.ImgOverlay>
+        </Card>
       </Container>
       </div>
   );
+  }
+}
+
+const styles = {
+  card: {
+    margin: 30,
+  },
+  cardText: {
+    marginRight: 50,
+  },
+  loginBtn: {
+    alignSelf: 'center',
   }
 }
 

@@ -72,7 +72,7 @@ class Auth {
       email:response.profileObj.email,
       googleId:response.googleId,
       imageUrl:response.profileObj.imageUrl,
-      isLoggedOut:false
+      tokenId: response.tokenId
     })
       .then(res => {
         console.log("Added/Updated user into database");

@@ -1,18 +1,60 @@
 import React from 'react';
 import './App.css';
-import { Row, Col, Container, Image, Button } from 'react-bootstrap';
+import { Row, Col, Container, Image, Button, Carousel } from 'react-bootstrap';
 import NavBar from './component/NavBar';
 
+function ImageCarousel() {
+    return (
+      <Carousel style={styles.carousel}>
+        <Carousel.Item>
+          <img
+            className="d-block w-100"
+            src={require("./img/bts-1.jpg")}
+            alt="First slide"
+          />
+        </Carousel.Item>
+        <Carousel.Item>
+          <img
+            className="d-block w-100"
+            src={require("./img/bts-2.jpg")}
+            alt="Second slide"
+          />
+        </Carousel.Item>
+        <Carousel.Item>
+          <img
+            className="d-block w-100"
+            src={require("./img/bts-3.jpg")}
+            alt="Third slide"
+          />
+        </Carousel.Item>
+      </Carousel>
+    );
+}
+
 class Home extends React.Component {
+
+  constructor() {
+    super();
+    this.onStartQuiz = this.onStartQuiz.bind(this);
+  }
+
+  onStartQuiz() {
+    console.log(this.props.location.profileObj)
+    this.props.history.push(
+      {pathname:"/quiz",
+      profileObj:this.props.location.profileObj
+    });
+  }
+
   render() {
     return (
       <div>
-      <NavBar/>
+      <NavBar profileObj={this.props.location.profileObj}/>
       <Container>
         <h1 className="my-4">Am I a verified BTS-ARMY?</h1>
         <Row>
           <Col md={8}>
-            <Image fluid src={require("./img/bts.jpeg")} alt=""/>
+            <ImageCarousel/>
           </Col>
           <Col md={4}>
             <h3 className="my-3">Take our 2 minute quiz to find out!</h3>
@@ -27,13 +69,19 @@ class Home extends React.Component {
                 <li>Questions are random</li>
               </ul>
             <div style={{marginTop:30}}>
-            <Button href="/quiz">Start Quiz</Button>
+            <Button onClick={this.onStartQuiz}>Start Quiz</Button>
             </div>
           </Col>
         </Row>
     </Container>
     </div>
-  );
+    );
+  }
+}
+
+const styles = {
+  carousel: {
+    marginBottom: 30
   }
 }
 

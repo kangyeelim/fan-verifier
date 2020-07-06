@@ -8,20 +8,6 @@ router.route('/').get((req, res) => {
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
-//check if value exist in collections
-async function isValueInCollections(name, value, res) {
-  try {
-    var sessions = await Session.find({name:value});
-    if (await sessions.length) {
-      return true;
-    } else {
-      return false;
-    }
-  } catch (err) {
-    return false;
-  }
-}
-
 //add a new session
 //check if googleId has corresponding token, if yes update
 //if googleId no corresponding token, then added
@@ -46,6 +32,14 @@ router.route('/:id').get((req, res) => {
     .then(session => res.json(session))
     .catch(err => res.status(400).json('Error: ' + err));
 });
+
+router.route('/:name/:id').get((req, res) => {
+    var query = {};
+    query[req.params.name] = req.params.value
+    Session.findOne(query)
+      .then(session => res.json(session))
+      .catch(err => res.status(400).json('Error: ' + err));
+})
 
 //delete session by id
 router.route('/:id').delete((req, res) => {

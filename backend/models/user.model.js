@@ -18,9 +18,8 @@ const userSchema = new Schema({
     imageUrl: {
       type: String
     },
-    isLoggedOut: {
-      type: Boolean,
-      default: false,
+    tokenId: {
+      type: String,
       required: true
     }
 }, {

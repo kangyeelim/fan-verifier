@@ -3,6 +3,7 @@ import { Container } from 'react-bootstrap';
 import Question from './component/Question';
 import axios from 'axios';
 import InputForm from './component/InputForm';
+import NavBar from './component/NavBar';
 
 const months = ["January", "February", "March", "April", "May",
         "June", "July", "August", "September", "October",
@@ -26,6 +27,7 @@ class Quiz extends React.Component {
   }
 
   componentDidMount() {
+    console.log(this.props.location.profileObj);
     axios.get('http://localhost:5000/questions/')
       .then(response => {
         this.setState({ questions: response.data })
@@ -79,17 +81,22 @@ class Quiz extends React.Component {
   render() {
     if (this.state.score === 6) {
       return (
+        <div>
+        <NavBar profileObj={this.props.location.profileObj}/>
         <Container>
-          <h1 className="my-4">Congratulations on being a verified BTS-ARMY for this {months[new Date().getMonth()]}'s Hall of Fame!</h1>
+          <h3 className="my-4">Congratulations on being a verified BTS-ARMY for this {months[new Date().getMonth()]}'s Hall of Fame!</h3>
           <p>Now you may input your Twitter handle to be put up on our Hall of Fame where everyone can see. </p>
-          <InputForm/>
+          <InputForm profileObj={this.props.location.profileObj} history={this.props.history}/>
         </Container>
+        </div>
       )
     }
     return (
+      <div>
+      <NavBar profileObj={this.props.location.profileObj}/>
       <Container style={styles.container}>
         { !this.state.isStarted && !this.state.isWrong &&
-          (<h1 className="my-4">{this.state.countdown}</h1>)
+          (<h3 className="my-4">{this.state.countdown}</h3>)
         }
         {
           this.state.isStarted && !this.state.isWrong &&
@@ -104,9 +111,10 @@ class Quiz extends React.Component {
         }
         {
           this.state.isWrong &&
-          (<h1>Sorry! You got the question wrong. Do try our quiz again when you are ready.</h1>)
+          (<h3>Sorry! You got the question wrong. Do try our quiz again when you are ready.</h3>)
         }
     </Container>
+    </div>
   );
   }
 }

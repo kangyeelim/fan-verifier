@@ -8,21 +8,6 @@ router.route('/').get((req, res) => {
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
-//check if value exist in collections
-function isValueInCollections(name, value, res) {
-  var query = {};
-  query[name] = value;
-  User.find(query)
-    .then(users => {
-      if (users.length == 0) {
-        return false;
-      } else {
-        return true;
-      }
-    })
-    .catch(err => res.status(400).json('Error: ' + err));
-}
-
 //check if googleId exists in user db, if yes update
 //if googleId do not exist, then add
 router.route('/add').post((req, res) => {
@@ -30,39 +15,42 @@ router.route('/add').post((req, res) => {
   const email = req.body.email;
   const googleId = req.body.googleId;
   const imageUrl = req.body.imageUrl;
-  const isLoggedOut = req.body.isLoggedOut;
+  const tokenId = req.body.tokenId;
 
-  if (!isValueInCollections("googleId", googleId, res)) {
-    console.log("should be here");
-    const userData = {
-      name,
-      email,
-      googleId,
-      imageUrl,
-      isLoggedOut
-    }
-    const newUser = new User(userData);
+  var query = {};
+  query["googleId"] = googleId;
+  User.find(query)
+    .then(users => {
+      if (users.length === 0) {
+        const userData = {
+          name,
+          email,
+          googleId,
+          imageUrl,
+          tokenId
+        }
+        const newUser = new User(userData);
 
-    newUser.save()
-      .then(() => res.json('User added!'))
-      .catch(err => res.status(400).json('Error: ' + err));
-  } else {
-    var query = {};
-    query["googleId"] = googleId
-    User.findOne(query)
-      .then(user => {
-        user.name = name;
-        user.email = email;
-        user.googleId = googleId;
-        user.imageUrl = imageUrl;
-        user.tokenId = tokenId;
-
-        session.save()
-          .then(() => res.json('Session updated!'))
+        newUser.save()
+          .then(() => res.json('User added!'))
           .catch(err => res.status(400).json('Error: ' + err));
-      })
+      } else {
+        User.findOne(query)
+          .then(user => {
+            user.name = name;
+            user.email = email;
+            user.googleId = googleId;
+            user.imageUrl = imageUrl;
+            user.tokenId = tokenId;
+
+            user.save()
+              .then(() => res.json('User updated!'))
+              .catch(err => res.status(400).json('Error: ' + err));
+          })
+          .catch(err => res.status(400).json('Error: ' + err));
+      }
+    })
       .catch(err => res.status(400).json('Error: ' + err));
-  }
 });
 
 router.route('/update/:id').post((req, res) => {
@@ -72,7 +60,7 @@ router.route('/update/:id').post((req, res) => {
       user.email = req.body.email;
       user.googleId = req.body.googleId;
       user.imageUrl = req.body.imageUrl;
-      user.isLoggedOut = req.body.isLoggedOut;
+      user.tokenId = req.body.tokenId;
 
       user.save()
         .then(() => res.json('User updated!'))
@@ -80,5 +68,24 @@ router.route('/update/:id').post((req, res) => {
     })
     .catch(err => res.status(400).json('Error: ' + err));
 });
+
+router.route('/updateBy/:name/:value').post((req, res) => {
+  var query = {};
+  query[req.params.name] = req.params.value
+  User.findOne(query)
+    .then(user => {
+      user.name = req.body.name;
+      user.email = req.body.email;
+      user.googleId = req.body.googleId;
+      user.imageUrl = req.body.imageUrl;
+      user.tokenId = req.body.tokenId;
+
+      user.save()
+        .then(() => res.json('User updated!'))
+        .catch(err => res.status(400).json('Error: ' + err));
+    })
+    .catch(err => res.status(400).json('Error: ' + err));
+});
+
 
 module.exports = router;

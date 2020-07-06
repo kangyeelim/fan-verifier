@@ -20,7 +20,6 @@ export function setInStorage(key, obj) {
   }
   try {
     localStorage.setItem(key, JSON.stringify(obj));
-    console.log("here");
   } catch(err) {
     console.error(err);
   }
@@ -35,8 +34,9 @@ export function removeFromStorage(key) {
     const valueStr = localStorage.getItem(key);
     if (valueStr) {
       localStorage.removeItem(key);
+    } else {
+      console.error("Error: key does not exist in storage.");
     }
-    console.error("Error: key does not exist in storage.");
   } catch (err) {
     console.error(err);
   }

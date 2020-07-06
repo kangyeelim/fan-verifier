@@ -7,6 +7,9 @@ import Login from './Login'
 import LoginHallOfFame from './LoginHallOfFame';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { ProtectedRoute } from './services/protected.route';
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { fab, faFacebookSquare, faInstagramSquare, faTwitterSquare } from '@fortawesome/free-brands-svg-icons'
+library.add(fab, faFacebookSquare, faInstagramSquare, faTwitterSquare)
 
 class App extends React.Component {
   render() {

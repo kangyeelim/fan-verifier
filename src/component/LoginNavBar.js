@@ -1,11 +1,14 @@
 import React from 'react';
-import { Navbar, Nav } from 'react-bootstrap';
+import { Navbar, Nav, Image } from 'react-bootstrap';
 
 class LoginNavBar extends React.Component {
   render() {
     return (
       <Navbar bg="light" expand="lg" className="shadow">
-        <Navbar.Brand href="#">BTS-ARMY Verifier</Navbar.Brand>
+        <Navbar.Brand href="#">
+          <Image style={styles.logo} fluid src={require("../img/bts-army-logo.png")}/>
+          BTS-ARMY Verifier
+        </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ml-auto">
@@ -15,6 +18,13 @@ class LoginNavBar extends React.Component {
         </Navbar.Collapse>
       </Navbar>
     );
+  }
+}
+
+const styles = {
+  logo: {
+    width: 30,
+    marginRight: 15
   }
 }
 
