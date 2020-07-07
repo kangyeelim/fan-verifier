@@ -44,6 +44,7 @@ class Login extends React.Component {
     if (this.state.isSuccess) {
       return <Redirect to="/home"/>
     }
+    console.log("did not show");
     return (
       <div>
       <LoginNavBar/>

@@ -29,6 +29,7 @@ class Auth {
         if (token.length === 0) {
           return false;
         } else {
+          console.log("returned true");
           return true;
         }
       })
@@ -39,13 +40,8 @@ class Auth {
 
   isAuthenticated() {
     if (getFromStorage("tokenId") != null) {
-      /*const tokenId = getFromStorage("tokenId");
+      const tokenId = getFromStorage("tokenId");
       console.log(tokenId);
-      if (this.isTokenStored(tokenId)) {
-        return true;
-      } else {
-        return false;
-      }*/
       return true;
     } else {
       return false;
