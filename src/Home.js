@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import { Row, Col, Container, Image, Button, Carousel } from 'react-bootstrap';
 import NavBar from './component/NavBar';
+import { Store } from './services/Store';
 
 function ImageCarousel() {
     return (
@@ -40,16 +41,13 @@ class Home extends React.Component {
 
   onStartQuiz() {
     console.log(this.props.location.profileObj)
-    this.props.history.push(
-      {pathname:"/quiz",
-      profileObj:this.props.location.profileObj
-    });
+    this.props.history.push("/quiz");
   }
 
   render() {
     return (
       <div>
-      <NavBar profileObj={this.props.location.profileObj} history={this.props.history}/>
+      <NavBar history={this.props.history}/>
       <Container>
         <h1 className="my-4">Am I a verified BTS-ARMY?</h1>
         <Row>

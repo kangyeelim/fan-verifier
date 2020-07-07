@@ -5,7 +5,6 @@ import auth from './services/auth';
 import GoogleLogin from 'react-google-login';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
-import {removeFromStorage} from './services/Storage';
 
 const GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 
@@ -14,7 +13,8 @@ class Login extends React.Component {
   constructor() {
     super();
     this.state = {
-      isFailure: false
+      isFailure: false,
+      isSuccess: false
     }
     this.responseGoogleSuccess = this.responseGoogleSuccess.bind(this);
     this.responseGoogleFailure = this.responseGoogleFailure.bind(this);
@@ -26,16 +26,19 @@ class Login extends React.Component {
     //if googleId do not exist, then add
     auth.login(response)
     console.log(response.profileObj);
-    this.props.history.push({pathname: "/home", profileObj:response.profileObj});
+    this.props.mergeState({profileObj: response.profileObj});
+    this.setState({isSuccess:true});
   }
 
   responseGoogleFailure(response) {
-    console.log("failed");
     this.setState({isFailure: true});
   }
 
   render() {
     if (auth.isAuthenticated()) {
+      return <Redirect to="/home"/>
+    }
+    if (this.state.isSuccess) {
       return <Redirect to="/home"/>
     }
     return (

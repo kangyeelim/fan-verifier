@@ -16,7 +16,8 @@ class InputForm extends React.Component {
   }
 
   handleSocialMediaInput(e) {
-    var social = e.currentTarget.value;
+    var social = e.target.value;
+    console.log(social);
     this.setState({social:social});
   }
 
@@ -55,6 +56,7 @@ class InputForm extends React.Component {
              style={styles.select}
              onChange={this.handleSocialMediaInput}
            >
+            <option disbaled>Choose</option>
              <option value="twitter">Twitter</option>
              <option value="instagram">Instagram</option>
              <option value="facebook">Facebook</option>

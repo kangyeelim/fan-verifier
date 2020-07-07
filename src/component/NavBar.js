@@ -1,7 +1,6 @@
 import React from 'react';
 import { Navbar, Nav, Form, Button, Image } from 'react-bootstrap';
 import auth from '../services/auth';
-import { useHistory } from 'react-router-dom';
 
 class NavBar extends React.Component {
 
@@ -13,17 +12,11 @@ class NavBar extends React.Component {
   }
 
   toHome() {
-    this.props.history.push({
-      pathname: "/home",
-      profileObj: this.props.profileObj
-    })
+    this.props.history.push("/home")
   }
 
   toHallOfFame() {
-    this.props.history.push({
-      pathname: "/hallOfFame",
-      profileObj: this.props.profileObj
-    })
+    this.props.history.push("/hallOfFame")
   }
 
   handleLogout(){
@@ -41,8 +34,8 @@ class NavBar extends React.Component {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ml-auto">
-            <Nav.Link onSelect={this.toHome}>Quiz</Nav.Link>
-            <Nav.Link onSelect={this.toHallOfFame}>Hall of Fame</Nav.Link>
+            <Nav.Link onClick={this.toHome}>Quiz</Nav.Link>
+            <Nav.Link onClick={this.toHallOfFame}>Hall of Fame</Nav.Link>
             <Form inline>
               <Button onClick={this.handleLogout} variant="outline-success">Logout</Button>
             </Form>

@@ -4,6 +4,7 @@ import NavBar from './component/NavBar';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookSquare, faInstagramSquare, faTwitterSquare } from '@fortawesome/free-brands-svg-icons'
+import { Store } from './services/Store';
 
 function Twitter(props) {
   return (
@@ -77,7 +78,7 @@ class HallOfFame extends React.Component {
   render() {
     return (
       <div>
-      <NavBar profileObj={this.props.location.profileObj} history={this.props.history}/>
+      <NavBar history={this.props.history}/>
       <Container>
         <h1 className="my-4">Hall of Fame</h1>
         {this.state.entries && (
