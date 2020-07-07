@@ -27,7 +27,6 @@ class Quiz extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.props.getState("profileObj"));
     axios.get('http://localhost:5000/questions/')
       .then(response => {
         this.setState({ questions: response.data })
@@ -86,7 +85,7 @@ class Quiz extends React.Component {
         <Container>
           <h3 className="my-4">Congratulations on being a verified BTS-ARMY for this {months[new Date().getMonth()]}'s Hall of Fame!</h3>
           <p>Now you may input your Twitter handle to be put up on our Hall of Fame where everyone can see. </p>
-          <InputForm profileObj={this.props.getState("profileObj")} history={this.props.history}/>
+          <InputForm history={this.props.history}/>
         </Container>
         </div>
       )

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Navbar, Nav, Form, Button, Image } from 'react-bootstrap';
 import auth from '../services/auth';
+import { connect } from 'react-redux';
 
 class NavBar extends React.Component {
 
@@ -39,6 +40,9 @@ class NavBar extends React.Component {
             <Form inline>
               <Button onClick={this.handleLogout} variant="outline-success">Logout</Button>
             </Form>
+            <Navbar.Text>
+              Signed in as: {this.props.profile[0].name}
+            </Navbar.Text>
          </Nav>
         </Navbar.Collapse>
       </Navbar>
@@ -53,4 +57,10 @@ const styles = {
   }
 }
 
-export default NavBar;
+const mapStateToProps = (state) => {
+  return {
+    profile: state.profile,
+  }
+}
+
+export default connect(mapStateToProps, {}) (NavBar);

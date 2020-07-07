@@ -5,6 +5,8 @@ import auth from './services/auth';
 import GoogleLogin from 'react-google-login';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
+import { connect } from 'react-redux';
+import { updateProfile } from './redux/actions';
 
 const GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 
@@ -26,7 +28,7 @@ class Login extends React.Component {
     //if googleId do not exist, then add
     auth.login(response)
     console.log(response.profileObj);
-    this.props.mergeState({profileObj: response.profileObj});
+    this.props.updateProfile(response.profileObj);
     this.setState({isSuccess:true});
   }
 
@@ -88,4 +90,11 @@ const styles = {
   }
 }
 
-export default Login;
+const mapStateToProps = (state) => {
+  return {
+    profile: state.profile,
+  }
+}
+
+
+export default connect(mapStateToProps, {updateProfile:updateProfile}) (Login);

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Col, InputGroup, FormControl, Form, Button } from 'react-bootstrap';
 import axios from 'axios';
+import { connect } from 'react-redux';
 
 class InputForm extends React.Component {
 
@@ -27,11 +28,12 @@ class InputForm extends React.Component {
   }
 
   onSubmit() {
-    console.log(this.props.profileObj.googleId)
+    console.log(this.props.profile);
+    console.log(this.props.profile[0].googleId)
     console.log(this.state.social)
     console.log(this.state.username)
     axios.post('http://localhost:5000/hallOfFameEntries/add', {
-      googleId: this.props.profileObj.googleId,
+      googleId: this.props.profile[0].googleId,
       social: this.state.social,
       name: this.state.username
     })
@@ -41,7 +43,7 @@ class InputForm extends React.Component {
       .catch((error) => {
         console.log(error);
       });
-    this.props.history.push({pathname: "/hallOfFame", profileObj:this.props.profileObj});
+    this.props.history.push("/hallOfFame");
   }
 
   render() {
@@ -86,4 +88,10 @@ const styles = {
   }
 }
 
-export default InputForm;
+const mapStateToProps = (state) => {
+  return {
+    profile: state.profile,
+  }
+}
+
+export default connect(mapStateToProps, {}) (InputForm);
