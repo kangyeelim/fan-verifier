@@ -2,7 +2,8 @@ import React from 'react';
 import './App.css';
 import { Row, Col, Container, Image, Button, Carousel } from 'react-bootstrap';
 import NavBar from './component/NavBar';
-import { Store } from './services/Store';
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 
 function ImageCarousel() {
     return (
@@ -38,6 +39,7 @@ class Home extends React.Component {
     super();
     this.onStartQuiz = this.onStartQuiz.bind(this);
   }
+
 
   onStartQuiz() {
     console.log(this.props.location.profileObj)
@@ -83,4 +85,10 @@ const styles = {
   }
 }
 
-export default Home;
+const mapStateToProps = (state) => {
+  return {
+    profile: state.profile,
+  }
+}
+
+export default connect(mapStateToProps, {}) (Home);

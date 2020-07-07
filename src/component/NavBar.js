@@ -2,6 +2,7 @@ import React from 'react';
 import { Navbar, Nav, Form, Button, Image } from 'react-bootstrap';
 import auth from '../services/auth';
 import { connect } from 'react-redux';
+import { deleteProfile } from '../redux/actions';
 
 class NavBar extends React.Component {
 
@@ -22,6 +23,7 @@ class NavBar extends React.Component {
 
   handleLogout(){
     auth.logout();
+    this.props.deleteProfile();
     this.props.history.push("/");
   }
 
@@ -63,4 +65,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, {}) (NavBar);
+export default connect(mapStateToProps, {deleteProfile:deleteProfile}) (NavBar);

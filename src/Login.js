@@ -16,11 +16,12 @@ class Login extends React.Component {
     super();
     this.state = {
       isFailure: false,
-      isSuccess: false
+      isSuccess: false,
     }
     this.responseGoogleSuccess = this.responseGoogleSuccess.bind(this);
     this.responseGoogleFailure = this.responseGoogleFailure.bind(this);
   }
+
   responseGoogleSuccess(response) {
     //check if googleId has corresponding token, if yes update
     //if googleId no corresponding token, then added
@@ -37,7 +38,7 @@ class Login extends React.Component {
   }
 
   render() {
-    if (auth.isAuthenticated()) {
+    if (auth.isAuthenticated() && this.props.profile.length == 1) { //add if store has the profile check
       return <Redirect to="/home"/>
     }
     if (this.state.isSuccess) {

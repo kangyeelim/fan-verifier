@@ -2,6 +2,7 @@ import React from 'react';
 import { Container } from 'react-bootstrap';
 import LoginNavBar from './component/LoginNavBar';
 
+//no longer needed
 class LoginHallOfFame extends React.Component {
   render() {
     return (

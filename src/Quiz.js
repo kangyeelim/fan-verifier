@@ -4,6 +4,8 @@ import Question from './component/Question';
 import axios from 'axios';
 import InputForm from './component/InputForm';
 import NavBar from './component/NavBar';
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 
 const months = ["January", "February", "March", "April", "May",
         "June", "July", "August", "September", "October",
@@ -33,8 +35,9 @@ class Quiz extends React.Component {
       })
       .catch((error) => {
         console.log(error);
-      })
+      });
     this.timer = setInterval(this.decrementCount, 1000);
+
   }
 
   decrementCount = () => {
@@ -78,6 +81,9 @@ class Quiz extends React.Component {
   }
 
   render() {
+    if (this.props.profile.length != 1) {
+      return <Redirect to="/"/>
+    }
     if (this.state.score === 6) {
       return (
         <div>
@@ -127,4 +133,10 @@ const styles = {
   }
 }
 
-export default Quiz;
+const mapStateToProps = (state) => {
+  return {
+    profile: state.profile,
+  }
+}
+
+export default connect(mapStateToProps, {}) (Quiz);

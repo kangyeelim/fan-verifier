@@ -14,9 +14,8 @@ class App extends React.Component {
       <Router>
         <Switch>
           <Route exact path="/" component={Login}/>
-          <Route path="/publicHallOfFame" component={LoginHallOfFame}/>
           <ProtectedRoute path="/home" component={Home}/>
-          <ProtectedRoute path="/hallOfFame" component={HallOfFame}/>
+          <Route path="/hallOfFame" component={HallOfFame}/>
           <ProtectedRoute path="/quiz" component={Quiz}/>
         </Switch>
       </Router>

@@ -1,16 +1,18 @@
 import React from 'react';
 import { Container, ListGroup } from 'react-bootstrap';
 import NavBar from './component/NavBar';
+import LoginNavBar from './component/LoginNavBar';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookSquare, faInstagramSquare, faTwitterSquare } from '@fortawesome/free-brands-svg-icons'
-import { Store } from './services/Store';
+import { connect } from 'react-redux';
+import auth from './services/auth';
 
 function Twitter(props) {
   return (
     <div>
       <FontAwesomeIcon icon={faTwitterSquare} style={{marginRight:10}}/>
-      <a href={`twitter.com/${props.entry.name}`}>@{props.entry.name}</a>
+      <a href={`www.twitter.com/${props.entry.name}`}>@{props.entry.name}</a>
     </div>
   )
 }
@@ -19,7 +21,7 @@ function Facebook(props) {
   return (
     <div>
       <FontAwesomeIcon icon={faFacebookSquare} style={{marginRight:10}}/>
-      <a href={`facebook.com/${props.entry.name}`}>@{props.entry.name}</a>
+      <a href={`www.facebook.com/${props.entry.name}`}>@{props.entry.name}</a>
     </div>
   )
 }
@@ -28,7 +30,7 @@ function Instagram(props) {
   return (
     <div>
       <FontAwesomeIcon icon={faInstagramSquare} style={{marginRight:10}}/>
-      <a href={`instagram.com/${props.entry.name}`}>@{props.entry.name}</a>
+      <a href={`wwww.instagram.com/${props.entry.name}`}>@{props.entry.name}</a>
     </div>
   )
 }
@@ -61,7 +63,8 @@ class HallOfFame extends React.Component {
   constructor() {
     super();
     this.state= {
-      entries: null
+      entries: null,
+      isLoggedIn: false,
     }
   }
 
@@ -78,7 +81,13 @@ class HallOfFame extends React.Component {
   render() {
     return (
       <div>
-      <NavBar history={this.props.history}/>
+      { this.props.profile.length == 1 && (
+        <NavBar history={this.props.history}/>
+      )}
+      { this.props.profile.length != 1 && (
+        <LoginNavBar/>
+      )
+      }
       <Container>
         <h1 className="my-4">Hall of Fame</h1>
         {this.state.entries && (
@@ -94,4 +103,10 @@ class HallOfFame extends React.Component {
   }
 }
 
-export default HallOfFame;
+const mapStateToProps = (state) => {
+  return {
+    profile: state.profile,
+  }
+}
+
+export default connect(mapStateToProps, {}) (HallOfFame);
