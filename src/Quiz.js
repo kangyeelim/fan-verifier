@@ -6,6 +6,7 @@ import InputForm from './component/InputForm';
 import NavBar from './component/NavBar';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import auth from './services/auth';
 
 const months = ["January", "February", "March", "April", "May",
         "June", "July", "August", "September", "October",
@@ -23,12 +24,16 @@ class Quiz extends React.Component {
       score: 0,
       questionsAsked:[],
       questionIndex: null,
+      isLoggedIn: false,
     }
     this.updateScore = this.updateScore.bind(this);
     this.addIndexToAskedList = this.addIndexToAskedList.bind(this);
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+    if (await auth.isAuthenticated()) {
+      this.setState({isLoggedIn: true});
+    }
     axios.get('http://localhost:5000/questions/')
       .then(response => {
         this.setState({ questions: response.data })
@@ -37,7 +42,6 @@ class Quiz extends React.Component {
         console.log(error);
       });
     this.timer = setInterval(this.decrementCount, 1000);
-
   }
 
   decrementCount = () => {
@@ -81,7 +85,7 @@ class Quiz extends React.Component {
   }
 
   render() {
-    if (this.props.profile.length != 1) {
+    if (!this.state.isLoggedIn && this.props.profile.length !== 1) {
       return <Redirect to="/"/>
     }
     if (this.state.score === 6) {

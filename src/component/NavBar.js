@@ -8,17 +8,7 @@ class NavBar extends React.Component {
 
   constructor() {
     super();
-    this.toHome = this.toHome.bind(this);
-    this.toHallOfFame = this.toHallOfFame.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
-  }
-
-  toHome() {
-    this.props.history.push("/home")
-  }
-
-  toHallOfFame() {
-    this.props.history.push("/hallOfFame")
   }
 
   handleLogout(){
@@ -37,8 +27,8 @@ class NavBar extends React.Component {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ml-auto">
-            <Nav.Link onClick={this.toHome}>Quiz</Nav.Link>
-            <Nav.Link onClick={this.toHallOfFame}>Hall of Fame</Nav.Link>
+            <Nav.Link href="/home">Quiz</Nav.Link>
+            <Nav.Link href="/hallOfFame">Hall of Fame</Nav.Link>
             <Form inline>
               <Button onClick={this.handleLogout} variant="outline-success">Logout</Button>
             </Form>

@@ -68,7 +68,10 @@ class HallOfFame extends React.Component {
     }
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+    if (await auth.isAuthenticated()) {
+      this.setState({isLoggedIn: true});
+    }
     axios.get('http://localhost:5000/hallOfFameEntries/')
       .then(response => {
         this.setState({ entries: response.data })
@@ -81,10 +84,10 @@ class HallOfFame extends React.Component {
   render() {
     return (
       <div>
-      { this.props.profile.length == 1 && (
+      { this.props.profile.length === 1 && this.state.isLoggedIn && (
         <NavBar history={this.props.history}/>
       )}
-      { this.props.profile.length != 1 && (
+      { this.props.profile.length !== 1 && !this.state.isLoggedIn && (
         <LoginNavBar/>
       )
       }

@@ -20,33 +20,46 @@ class Auth {
     this.removeTokenOnLogout(tokenId);
   }
 
-  isTokenStored(tokenId) {
-    axios.get('http://localhost:5000/sessions/')
-      .then(response => {
-        var tokens = response.data;
-        var token = tokens.filter(obj => obj.tokenId == tokenId)
-        console.log(token.length);
-        if (token.length === 0) {
-          return false;
-        } else {
-          console.log("returned true");
-          return true;
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      })
-  }
-
-  isAuthenticated() {
-    if (getFromStorage("tokenId") != null) {
-      const tokenId = getFromStorage("tokenId");
-      console.log(tokenId);
-      return true;
+  async isAuthenticated() {
+    const tokenId = getFromStorage("tokenId");
+    console.log(tokenId);
+    if (tokenId != null) {
+      const response = await axios.get('http://localhost:5000/sessions/');
+      var tokens = response.data;
+      var token = tokens.filter(obj => obj.tokenId == tokenId);
+      if (token.length === 0) {
+        return false;
+      } else {
+        return true;
+      }
     } else {
+      console.log("return false");
       return false;
     }
   }
+
+  /*if (getFromStorage("tokenId") != null) {
+    const tokenId = getFromStorage("tokenId");
+    console.log(tokenId);
+    let promise = this.isTokenStored(tokenId)
+      .then(bool => { return bool }})
+    return promise;
+  } else {
+    return false;
+  }*/
+  /*  .then(response => {
+      var tokens = response.data;
+      var token = tokens.filter(obj => obj.tokenId == tokenId)
+      if (token.length === 0) {
+        return false;
+      } else {
+        return true;
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+    return promise;*/
 
   updateSessionTokenOnLogin(response) {
     axios.post('http://localhost:5000/sessions/add', {

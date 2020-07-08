@@ -17,9 +17,16 @@ class Login extends React.Component {
     this.state = {
       isFailure: false,
       isSuccess: false,
+      isLoggedIn: false,
     }
     this.responseGoogleSuccess = this.responseGoogleSuccess.bind(this);
     this.responseGoogleFailure = this.responseGoogleFailure.bind(this);
+  }
+
+  async componentDidMount() {
+      if (await auth.isAuthenticated()) {
+        this.setState({isLoggedIn: true});
+      }
   }
 
   responseGoogleSuccess(response) {
@@ -38,13 +45,12 @@ class Login extends React.Component {
   }
 
   render() {
-    if (auth.isAuthenticated() && this.props.profile.length == 1) { //add if store has the profile check
+    if (this.state.isLoggedIn && this.props.profile.length === 1) { //add if store has the profile check
       return <Redirect to="/home"/>
     }
     if (this.state.isSuccess) {
       return <Redirect to="/home"/>
     }
-    console.log("did not show");
     return (
       <div>
       <LoginNavBar/>

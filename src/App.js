@@ -4,9 +4,7 @@ import Home from './Home';
 import HallOfFame from './HallOfFame';
 import Quiz from './Quiz';
 import Login from './Login'
-import LoginHallOfFame from './LoginHallOfFame';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { ProtectedRoute } from './services/protected.route';
 
 class App extends React.Component {
   render() {
@@ -14,9 +12,9 @@ class App extends React.Component {
       <Router>
         <Switch>
           <Route exact path="/" component={Login}/>
-          <ProtectedRoute path="/home" component={Home}/>
+          <Route path="/home" component={Home}/>
           <Route path="/hallOfFame" component={HallOfFame}/>
-          <ProtectedRoute path="/quiz" component={Quiz}/>
+          <Route path="/quiz" component={Quiz}/>
         </Switch>
       </Router>
     );

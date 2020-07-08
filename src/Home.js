@@ -4,6 +4,7 @@ import { Row, Col, Container, Image, Button, Carousel } from 'react-bootstrap';
 import NavBar from './component/NavBar';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import auth from './services/auth';
 
 function ImageCarousel() {
     return (
@@ -37,9 +38,17 @@ class Home extends React.Component {
 
   constructor() {
     super();
+    this.state = {
+      isLoggedIn: false,
+    }
     this.onStartQuiz = this.onStartQuiz.bind(this);
   }
 
+  async onComponentDidMount() {
+    if (await auth.isAuthenticated()) {
+      this.setState({isLoggedIn: true});
+    }
+  }
 
   onStartQuiz() {
     console.log(this.props.location.profileObj)
@@ -47,6 +56,9 @@ class Home extends React.Component {
   }
 
   render() {
+    if (!this.state.isLoggedIn && this.props.profile.length !== 1) {
+      return <Redirect to="/"/>
+    }
     return (
       <div>
       <NavBar history={this.props.history}/>
