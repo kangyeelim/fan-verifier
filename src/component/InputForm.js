@@ -8,8 +8,8 @@ class InputForm extends React.Component {
   constructor() {
     super();
     this.state = {
-      social:null,
-      username:null,
+      social:"",
+      username:"",
       isNotAllowed:false,
     }
     this.handleUsernameInput = this.handleUsernameInput.bind(this);
@@ -26,6 +26,12 @@ class InputForm extends React.Component {
     } catch (error) {
       console.error(error);
     }
+    if (this.props.username) {
+      this.setState({username:this.props.username});
+    }
+    if (this.props.social) {
+      this.setState({social:this.props.social});
+    }
   }
 
   handleSocialMediaInput(e) {
@@ -40,21 +46,37 @@ class InputForm extends React.Component {
   }
 
   onSubmit() {
-    if (this.state.social == null || this.state.username == null) {
+    if (this.state.social == "" || this.state.username == "") {
       console.log("Did not fill in social media or username");
     }
-    axios.post('http://localhost:5000/hallOfFameEntries/add', {
-      googleId: this.props.profile[0].googleId,
-      social: this.state.social,
-      name: this.state.username
-    })
-      .then(res => {
-        console.log("Added HOF entry into database");
+
+    if (this.props.isEdit) {
+      axios.post(`http://localhost:5000/hallOfFameEntries/update/${this.props.id}`, {
+        googleId: this.props.profile[0].googleId,
+        social: this.state.social,
+        name: this.state.username
       })
-      .catch((error) => {
-        console.log(error);
-      });
-    this.props.history.push("/hallOfFame");
+        .then(res => {
+          console.log("Updated HOF entry into database");
+          this.props.refreshPage();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      axios.post('http://localhost:5000/hallOfFameEntries/add', {
+        googleId: this.props.profile[0].googleId,
+        social: this.state.social,
+        name: this.state.username
+      })
+        .then(res => {
+          console.log("Added HOF entry into database");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      this.props.history.push("/hallOfFame");
+    }
   }
 
   render() {
@@ -75,8 +97,9 @@ class InputForm extends React.Component {
              id="social-media"
              style={styles.select}
              onChange={this.handleSocialMediaInput}
+             value={this.state.social}
            >
-            <option disabled>Choose</option>
+            <option value="" disabled>Choose</option>
             <option value="twitter">Twitter</option>
             <option value="instagram">Instagram</option>
             <option value="facebook">Facebook</option>
@@ -87,7 +110,7 @@ class InputForm extends React.Component {
               <InputGroup.Prepend>
                 <InputGroup.Text>@</InputGroup.Text>
               </InputGroup.Prepend>
-              <FormControl id="username" placeholder="Username" onChange={this.handleUsernameInput}/>
+              <FormControl value={this.state.username} id="username" placeholder="Username" onChange={this.handleUsernameInput}/>
             </InputGroup>
           </Col>
         </Form.Row>

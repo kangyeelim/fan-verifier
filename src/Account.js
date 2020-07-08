@@ -8,17 +8,29 @@ import axios from 'axios';
 import { Twitter, Facebook, Instagram } from './HallOfFame';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import InputForm from './component/InputForm';
 
 class Entry extends React.Component {
-  async deleteEntry(entry) {
+  constructor(props) {
+    super(props);
+    this.deleteEntry = this.deleteEntry.bind(this);
+    this.editEntry = this.editEntry.bind(this);
+  }
+
+  async deleteEntry() {
     try {
-      var response = axios.delete(`http://localhost:5000/hallOfFameEntries/${entry.id}`);
+      var response = axios.delete(`http://localhost:5000/hallOfFameEntries/${this.props.entry.id}`);
       console.log(response.data);
       this.props.refreshPage();
     } catch (error) {
       console.error(error);
     }
+  }
 
+  editEntry() {
+    console.log(this.props.entry._id);
+    this.props.setEntryInfo(this.props.entry._id, this.props.entry.name, this.props.entry.social)
+    this.props.isEditing();
   }
 
   render() {
@@ -30,7 +42,7 @@ class Entry extends React.Component {
               <Twitter entry={this.props.entry}/>
             </Col>
             <Col md="auto">
-              <a href="" style={{alignSelf:'right'}}>
+              <a onClick={this.editEntry} style={{alignSelf:'right'}}>
                 <FontAwesomeIcon icon={faEdit} style={{alignSelf:'right'}}/>
               </a>
             </Col>
@@ -50,7 +62,7 @@ class Entry extends React.Component {
             <Instagram entry={this.props.entry}/>
           </Col>
           <Col md="auto">
-            <a href="" style={{alignSelf:'right'}}>
+            <a onClick={this.editEntry} style={{alignSelf:'right'}}>
               <FontAwesomeIcon icon={faEdit} style={{alignSelf:'right'}}/>
             </a>
           </Col>
@@ -69,7 +81,7 @@ class Entry extends React.Component {
             <Facebook entry={this.props.entry}/>
           </Col>
           <Col md="auto">
-            <a href="" style={{alignSelf:'right'}}>
+            <a onClick={this.editEntry} style={{alignSelf:'right'}}>
               <FontAwesomeIcon icon={faEdit} style={{alignSelf:'right'}}/>
             </a>
           </Col>
@@ -84,13 +96,22 @@ class Entry extends React.Component {
   }
 }
 
+const initialState = {
+  isLoggedIn: false,
+  entries: null,
+  isEditing: false,
+  id: null,
+  username: null,
+  social: null,
+}
+
 class Account extends React.Component {
   constructor() {
     super();
-    this.state = {
-      isLoggedIn: false,
-      entries: null
-    }
+    this.state = initialState;
+    this.refreshPage = this.refreshPage.bind(this);
+    this.isEditing = this.isEditing.bind(this);
+    this.setEntryInfo = this.setEntryInfo.bind(this);
   }
 
   async componentDidMount() {
@@ -100,6 +121,9 @@ class Account extends React.Component {
     try {
       var response = await axios.get(`http://localhost:5000/hallOfFameEntries/googleId/${this.props.profile[0].googleId}`);
       this.setState({entries: response.data })
+      this.setState({isEditing: false});
+      this.setState({social: null});
+      this.setState({username: null});
     } catch (error) {
       console.error(error);
     }
@@ -107,6 +131,7 @@ class Account extends React.Component {
 
   async refreshPage() {
     try {
+      this.setState(initialState);
       var response = await axios.get(`http://localhost:5000/hallOfFameEntries/googleId/${this.props.profile[0].googleId}`);
       this.setState({entries: response.data })
     } catch (error) {
@@ -114,9 +139,31 @@ class Account extends React.Component {
     }
   }
 
+  isEditing() {
+    this.setState({isEditing: true});
+  }
+
+  setEntryInfo(id, username, social) {
+    this.setState({id: id});
+    this.setState({username: username});
+    this.setState({social: social});
+  }
+
   render() {
     if (!this.state.isLoggedIn && this.props.profile.length !== 1) {
       return <Redirect to="/"/>
+    }
+    if (this.state.isEditing) {
+      return (
+        <div>
+          <NavBar/>
+          <Container style={styles.container}>
+            <h3>Edit Hall of Fame entry</h3>
+            <p>If you leave the page without submitting, the changes will not be saved.</p>
+            <InputForm refreshPage={this.refreshPage} isEdit={true} id={this.state.id} username={this.state.username} social={this.state.social} />
+          </Container>
+        </div>
+      )
     }
     return (
       <div>
@@ -130,7 +177,13 @@ class Account extends React.Component {
         <ListGroup>
           { this.state.entries && (
             this.state.entries.map(entry => {
-               return <Entry key={entry.social + entry.name} entry={entry} refreshPage={this.refreshPage}/>;
+               return <Entry
+               key={entry.social + entry.name}
+               entry={entry}
+               refreshPage={this.refreshPage}
+               isEditing={this.isEditing}
+               setEntryInfo={this.setEntryInfo}
+               />;
             })
           )}
         </ListGroup>
@@ -146,6 +199,9 @@ const styles = {
   },
   text: {
     marginBottom: 20
+  },
+  container: {
+    padding: 30
   }
 }
 
