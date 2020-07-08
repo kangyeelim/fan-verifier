@@ -8,34 +8,34 @@ import { faFacebookSquare, faInstagramSquare, faTwitterSquare } from '@fortaweso
 import { connect } from 'react-redux';
 import auth from './services/auth';
 
-function Twitter(props) {
+export function Twitter(props) {
   return (
     <div>
       <FontAwesomeIcon icon={faTwitterSquare} style={{marginRight:10}}/>
-      <a href={`www.twitter.com/${props.entry.name}`}>@{props.entry.name}</a>
+      <a href={`https://twitter.com/${props.entry.name}`}>@{props.entry.name}</a>
     </div>
   )
 }
 
-function Facebook(props) {
+export function Facebook(props) {
   return (
     <div>
       <FontAwesomeIcon icon={faFacebookSquare} style={{marginRight:10}}/>
-      <a href={`www.facebook.com/${props.entry.name}`}>@{props.entry.name}</a>
+      <a href={`https://facebook.com/${props.entry.name}`}>@{props.entry.name}</a>
     </div>
   )
 }
 
-function Instagram(props) {
+export function Instagram(props) {
   return (
     <div>
       <FontAwesomeIcon icon={faInstagramSquare} style={{marginRight:10}}/>
-      <a href={`wwww.instagram.com/${props.entry.name}`}>@{props.entry.name}</a>
+      <a href={`https://instagram.com/${props.entry.name}`}>@{props.entry.name}</a>
     </div>
   )
 }
 
-function Entry(props) {
+export function Entry(props) {
   if (props.entry.social == "twitter") {
     return (
       <ListGroup.Item>
@@ -96,7 +96,7 @@ class HallOfFame extends React.Component {
         {this.state.entries && (
           <ListGroup>
           {this.state.entries.map(entry => {
-             return <Entry entry={entry}/>
+             return <Entry key={entry.social + entry.name} entry={entry}/>
           })}
           </ListGroup>
         )}

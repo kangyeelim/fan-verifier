@@ -3,7 +3,8 @@ import './App.css';
 import Home from './Home';
 import HallOfFame from './HallOfFame';
 import Quiz from './Quiz';
-import Login from './Login'
+import Login from './Login';
+import Account from './Account';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 class App extends React.Component {
@@ -15,6 +16,7 @@ class App extends React.Component {
           <Route path="/home" component={Home}/>
           <Route path="/hallOfFame" component={HallOfFame}/>
           <Route path="/quiz" component={Quiz}/>
+          <Route paht="/account" component={Account}/>
         </Switch>
       </Router>
     );

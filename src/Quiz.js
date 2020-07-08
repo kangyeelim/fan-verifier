@@ -68,6 +68,10 @@ class Quiz extends React.Component {
   getRandomQuestion() {
     while (true) {
       var totalQuestions = this.state.questions.length;
+      if (totalQuestions < 6) {
+        console.error("Insufficient questions in database. Contact developer");
+        return;
+      }
       var randomIndex = Math.floor(Math.random() * totalQuestions);
       if (!(this.state.questionsAsked.includes(randomIndex))) {
         this.state.questionIndex = randomIndex;

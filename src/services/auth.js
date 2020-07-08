@@ -22,7 +22,6 @@ class Auth {
 
   async isAuthenticated() {
     const tokenId = getFromStorage("tokenId");
-    console.log(tokenId);
     if (tokenId != null) {
       const response = await axios.get('http://localhost:5000/sessions/');
       var tokens = response.data;
@@ -33,33 +32,9 @@ class Auth {
         return true;
       }
     } else {
-      console.log("return false");
       return false;
     }
   }
-
-  /*if (getFromStorage("tokenId") != null) {
-    const tokenId = getFromStorage("tokenId");
-    console.log(tokenId);
-    let promise = this.isTokenStored(tokenId)
-      .then(bool => { return bool }})
-    return promise;
-  } else {
-    return false;
-  }*/
-  /*  .then(response => {
-      var tokens = response.data;
-      var token = tokens.filter(obj => obj.tokenId == tokenId)
-      if (token.length === 0) {
-        return false;
-      } else {
-        return true;
-      }
-    })
-    .catch((error) => {
-      console.log(error);
-    })
-    return promise;*/
 
   updateSessionTokenOnLogin(response) {
     axios.post('http://localhost:5000/sessions/add', {

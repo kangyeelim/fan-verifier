@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navbar, Nav, Form, Button, Image } from 'react-bootstrap';
+import { Container, Navbar, Nav, Form, Button, Image, NavDropdown } from 'react-bootstrap';
 import auth from '../services/auth';
 import { connect } from 'react-redux';
 import { deleteProfile } from '../redux/actions';
@@ -27,25 +27,55 @@ class NavBar extends React.Component {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ml-auto">
-            <Nav.Link href="/home">Quiz</Nav.Link>
-            <Nav.Link href="/hallOfFame">Hall of Fame</Nav.Link>
-            <Form inline>
-              <Button onClick={this.handleLogout} variant="outline-success">Logout</Button>
-            </Form>
-            <Navbar.Text>
-              Signed in as: {this.props.profile[0].name}
-            </Navbar.Text>
-         </Nav>
+            <Nav.Link style={styles.navlink} href="/home">Quiz</Nav.Link>
+            <Nav.Link style={styles.navlink} href="/hallOfFame">Hall of Fame</Nav.Link>
+            <NavDropdown className="nav-dropdown"
+              id="nav-dropdown" style={styles.dropdown}
+              title={
+                      <div style={styles.dropdownContainer}>
+                        {this.props.profile[0].name}
+                          <img className="thumbnail-image"
+                              src={this.props.profile[0].imageUrl}
+                              alt="User Icon"
+                              style={styles.thumbnail}
+                          />
+                      </div>
+                  }>
+              <NavDropdown.Item href="/account">Account</NavDropdown.Item>
+              <NavDropdown.Item>Submit Question</NavDropdown.Item>
+              <NavDropdown.Divider />
+              <NavDropdown.Item onClick={this.handleLogout}>Logout</NavDropdown.Item>
+            </NavDropdown>
+          </Nav>
         </Navbar.Collapse>
       </Navbar>
     );
   }
 }
 
+/*<Form inline>
+  <Button onClick={this.handleLogout} variant="outline-success">Logout</Button>
+</Form>*/
+
 const styles = {
   logo: {
     width: 30,
-    marginRight: 15
+    marginRight: 15,
+    marginLeft: 30,
+  },
+  thumbnail: {
+    width:30,
+    marginLeft: 10
+  },
+  dropdown: {
+    marginRight: 30,
+  },
+  dropdownContainer: {
+    marginLeft: 20,
+    marginBottom: -28,
+  },
+  navlink: {
+    marginLeft: 20,
   }
 }
 

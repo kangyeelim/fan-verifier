@@ -6,7 +6,7 @@ import GoogleLogin from 'react-google-login';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import { updateProfile } from './redux/actions';
+import { updateProfile, deleteProfile } from './redux/actions';
 
 const GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 
@@ -26,6 +26,8 @@ class Login extends React.Component {
   async componentDidMount() {
       if (await auth.isAuthenticated()) {
         this.setState({isLoggedIn: true});
+      } else {
+        this.props.deleteProfile();
       }
   }
 
@@ -105,4 +107,4 @@ const mapStateToProps = (state) => {
 }
 
 
-export default connect(mapStateToProps, {updateProfile:updateProfile}) (Login);
+export default connect(mapStateToProps, {updateProfile:updateProfile, deleteProfile:deleteProfile}) (Login);

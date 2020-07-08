@@ -12,44 +12,54 @@ router.route('/add').post((req, res) => {
   const social = req.body.social;
   const name = req.body.name;
 
-  console.log("here")
+  const newEntry = new Entry({
+    social,
+    name,
+    googleId,
+  });
+
+  newEntry.save()
+    .then(() => res.json('Entry added!'))
+    .catch(err => res.status(400).json('Error: ' + err));
+});
+
+/*  const googleId = req.body.googleId;
+  const social = req.body.social;
+  const name = req.body.name;
 
   var query = {};
   query["googleId"] = googleId;
   Entry.find(query)
     .then(entries => {
-      if (entries.length === 0) {
-        console.log("should be here")
+      if (entries.length < 3) {
         const newEntry = new Entry({
           social,
           name,
           googleId,
         });
-        console.log("here2")
+
         newEntry.save()
         .then(() => res.json('Entry added!'))
         .catch(err => res.status(400).json('Error: ' + err));
       } else {
-        Entry.findOne(query)
-          .then(entry => {
-            entry.name = name;
-            entry.social = social;
-            entry.googleId = googleId;
-
-            entry.save()
-              .then(() => res.json('Entry updated!'))
-              .catch(err => res.status(400).json('Error: ' + err));
-          })
-          .catch(err => res.status(400).json('Error: ' + err));
+        res.json('Limit of 3 entries per account reached!'))
       }
     })
-    .catch(err => res.status(400).json('Error: ' + err));
-});
+    .catch(err => res.status(400).json('Error: ' + err));*/
 
 router.route('/:id').get((req, res) => {
   Entry.findById(req.params.id)
     .then(entry => res.json(entry))
     .catch(err => res.status(400).json('Error: ' + err));
+});
+
+router.route('/:name/:value').get((req, res) => {
+  var query = {};
+  query[req.params.name] = req.params.value;
+  console.log("triggered");
+  Entry.find(query)
+  .then(entries => res.json(entries))
+  .catch(err => res.status(400).json('Error: ' + err));
 });
 
 router.route('/:id').delete((req, res) => {

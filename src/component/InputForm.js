@@ -9,11 +9,23 @@ class InputForm extends React.Component {
     super();
     this.state = {
       social:null,
-      username:null
+      username:null,
+      isNotAllowed:false,
     }
     this.handleUsernameInput = this.handleUsernameInput.bind(this);
     this.handleSocialMediaInput = this.handleSocialMediaInput.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+  }
+
+  async componentDidMount() {
+    try {
+      var response = await axios.get(`http://localhost:5000/hallOfFameEntries/googleId/${this.props.profile[0].googleId}`);
+      if (response.data.length === 3) {
+        this.setState({isNotAllowed: true});
+      }
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   handleSocialMediaInput(e) {
@@ -28,17 +40,16 @@ class InputForm extends React.Component {
   }
 
   onSubmit() {
-    console.log(this.props.profile);
-    console.log(this.props.profile[0].googleId)
-    console.log(this.state.social)
-    console.log(this.state.username)
+    if (this.state.social == null || this.state.username == null) {
+      console.log("Did not fill in social media or username");
+    }
     axios.post('http://localhost:5000/hallOfFameEntries/add', {
       googleId: this.props.profile[0].googleId,
       social: this.state.social,
       name: this.state.username
     })
       .then(res => {
-        console.log("Added/Updated HOF entry into database");
+        console.log("Added HOF entry into database");
       })
       .catch((error) => {
         console.log(error);
@@ -47,6 +58,13 @@ class InputForm extends React.Component {
   }
 
   render() {
+    if (this.state.isNotAllowed) {
+      return (
+        <h3>Sorry, there is a limit to 3 social media entries in the Hall of Fame per account.
+        Do delete or edit any of your previous entries under your account instead. If you did
+        this for fun, then no worries!</h3>
+      )
+    }
     return (
       <Form>
         <Form.Row className="align-items-center">
@@ -58,10 +76,10 @@ class InputForm extends React.Component {
              style={styles.select}
              onChange={this.handleSocialMediaInput}
            >
-            <option disbaled>Choose</option>
-             <option value="twitter">Twitter</option>
-             <option value="instagram">Instagram</option>
-             <option value="facebook">Facebook</option>
+            <option disabled>Choose</option>
+            <option value="twitter">Twitter</option>
+            <option value="instagram">Instagram</option>
+            <option value="facebook">Facebook</option>
            </Form.Control>
           </Col>
           <Col xs="auto">
