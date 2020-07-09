@@ -25,6 +25,7 @@ class Quiz extends React.Component {
       questionsAsked:[],
       questionIndex: null,
       isLoggedIn: false,
+      isNotAllowed: false,
     }
     this.updateScore = this.updateScore.bind(this);
     this.addIndexToAskedList = this.addIndexToAskedList.bind(this);
@@ -34,6 +35,15 @@ class Quiz extends React.Component {
     if (await auth.isAuthenticated()) {
       this.setState({isLoggedIn: true});
     }
+    try {
+      var response = await axios.get(`http://localhost:5000/hallOfFameEntries/googleId/${this.props.profile[0].googleId}`);
+      if (response.data.length === 3) {
+        this.setState({isNotAllowed: true});
+      }
+    } catch (error) {
+      console.error(error);
+    }
+
     axios.get('http://localhost:5000/questions/')
       .then(response => {
         this.setState({ questions: response.data })
@@ -91,6 +101,19 @@ class Quiz extends React.Component {
   render() {
     if (!this.state.isLoggedIn && this.props.profile.length !== 1) {
       return <Redirect to="/"/>
+    }
+    if (this.state.score === 6 && this.state.isNotAllowed) {
+      return (
+        <div>
+        <NavBar history={this.props.history}/>
+        <Container>
+          <h3 className="my-4">Congratulations on getting all the questions correct!</h3>
+          <p>However, you already have 3 Hall of Fame entries which is the maximum per account.
+          You can edit or delete your previous entries under your account. If you did the quiz for
+          fun then no worries.</p>
+        </Container>
+        </div>
+      )
     }
     if (this.state.score === 6) {
       return (

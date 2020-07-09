@@ -24,9 +24,9 @@ class NavBar extends React.Component {
           <Image style={styles.logo} fluid src={require("../img/bts-army-logo.png")}/>
           BTS-ARMY Verifier
         </Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="ml-auto">
+        <Navbar.Toggle style={styles.navlink} aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse style={styles.navlink} id="basic-navbar-nav">
+          <Nav style={styles.navlink} className="ml-auto">
             <Nav.Link style={styles.navlink} href="/home">Quiz</Nav.Link>
             <Nav.Link style={styles.navlink} href="/hallOfFame">Hall of Fame</Nav.Link>
             <NavDropdown className="nav-dropdown"
@@ -69,13 +69,16 @@ const styles = {
   },
   dropdown: {
     marginRight: 30,
+    width: 100,
+    marginLeft:30,
+
   },
   dropdownContainer: {
     marginLeft: 20,
     marginBottom: -28,
   },
   navlink: {
-    marginLeft: 20,
+    marginLeft: 40,
   }
 }
 

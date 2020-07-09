@@ -1,5 +1,5 @@
-import React from 'react';
-import { Container, Image, ListGroup, Row, Col } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Container, Image, ListGroup, Row, Col, Alert, Button } from 'react-bootstrap';
 import NavBar from './component/NavBar';
 import auth from './services/auth';
 import { Redirect } from 'react-router-dom';
@@ -10,21 +10,41 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import InputForm from './component/InputForm';
 
+function AlertDimissible(props) {
+  const [show, setShow] = useState(true);
+  return (
+    <Alert show={show} variant="danger" onClose={()=>setShow(false)} dismissible>
+      <Alert.Heading>Are you sure you want to delete?</Alert.Heading>
+      <p>Close this dialog box if you do not wish to do so or confirm deletion.</p>
+      <div className="d-flex justify-content-end">
+        <Button onClick={() => props.deleteEntry()} variant="outline-danger">Confirm Deletion</Button>
+      </div>
+    </Alert>
+  );
+}
+
 class Entry extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      showAlert: false,
+    }
     this.deleteEntry = this.deleteEntry.bind(this);
     this.editEntry = this.editEntry.bind(this);
+    this.verifyDeletion = this.verifyDeletion.bind(this);
   }
 
   async deleteEntry() {
     try {
-      var response = axios.delete(`http://localhost:5000/hallOfFameEntries/${this.props.entry.id}`);
-      console.log(response.data);
+      var response = axios.delete(`http://localhost:5000/hallOfFameEntries/${this.props.entry._id}`);
       this.props.refreshPage();
     } catch (error) {
       console.error(error);
     }
+  }
+
+  verifyDeletion() {
+    this.setState({showAlert: true});
   }
 
   editEntry() {
@@ -36,6 +56,7 @@ class Entry extends React.Component {
   render() {
     if (this.props.entry.social == "twitter") {
       return (
+        <div>
         <ListGroup.Item>
           <Row>
             <Col xs>
@@ -47,15 +68,18 @@ class Entry extends React.Component {
               </a>
             </Col>
             <Col md="auto">
-              <a onClick={this.deleteEntry} style={{alignSelf:'right'}}>
+              <a onClick={this.verifyDeletion} style={{alignSelf:'right'}}>
                 <FontAwesomeIcon icon={faTrashAlt} style={{alignSelf:'right'}}/>
               </a>
             </Col>
           </Row>
         </ListGroup.Item>
+        { this.state.showAlert && <AlertDimissible deleteEntry={this.deleteEntry}/>}
+        </div>
       );
     } else if (this.props.entry.social == "instagram") {
       return (
+        <div>
         <ListGroup.Item>
         <Row>
           <Col xs>
@@ -67,15 +91,18 @@ class Entry extends React.Component {
             </a>
           </Col>
           <Col md="auto">
-            <a onClick={this.deleteEntry} style={{alignSelf:'right'}}>
+            <a onClick={this.verifyDeletion} style={{alignSelf:'right'}}>
               <FontAwesomeIcon icon={faTrashAlt} style={{alignSelf:'right'}}/>
             </a>
           </Col>
         </Row>
         </ListGroup.Item>
+        { this.state.showAlert && <AlertDimissible deleteEntry={this.deleteEntry}/>}
+        </div>
       );
     } else {
       return (
+        <div>
         <Row>
           <Col xs>
             <Facebook entry={this.props.entry}/>
@@ -86,11 +113,13 @@ class Entry extends React.Component {
             </a>
           </Col>
           <Col md="auto">
-            <a onClick={this.deleteEntry} style={{alignSelf:'right'}}>
+            <a onClick={this.verifyDeletion} style={{alignSelf:'right'}}>
               <FontAwesomeIcon icon={faTrashAlt} style={{alignSelf:'right'}}/>
             </a>
           </Col>
         </Row>
+        { this.state.showAlert && <AlertDimissible deleteEntry={this.deleteEntry}/>}
+        </div>
       );
     }
   }

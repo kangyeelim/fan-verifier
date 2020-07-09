@@ -10,7 +10,7 @@ class InputForm extends React.Component {
     this.state = {
       social:"",
       username:"",
-      isNotAllowed:false,
+      //isNotAllowed:false,
     }
     this.handleUsernameInput = this.handleUsernameInput.bind(this);
     this.handleSocialMediaInput = this.handleSocialMediaInput.bind(this);
@@ -18,14 +18,14 @@ class InputForm extends React.Component {
   }
 
   async componentDidMount() {
-    try {
+    /*try {
       var response = await axios.get(`http://localhost:5000/hallOfFameEntries/googleId/${this.props.profile[0].googleId}`);
       if (response.data.length === 3) {
         this.setState({isNotAllowed: true});
       }
     } catch (error) {
       console.error(error);
-    }
+    }*/
     if (this.props.username) {
       this.setState({username:this.props.username});
     }
@@ -80,13 +80,13 @@ class InputForm extends React.Component {
   }
 
   render() {
-    if (this.state.isNotAllowed) {
+    /*if (this.state.isNotAllowed) {
       return (
         <h3>Sorry, there is a limit to 3 social media entries in the Hall of Fame per account.
         Do delete or edit any of your previous entries under your account instead. If you did
         this for fun, then no worries!</h3>
       )
-    }
+    }*/
     return (
       <Form>
         <Form.Row className="align-items-center">

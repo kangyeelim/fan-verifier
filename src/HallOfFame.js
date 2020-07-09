@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, ListGroup } from 'react-bootstrap';
+import { Container, ListGroup, Row, Col, Form, FormControl, Button } from 'react-bootstrap';
 import NavBar from './component/NavBar';
 import LoginNavBar from './component/LoginNavBar';
 import axios from 'axios';
@@ -51,7 +51,7 @@ export function Entry(props) {
   } else {
     return (
       <ListGroup.Item>
-        <Facebook  entry={props.entry}/>
+        <Facebook entry={props.entry}/>
       </ListGroup.Item>
     );
   }
@@ -65,7 +65,11 @@ class HallOfFame extends React.Component {
     this.state= {
       entries: null,
       isLoggedIn: false,
+      keyword: "",
+      filteredEntries: null,
     }
+    this.handleKeywordInput = this.handleKeywordInput.bind(this);
+    this.searchKeyword = this.searchKeyword.bind(this);
   }
 
   async componentDidMount() {
@@ -74,11 +78,26 @@ class HallOfFame extends React.Component {
     }
     axios.get('http://localhost:5000/hallOfFameEntries/')
       .then(response => {
-        this.setState({ entries: response.data })
+        this.setState({ entries: response.data });
+        this.setState({ filteredEntries: response.data});
       })
       .catch((error) => {
         console.log(error);
       })
+  }
+
+  searchKeyword() {
+    const filteredEntries = this.state.entries.filter(entry => {
+      return (
+        entry.name.includes(this.state.keyword) ||
+        entry.social.includes(this.state.keyword)
+      );
+    });
+    this.setState({filteredEntries: filteredEntries});
+  }
+
+  handleKeywordInput(e) {
+    this.setState({keyword: e.currentTarget.value});
   }
 
   render() {
@@ -92,10 +111,20 @@ class HallOfFame extends React.Component {
       )
       }
       <Container>
-        <h1 className="my-4">Hall of Fame</h1>
-        {this.state.entries && (
+        <Row>
+          <Col>
+            <h1 className="my-4">Hall of Fame</h1>
+          </Col>
+          <Col md="auto">
+            <Form style={styles.form} inline>
+             <FormControl onChange={this.handleKeywordInput} type="text" placeholder="Search" className="mr-sm-2" />
+             <Button onClick={this.searchKeyword} variant="outline-success">Search</Button>
+            </Form>
+          </Col>
+        </Row>
+        {this.state.filteredEntries && (
           <ListGroup>
-          {this.state.entries.map(entry => {
+          {this.state.filteredEntries.map(entry => {
              return <Entry key={entry.social + entry.name} entry={entry}/>
           })}
           </ListGroup>
@@ -103,6 +132,14 @@ class HallOfFame extends React.Component {
       </Container>
       </div>
   );
+  }
+}
+
+const styles = {
+  form: {
+    marginTop: 40,
+    alignSelf: 'right',
+    marginBottom: 20
   }
 }
 
