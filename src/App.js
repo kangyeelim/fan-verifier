@@ -5,6 +5,7 @@ import HallOfFame from './HallOfFame';
 import Quiz from './Quiz';
 import Login from './Login';
 import Account from './Account';
+import Contact from './Contact';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 class App extends React.Component {
@@ -13,10 +14,11 @@ class App extends React.Component {
       <Router>
         <Switch>
           <Route exact path="/" component={Login}/>
-          <Route path="/home" component={Home}/>
-          <Route path="/hallOfFame" component={HallOfFame}/>
-          <Route path="/quiz" component={Quiz}/>
-          <Route paht="/account" component={Account}/>
+          <Route exact path="/home" component={Home}/>
+          <Route exact path="/hallOfFame" component={HallOfFame}/>
+          <Route exact path="/quiz" component={Quiz}/>
+          <Route exact path="/account" component={Account}/>
+          <Route exact path="/contact" component={Contact}/>
         </Switch>
       </Router>
     );

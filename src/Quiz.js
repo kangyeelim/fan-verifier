@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container } from 'react-bootstrap';
+import { Container, Image, Row, Col } from 'react-bootstrap';
 import Question from './component/Question';
 import axios from 'axios';
 import InputForm from './component/InputForm';
@@ -18,7 +18,7 @@ class Quiz extends React.Component {
     super()
     this.state = {
       isStarted: false,
-      counter: 3,
+      counter: 4,
       countdown: 3,
       isWrong: false,
       questions: null,
@@ -52,16 +52,16 @@ class Quiz extends React.Component {
       .catch((error) => {
         console.log(error);
       });
-    this.timer = setInterval(this.decrementCount, 1000);
+    this.timer = setInterval(this.decrementCount, 100);
   }
 
   decrementCount = () => {
-    let counter = this.state.counter - 1;
-    this.setState(prevState => ({counter: prevState.counter - 1}));
-    if (counter > 0) {
-      this.setState({countdown: counter});
+    let counter = this.state.counter - 0.1;
+    this.setState(prevState => ({counter: prevState.counter - 0.1}));
+    if (Math.floor(counter) > 0) {
+      this.setState({countdown: Math.floor(counter)});
     }
-    if (counter === 0) {
+    if (Math.floor(counter) === 0) {
       this.setState({countdown: "Start!"});
     }
     if (counter < 0) {
@@ -107,9 +107,9 @@ class Quiz extends React.Component {
       return (
         <div>
         <NavBar history={this.props.history}/>
-        <Container>
+        <Container style={styles.container}>
           <h3 className="my-4">Congratulations on getting all the questions correct!</h3>
-          <p>However, you already have 3 Hall of Fame entries which is the maximum per account.
+          <p style={styles.text}>However, you already have 3 Hall of Fame entries which is the maximum per account.
           You can edit or delete your previous entries under your account. If you did the quiz for
           fun then no worries.</p>
         </Container>
@@ -120,10 +120,17 @@ class Quiz extends React.Component {
       return (
         <div>
         <NavBar history={this.props.history}/>
-        <Container>
-          <h3 className="my-4">Congratulations on being a verified BTS-ARMY for this {months[new Date().getMonth()]}'s Hall of Fame!</h3>
-          <p>Now you may input your Twitter handle to be put up on our Hall of Fame where everyone can see. </p>
-          <InputForm history={this.props.history}/>
+        <Container style={styles.messageContainer}>
+          <Row>
+            <Col>
+            <h3 className="my-4">Congratulations on being a verified BTS-ARMY for this {months[new Date().getMonth()]}'s Hall of Fame!</h3>
+            <p style={styles.text}>Now you may input your Twitter handle to be put up on our Hall of Fame where everyone can see. </p>
+            <InputForm history={this.props.history}/>
+            </Col>
+            <Col md="auto">
+            <Image fluid src={require('./img/congrats.jpg')} style={styles.messageImage}/>
+            </Col>
+          </Row>
         </Container>
         </div>
       )
@@ -131,9 +138,9 @@ class Quiz extends React.Component {
     return (
       <div>
       <NavBar history={this.props.history}/>
-      <Container style={styles.container}>
+      <Container style={styles.quizContainer}>
         { !this.state.isStarted && !this.state.isWrong &&
-          (<Progress type="circle" percent={(1- this.state.counter/3) * 100} format={() => `${this.state.countdown}`} />)
+          (<Progress style={styles.countdown} type="circle" percent={(1- (this.state.counter)/4) * 100} format={() => this.state.countdown} />)
         }
         {
           this.state.isStarted && !this.state.isWrong &&
@@ -148,7 +155,20 @@ class Quiz extends React.Component {
         }
         {
           this.state.isWrong &&
-          (<h3>Sorry! You got the question wrong. Do try our quiz again when you are ready.</h3>)
+          (
+            <Container style={styles.messageContainer} className="shadow">
+              <Row style={styles.row}>
+                <Col>
+                  <h5 style={styles.message}>
+                  Sorry! You got the question wrong. Do try our quiz again when you are ready.
+                  </h5>
+                </Col>
+                <Col>
+                  <Image fluid src={require('./img/pray.jpg')} style={styles.image}/>
+                </Col>
+              </Row>
+            </Container>
+          )
         }
     </Container>
     </div>
@@ -157,14 +177,40 @@ class Quiz extends React.Component {
 }
 
 const styles = {
-  container: {
-    padding: 30,
+  score: {
+    marginBottom: 20,
+  },
+  text: {
+    fontSize: 16
+  },
+  quizContainer:{
+    padding: 50,
+  },
+  countdown: {
+    alignSelf: 'center',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+    margin: 20,
   },
-  score: {
-    marginBottom: 20,
+  messageContainer:{
+    padding: 20,
+  },
+  message: {
+    alignSelf: 'center',
+  },
+  image: {
+    width: 400,
+    alignSelf: 'center',
+  },
+  messageImage: {
+    width: 400,
+    alignSelf: 'center',
+    marginTop: 30,
+  },
+  row: {
+    margin: 20,
+    alignItems: 'center'
   }
 }
 

@@ -99,7 +99,7 @@ class InputForm extends React.Component {
             </InputGroup>
           </Col>
         </Form.Row>
-        <div style={{marginTop:30}}>
+        <div style={{marginTop:20}}>
           <Button onClick={this.onSubmit}>Submit</Button>
         </div>
       </Form>

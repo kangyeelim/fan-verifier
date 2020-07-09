@@ -1,17 +1,5 @@
 import React from 'react';
-import { Container, Form, Col, Row, ProgressBar, Button } from 'react-bootstrap';
-
-const styles = {
-  container: {
-    padding: 20,
-  },
-  radio: {
-    height: 30,
-  },
-  button: {
-    marginTop: 30,
-  }
-}
+import { Container, Form, Col, Row, ProgressBar, Button, Image } from 'react-bootstrap';
 
 class Question extends React.Component {
 
@@ -75,15 +63,22 @@ class Question extends React.Component {
     return (
       <Container style={styles.container} className="shadow">
       { this.state.isTimesUp && (
-        <h1>Sorry! Time's up. Do try our quiz again when you are ready.</h1>
+        <Row style={styles.row}>
+          <Col>
+            <h3 style={styles.message}>Sorry! Time's up. Do try our quiz again when you are ready.</h3>
+          </Col>
+          <Col>
+            <Image fluid style={styles.image} src={require('../img/timestop.jpg')}/>
+          </Col>
+        </Row>
       )
 
       }
       { !this.state.isTimesUp && (
         <div>
-          <h4>Time Remaining:</h4>
+          <h5>Time Remaining:</h5>
           <ProgressBar animated now={this.state.counter} label={`${this.state.counter} s`} min={0} max={20}/>
-          <h2 className="my-4">{this.props.question.question}</h2>
+          <h4 className="my-4">{this.props.question.question}</h4>
           <Form>
             <Form.Group as={Row}>
               <Col sm={10}>
@@ -114,4 +109,27 @@ class Question extends React.Component {
   }
 }
 
+const styles = {
+  container: {
+    padding: 20,
+  },
+  radio: {
+    height: 30,
+    fontSize: 16,
+  },
+  button: {
+    marginTop: 30,
+  },
+  message: {
+    alignSelf: 'center',
+  },
+  image: {
+    width: 400,
+    alignSelf: 'center',
+  },
+  row: {
+    margin: 20,
+    alignItems: 'center'
+  }
+}
 export default Question;

@@ -42,7 +42,7 @@ class NavBar extends React.Component {
                       </div>
                   }>
               <NavDropdown.Item href="/account">Account</NavDropdown.Item>
-              <NavDropdown.Item>Submit Question</NavDropdown.Item>
+              <NavDropdown.Item href="/contact">Contact</NavDropdown.Item>
               <NavDropdown.Divider />
               <NavDropdown.Item onClick={this.handleLogout}>Logout</NavDropdown.Item>
             </NavDropdown>
@@ -68,9 +68,9 @@ const styles = {
     marginLeft: 10
   },
   dropdown: {
-    marginRight: 30,
+    marginRight: 55,
     width: 100,
-    marginLeft:30,
+    marginLeft:20,
 
   },
   dropdownContainer: {
@@ -78,8 +78,9 @@ const styles = {
     marginBottom: -28,
   },
   navlink: {
-    marginLeft: 40,
-  }
+    marginLeft: 20,
+    fontSize: 16,
+  },
 }
 
 const mapStateToProps = (state) => {
