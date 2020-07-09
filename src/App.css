@@ -1,3 +1,5 @@
+@import '~antd/dist/antd.css';
+
 .nav-dropdown .dropdown-menu {
   left: 50% !important;
   transform: translateX(-50%) !important;

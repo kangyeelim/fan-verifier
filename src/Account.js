@@ -103,6 +103,7 @@ class Entry extends React.Component {
     } else {
       return (
         <div>
+        <ListGroup.Item>
         <Row>
           <Col xs>
             <Facebook entry={this.props.entry}/>
@@ -118,6 +119,7 @@ class Entry extends React.Component {
             </a>
           </Col>
         </Row>
+        </ListGroup.Item>
         { this.state.showAlert && <AlertDimissible deleteEntry={this.deleteEntry}/>}
         </div>
       );
@@ -197,7 +199,7 @@ class Account extends React.Component {
     return (
       <div>
       <NavBar/>
-      <Container>
+      <Container style={styles.container}>
         <h3 className="my-4">Account Information</h3>
         <Image style={styles.image} src={this.props.profile[0].imageUrl}/>
         <h6 style={styles.text}>Name: {this.props.profile[0].name}</h6>
@@ -223,6 +225,11 @@ class Account extends React.Component {
 }
 
 const styles = {
+  container: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   image: {
     marginBottom: 20
   },

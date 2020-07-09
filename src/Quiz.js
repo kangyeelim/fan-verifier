@@ -7,6 +7,7 @@ import NavBar from './component/NavBar';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import auth from './services/auth';
+import { Progress } from 'antd';
 
 const months = ["January", "February", "March", "April", "May",
         "June", "July", "August", "September", "October",
@@ -97,7 +98,7 @@ class Quiz extends React.Component {
       this.setState({isWrong: true});
     }
   }
-
+  //<h3 className="my-4">{this.state.countdown}</h3>
   render() {
     if (!this.state.isLoggedIn && this.props.profile.length !== 1) {
       return <Redirect to="/"/>
@@ -132,7 +133,7 @@ class Quiz extends React.Component {
       <NavBar history={this.props.history}/>
       <Container style={styles.container}>
         { !this.state.isStarted && !this.state.isWrong &&
-          (<h3 className="my-4">{this.state.countdown}</h3>)
+          (<Progress type="circle" percent={(1- this.state.counter/3) * 100} format={() => `${this.state.countdown}`} />)
         }
         {
           this.state.isStarted && !this.state.isWrong &&
@@ -158,6 +159,9 @@ class Quiz extends React.Component {
 const styles = {
   container: {
     padding: 30,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   score: {
     marginBottom: 20,
