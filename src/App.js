@@ -6,6 +6,7 @@ import Quiz from './Quiz';
 import Login from './Login';
 import Account from './Account';
 import Contact from './Contact';
+import Music from './Music';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 class App extends React.Component {
@@ -19,6 +20,7 @@ class App extends React.Component {
           <Route exact path="/quiz" component={Quiz}/>
           <Route exact path="/account" component={Account}/>
           <Route exact path="/contact" component={Contact}/>
+          <Route exact path="/music" component={Music}/>
         </Switch>
       </Router>
     );

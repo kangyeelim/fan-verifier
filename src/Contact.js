@@ -1,12 +1,32 @@
 import React from 'react';
 import { Container, Row, Col, Image } from 'react-bootstrap';
 import NavBar from './component/NavBar';
+import LoginNavBar from './component/LoginNavBar';
+import auth from './services/auth';
 
 class Contact extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      isLoggedIn: false,
+    }
+  }
+
+  async componentDidMount() {
+    if (await auth.isAuthenticated()) {
+      this.setState({isLoggedIn: true});
+    }
+  }
+
   render() {
     return (
       <div>
-      <NavBar history={this.props.history}/>
+      { this.state.isLoggedIn && (
+        <NavBar history={this.props.history}/>
+      )}
+      { !this.state.isLoggedIn && (
+        <LoginNavBar/>
+      )}
       <Container>
         <h1 className="my-4">Contact Developer</h1>
         <Row>

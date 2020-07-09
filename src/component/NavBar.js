@@ -29,6 +29,7 @@ class NavBar extends React.Component {
           <Nav style={styles.navlink} className="ml-auto">
             <Nav.Link style={styles.navlink} href="/home">Quiz</Nav.Link>
             <Nav.Link style={styles.navlink} href="/hallOfFame">Hall of Fame</Nav.Link>
+            <Nav.Link style={styles.navlink} href="/music">Music</Nav.Link>
             <NavDropdown className="nav-dropdown"
               id="nav-dropdown" style={styles.dropdown}
               title={
