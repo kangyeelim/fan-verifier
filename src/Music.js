@@ -4,6 +4,7 @@ import LoginNavBar from './component/LoginNavBar';
 import NavBar from './component/NavBar';
 import auth from './services/auth';
 import axios from 'axios';
+import { LoadingOutlined } from '@ant-design/icons';
 
 const LYRICS_KEY = process.env.REACT_APP_LYRICS_API_KEY;
 const LYRICS_KEY_ROM = process.env.REACT_APP_LYRICS_API_KEY_ROM;
@@ -21,11 +22,15 @@ class Music extends React.Component {
       isRomLyricsFound: false,
       isRomLyricsNotFound: false,
       korLyrics:null,
-      romLyrics: null
+      romLyrics: null,
+      engTransEmbedContent: null,
+      isLoading: false,
     }
     this.searchKorLyrics = this.searchKorLyrics.bind(this);
     this.searchRomLyrics = this.searchRomLyrics.bind(this);
     this.handleLyricsInput = this.handleLyricsInput.bind(this);
+    this.resetSearch = this.resetSearch.bind(this);
+    this.getEnglishTrans = this.getEnglishTrans.bind(this);
   }
 
   async componentDidMount() {
@@ -38,34 +43,75 @@ class Music extends React.Component {
     this.setState({song:e.currentTarget.value});
   }
 
+  resetSearch() {
+    this.setState({
+      isKorLyricsFound: false,
+      isRomLyricsFound: false,
+      isRomLyricsNotFound: false,
+      isKorLyricsNotFound: false,
+      korLyrics: null,
+      romLyrics: null
+    })
+  }
+
+  async getEnglishTrans() {
+    const formatInput = this.state.song.replace(/ /g, "%20");
+    const response = await fetch(`https://genius.p.rapidapi.com/search?q=BTS%20${formatInput}`, {
+    	"method": "GET",
+    	"headers": {
+    		"x-rapidapi-host": "genius.p.rapidapi.com",
+    		"x-rapidapi-key": `${LYRICS_KEY}`
+    	}
+    })
+    const result = await response.json();
+    const songId = result.response.hits[0].result.id;
+    const response1 = await fetch(`https://genius.p.rapidapi.com/songs/${songId}`, {
+    	"method": "GET",
+    	"headers": {
+    		"x-rapidapi-host": "genius.p.rapidapi.com",
+    		"x-rapidapi-key": `${LYRICS_KEY}`
+    	}
+    })
+    const result1 = await response1.json();
+    const embedContent = result1.response.song.embed_content;
+    this.setState({engTransEmbedContent:embedContent});
+  }
+
   async searchKorLyrics() {
+    this.setState({isLoading: true});
+    this.resetSearch();
     try {
       const response = await fetch(`https://shazam.p.rapidapi.com/search?locale=en-US&offset=0&limit=5&term=bts ${this.state.song}`, {
       	"method": "GET",
       	"headers": {
-      		"x-rapidapi-host": "mourits-lyrics.p.rapidapi.com",
+      		"x-rapidapi-host": "shazam.p.rapidapi.com",
       		"x-rapidapi-key": `${LYRICS_KEY}`
       	}
       });
-      const firstResult = await response.json().hits[0];
-      const title = firstResult.title;
-      const artist = firstResult.subtitle;
-      if (title.toLowerCase() != this.state.song.toLowerCase() || artist.toLowerCase() != 'bts') {
+      const result = await response.json();
+      const title = result.tracks.hits[0].track.title;
+      const artist = result.tracks.hits[0].track.subtitle;
+      const key = result.tracks.hits[0].track.key;
+      if (!artist.toLowerCase().includes('bts')
+      || !title.toLowerCase().includes(this.state.song.toLowerCase())
+      || !this.state.song.toLowerCase().includes(title.toLowerCase())) {
+        this.setState({isLoading:false});
         this.setState({isNotFound:true});
       } else {
-        const key = firstResult.key;
         const response = await fetch(`https://shazam.p.rapidapi.com/songs/get-details?locale=en-US&key=${key}`, {
           "method": "GET",
         	"headers": {
-        		"x-rapidapi-host": "mourits-lyrics.p.rapidapi.com",
+        		"x-rapidapi-host": "shazam.p.rapidapi.com",
         		"x-rapidapi-key": `${LYRICS_KEY}`
         	}
         });
-        const result = response.json();
+        const result = await response.json();
         const obj = result.sections.filter(obj => {
           return obj.type == "LYRICS"
         })
         const lyrics = obj[0].text;
+        this.getEnglishTrans();
+        this.setState({isLoading:false});
         this.setState({korLyrics:lyrics});
         this.setState({isKorLyricsFound:true});
       }
@@ -75,17 +121,22 @@ class Music extends React.Component {
   }
 
   async searchRomLyrics() {
+    this.setState({isLoading:true});
+    this.resetSearch();
     try {
-      console.log(`https://orion.apiseeds.com/api/music/lyric/bts/${this.state.song}?apikey=${LYRICS_KEY_ROM}`)
       const response = await fetch(`https://orion.apiseeds.com/api/music/lyric/bts/${this.state.song}?apikey=${LYRICS_KEY_ROM}`);
-      console.log("here");
       const result = await response.json();
-      console.log(result)
       const title = result.result.track.name;
-      if (title.toLowerCase() != this.state.song.toLowerCase()) {
-        this.setState({isNotFound:false})
+      const artist = result.result.artist.name;
+      if (!title.toLowerCase().includes(this.state.song.toLowerCase())
+      || !this.state.song.toLowerCase().includes(title.toLowerCase())
+      || !artist.toLowerCase().includes('bts')) {
+        this.setState({isLoading:false});
+        this.setState({isNotFound:false});
       } else {
-        const lyrics = result.result.track.text;
+        const lyrics = result.result.track.text.split("\n");
+        this.getEnglishTrans();
+        this.setState({isLoading:false});
         this.setState({romLyrics:lyrics});
         this.setState({isRomLyricsFound:true});
       }
@@ -103,13 +154,14 @@ class Music extends React.Component {
       { !this.state.isLoggedIn && (
         <LoginNavBar/>
       )}
-      <Container fluid style={styles.container}>
+      <Container>
         <div>
-        <h1>Discover BTS Music</h1>
+        <h1 className="my-4">Discover BTS Music</h1>
         <Row>
-        <Col md="auto">
+        <Col fluid md={8}>
         <h3>BTS Top 100 tracks</h3>
-        <iframe scrolling="no"
+        <iframe
+          scrolling="no"
           frameborder="0"
           allowTransparency="true"
           src="https://www.deezer.com/plugins/player?format=classic&autoplay=false&playlist=true&width=700&height=350&color=007FEB&layout=dark&size=medium&type=playlist&id=7871175002&app_id=1"
@@ -132,27 +184,45 @@ class Music extends React.Component {
          width="600"
          height="350">
         </iframe>
-        <div style={styles.title}>
+        <div style={styles.visit}>
         <Button href="https://www.deezer.com/us/artist/6982223"type="primary">Hear more from BTS @deezer</Button>
         </div>
         </Col>
-        <Col md="auto" xs={4}>
+        <Col md={4} style={{minWidth: 350}}>
           <h3>Want to sing along?</h3>
           <p>Search for the korean hangul lyrics or romanized lyrics here.</p>
             <Form inline>
+            <div style={{display:'flex'}}>
              <FormControl onChange={this.handleLyricsInput} type="text" placeholder="Search" className="mr-sm-2" />
-             <Button onClick={this.searchKorLyrics} variant="outline-success">Search Kor</Button>
-             <Button onClick={this.searchRomLyrics} variant="outline-success" style={styles.button}>Search Rom</Button>
+
+             <Button onClick={this.searchKorLyrics} variant="outline-success">Kor</Button>
+             <Button onClick={this.searchRomLyrics} variant="outline-success" style={styles.button}>Rom</Button>
+             </div>
             </Form>
+            { this.state.isLoading && <LoadingOutlined style={styles.loading}/>}
             { (this.state.isKorLyricsNotFound || this.state.isRomLyricsNotFound) && (
               <p>Sorry the lyrics for that song could not be found. It may be updated in the database in the future. Do check back again in the future.
               In the meantime, you may have to search elsewhere.</p>
             )}
             { this.state.isKorLyricsFound && this.state.korLyrics && (
-              <p>{this.state.korLyrics}</p>
+              <div style={styles.visit}>
+                { this.state.korLyrics.map(line => {
+                  return <p>{line}</p>
+                })}
+                <div
+                  dangerouslySetInnerHTML={{__html:this.state.engTransEmbedContent }}>
+                </div>
+              </div>
             )}
             { this.state.isRomLyricsFound && this.state.romLyrics && (
-              <h6>{this.state.romLyrics}</h6>
+              <div style={styles.visit}>
+                { this.state.romLyrics.map(line => {
+                  return <p>{line}</p>
+                })}
+                <div
+                  dangerouslySetInnerHTML={{__html:this.state.engTransEmbedContent }}>
+                </div>
+              </div>
             )}
         </Col>
         </Row>
@@ -165,16 +235,20 @@ class Music extends React.Component {
 
 const styles = {
   container: {
-    marginTop: 30,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center'
+    marginTop: 30
   },
   title: {
     marginTop: 30
   },
   button: {
-    marginLeft: 10
+    marginLeft: 10,
+  },
+  visit: {
+    marginTop: 30,
+    marginBottom: 30,
+  },
+  loading: {
+    margin: 30,
   }
 }
 
