@@ -116,6 +116,8 @@ class Music extends React.Component {
         this.setState({isKorLyricsFound:true});
       }
     } catch (error) {
+      this.setState({isLoading:false});
+      this.setState({isKorLyricsNotFound:true});
       console.error(error);
     }
   }
@@ -132,7 +134,7 @@ class Music extends React.Component {
       || !this.state.song.toLowerCase().includes(title.toLowerCase())
       || !artist.toLowerCase().includes('bts')) {
         this.setState({isLoading:false});
-        this.setState({isNotFound:false});
+        this.setState({isRomLyricsNotFound:true});
       } else {
         const lyrics = result.result.track.text.split("\n");
         this.getEnglishTrans();
@@ -141,6 +143,8 @@ class Music extends React.Component {
         this.setState({isRomLyricsFound:true});
       }
     } catch(error) {
+      this.setState({isLoading:false});
+      this.setState({isRomLyricsNotFound:true});
       console.error(error);
     }
   }
@@ -201,7 +205,7 @@ class Music extends React.Component {
             </Form>
             { this.state.isLoading && <LoadingOutlined style={styles.loading}/>}
             { (this.state.isKorLyricsNotFound || this.state.isRomLyricsNotFound) && (
-              <p>Sorry the lyrics for that song could not be found. It may be updated in the database in the future. Do check back again in the future.
+              <p style={styles.visit}>Sorry the lyrics for that song could not be found. It may be updated in the database in the future. Do check back again in the future.
               In the meantime, you may have to search elsewhere.</p>
             )}
             { this.state.isKorLyricsFound && this.state.korLyrics && (
