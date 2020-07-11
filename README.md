@@ -32,6 +32,7 @@ REACT_APP_LYRICS_API_KEY_ROM=<Your Orion Apiseeds API key>
 $ cd backend
 $ npm install
 
+# ENV Variables
 # Create a .env file in current directory (/backend)
 # Inside /backend .env file, insert:
 ATLAS_URI=<Your MongoDB Atlas URI>
