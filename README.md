@@ -61,7 +61,7 @@ Feel free to add your own improvements!
 
 Table "users"
 |Column |       Type         | Nullable |              Default              |
-|------|------------------|----------|---------|----------------------------------|
+|------|------------------|----------|----------------------------------------|
 | _id    |                    | not null |  |
 | name  | String          | not null |				null				   |
 | email |      String      | not null |					null			   |
@@ -72,7 +72,7 @@ Table "users"
 
 Table "sessions"
 |Column |       Type         | Nullable |              Default              |
-|------|------------------|----------|---------|----------------------------------|
+|------|------------------|----------|-------------------------------------------|
 | _id    |                    | not null |  |
 | googleId| String           | not null |					null			   |
 | tokenId  | String          | not null |					null			   |
@@ -80,7 +80,7 @@ Table "sessions"
 
 Table "sessions"
 |Column |       Type         | Nullable |              Default              |
-|------|------------------|----------|---------|----------------------------------|
+|------|------------------|----------|-------------------------------------------|
 | _id    |                    | not null |  |
 | question| String           | not null |					null			   |
 | options  | Array          | not null |					null			   |
@@ -89,7 +89,7 @@ Table "sessions"
 
 Table "hallOfFameEntries"
 |Column |       Type         | Nullable |              Default              |
-|------|------------------|----------|---------|----------------------------------|
+|------|------------------|----------|-------------------------------------------|
 | _id    |                    | not null |  |
 | name  | String          | not null |				null				   |
 | social |      String      | not null |					null			   |
