@@ -57,9 +57,6 @@ class Home extends React.Component {
   }
 
   render() {
-    /*if (!this.state.isLoggedIn && this.props.profile.length !== 1) {
-      return <Redirect to="/"/>
-    }*/
     return (
       <div>
       { this.state.isLoggedIn && (

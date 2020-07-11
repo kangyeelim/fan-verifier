@@ -101,9 +101,6 @@ class Quiz extends React.Component {
   }
 
   render() {
-    /*if (!this.state.isLoggedIn && this.props.profile.length !== 1) {
-      return <Redirect to="/"/>
-    }*/
     if (this.state.score ===6 && !this.state.isLoggedIn) {
       return (
         <div>
