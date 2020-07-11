@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Navbar, Nav, Form, Button, Image, NavDropdown } from 'react-bootstrap';
+import { Navbar, Nav, Image, NavDropdown } from 'react-bootstrap';
 import auth from '../services/auth';
 import { connect } from 'react-redux';
 import { deleteProfile } from '../redux/actions';

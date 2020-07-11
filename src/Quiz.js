@@ -6,7 +6,6 @@ import InputForm from './component/InputForm';
 import NavBar from './component/NavBar';
 import LoginNavBar from './component/LoginNavBar';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
 import auth from './services/auth';
 import { Progress } from 'antd';
 

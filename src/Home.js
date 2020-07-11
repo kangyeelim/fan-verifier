@@ -1,10 +1,9 @@
 import React from 'react';
 import './App.css';
-import { Row, Col, Container, Image, Button, Carousel } from 'react-bootstrap';
+import { Row, Col, Container, Button, Carousel } from 'react-bootstrap';
 import NavBar from './component/NavBar';
 import LoginNavBar from './component/LoginNavBar';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
 import auth from './services/auth';
 
 function ImageCarousel() {

@@ -7,8 +7,8 @@ const profileReducer = (state=[], action) => {
       var newState = state.concat(action.payload)
       return newState;
     case DELETE_PROFILE:
-      var newState = [];
-      return newState;
+      var emptyState = [];
+      return emptyState;
     default:
       return state;
   }

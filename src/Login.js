@@ -1,10 +1,9 @@
 import React from 'react';
-import { Container, Button, Card } from 'react-bootstrap';
+import { Container, Card } from 'react-bootstrap';
 import LoginNavBar from './component/LoginNavBar';
 import auth from './services/auth';
 import GoogleLogin from 'react-google-login';
 import { Redirect } from 'react-router-dom';
-import axios from 'axios';
 import { connect } from 'react-redux';
 import { updateProfile, deleteProfile } from './redux/actions';
 

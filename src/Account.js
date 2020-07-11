@@ -36,7 +36,7 @@ class Entry extends React.Component {
 
   async deleteEntry() {
     try {
-      var response = axios.delete(`http://localhost:5000/hallOfFameEntries/${this.props.entry._id}`);
+      axios.delete(`http://localhost:5000/hallOfFameEntries/${this.props.entry._id}`);
       this.props.refreshPage();
     } catch (error) {
       console.error(error);

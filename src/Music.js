@@ -1,9 +1,8 @@
 import React from 'react';
-import { Container, Row, Col, Image, Form, FormControl, Button } from 'react-bootstrap';
+import { Container, Row, Col, Form, FormControl, Button } from 'react-bootstrap';
 import LoginNavBar from './component/LoginNavBar';
 import NavBar from './component/NavBar';
 import auth from './services/auth';
-import axios from 'axios';
 import { LoadingOutlined } from '@ant-design/icons';
 
 const LYRICS_KEY = process.env.REACT_APP_LYRICS_API_KEY;
