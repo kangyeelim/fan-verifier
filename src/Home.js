@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import { Row, Col, Container, Image, Button, Carousel } from 'react-bootstrap';
 import NavBar from './component/NavBar';
+import LoginNavBar from './component/LoginNavBar';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import auth from './services/auth';
@@ -44,7 +45,7 @@ class Home extends React.Component {
     this.onStartQuiz = this.onStartQuiz.bind(this);
   }
 
-  async onComponentDidMount() {
+  async componentDidMount() {
     if (await auth.isAuthenticated()) {
       this.setState({isLoggedIn: true});
     }
@@ -56,12 +57,17 @@ class Home extends React.Component {
   }
 
   render() {
-    if (!this.state.isLoggedIn && this.props.profile.length !== 1) {
+    /*if (!this.state.isLoggedIn && this.props.profile.length !== 1) {
       return <Redirect to="/"/>
-    }
+    }*/
     return (
       <div>
-      <NavBar history={this.props.history}/>
+      { this.state.isLoggedIn && (
+        <NavBar history={this.props.history}/>
+      )}
+      { !this.state.isLoggedIn && (
+        <LoginNavBar/>
+      )}
       <Container>
         <h1 className="my-4">Am I a verified BTS-ARMY?</h1>
         <Row>

@@ -13,9 +13,10 @@ class LoginNavBar extends React.Component {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ml-auto">
             <Nav.Link style={styles.navlink} href="/">Login</Nav.Link>
+            <Nav.Link style={styles.navlink} href="/home">Quiz</Nav.Link>
             <Nav.Link style={styles.navlink} href="/hallOfFame">Hall of Fame</Nav.Link>
-            <Nav.Link style={styles.navlink} href="/contact">Contact</Nav.Link>
             <Nav.Link style={styles.navlink} href="/music">Music</Nav.Link>
+            <Nav.Link style={styles.navlink} href="/contact">Contact</Nav.Link>
          </Nav>
         </Navbar.Collapse>
       </Navbar>

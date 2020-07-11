@@ -63,13 +63,16 @@ class Login extends React.Component {
         <Card className="bg-dark text-white" style={styles.card}>
           <Card.Img fluid src={require("./img/bts-festa.jpg")} alt="BTS image"/>
           <Card.ImgOverlay>
-            <Card.Title as="h3">
-              Am I a verified BTS-ARMY?
+            <Card.Title as="h3" style={styles.header}>
+              Would you like to be in our Hall of Fame?
             </Card.Title>
             <Card.Text style={styles.cardText}>
-              Login to try out our 2 minute quiz to become a verified BTS-ARMY and get your
-              social media handle on our Hall of Fame! Our Hall of Fame is renewed monthly so do
-              check back again next month to get back on it.
+              <mark style={styles.mark}>
+              Login to do our 2 minute quiz to become a verified BTS-ARMY and get your
+              social media username up on our Hall of Fame! Our Hall of Fame is renewed monthly so do
+              check back again next month to get back on it. If you would like to try the quiz without signing in,
+              you can do so too but upon completion you would not be able to get on the Hall of Fame!
+              </mark>
             </Card.Text>
             <GoogleLogin
             style={styles.loginBtn}
@@ -97,6 +100,13 @@ const styles = {
   },
   loginBtn: {
     alignSelf: 'center',
+  },
+  header: {
+    color: 'white'
+  },
+  mark: {
+    backgroundColor: 'black',
+    color: 'white'
   }
 }
 
