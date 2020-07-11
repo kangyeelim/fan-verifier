@@ -1,13 +1,23 @@
-import React from 'react';
-import { Container, Card } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Container, Card, Alert } from 'react-bootstrap';
 import LoginNavBar from './component/LoginNavBar';
 import auth from './services/auth';
 import GoogleLogin from 'react-google-login';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { updateProfile, deleteProfile } from './redux/actions';
+import backgroundImg from './img/bg.png';
 
 const GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+
+function AlertDimissible() {
+  const [show, setShow] = useState(true);
+  return (
+    <Alert show={show} variant="danger" onClose={()=>setShow(false)} dismissible>
+      <Alert.Heading>Login failed. Please try again.</Alert.Heading>
+    </Alert>
+  );
+}
 
 class Login extends React.Component {
 
@@ -55,10 +65,10 @@ class Login extends React.Component {
     return (
       <div>
       <LoginNavBar/>
-      { this.state.isFailure && (
-        <h3>Login failed. Please try again.</h3>
-      )}
       <Container>
+      { this.state.isFailure && (
+        <AlertDimissible/>
+      )}
         <Card className="bg-dark text-white" style={styles.card}>
           <Card.Img fluid src={require("./img/bts-festa.jpg")} alt="BTS image"/>
           <Card.ImgOverlay>
@@ -74,7 +84,6 @@ class Login extends React.Component {
               </mark>
             </Card.Text>
             <GoogleLogin
-            style={styles.loginBtn}
             clientId= {GOOGLE_CLIENT_ID}
             buttonText="Login with Google"
             onSuccess={this.responseGoogleSuccess}
@@ -86,27 +95,31 @@ class Login extends React.Component {
         </Card>
       </Container>
       </div>
-  );
+    );
   }
 }
 
 const styles = {
   card: {
-    margin: 30,
+    marginTop: 30,
+    marginBottom: 30,
+    minWidth: 400
   },
   cardText: {
     marginRight: 50,
   },
-  loginBtn: {
-    alignSelf: 'center',
+  error: {
+    textAlign: 'center',
+    marginTop: 10,
+    color: 'red'
   },
   header: {
-    color: 'white'
+    color: '#e8d9fa'
   },
   mark: {
     backgroundColor: 'black',
     color: 'white'
-  }
+  },
 }
 
 const mapStateToProps = (state) => {

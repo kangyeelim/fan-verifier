@@ -11,8 +11,8 @@ import auth from './services/auth';
 export function Twitter(props) {
   return (
     <div>
-      <FontAwesomeIcon icon={faTwitterSquare} style={{marginRight:10}}/>
-      <a href={`https://twitter.com/${props.entry.name}`}>@{props.entry.name}</a>
+      <FontAwesomeIcon icon={faTwitterSquare} style={styles.icon}/>
+      <a style={styles.text} href={`https://twitter.com/${props.entry.name}`}>@{props.entry.name}</a>
     </div>
   )
 }
@@ -20,8 +20,8 @@ export function Twitter(props) {
 export function Facebook(props) {
   return (
     <div>
-      <FontAwesomeIcon icon={faFacebookSquare} style={{marginRight:10}}/>
-      <a href={`https://facebook.com/${props.entry.name}`}>@{props.entry.name}</a>
+      <FontAwesomeIcon icon={faFacebookSquare} style={styles.icon}/>
+      <a style={styles.text} href={`https://facebook.com/${props.entry.name}`}>@{props.entry.name}</a>
     </div>
   )
 }
@@ -29,8 +29,8 @@ export function Facebook(props) {
 export function Instagram(props) {
   return (
     <div>
-      <FontAwesomeIcon icon={faInstagramSquare} style={{marginRight:10}}/>
-      <a href={`https://instagram.com/${props.entry.name}`}>@{props.entry.name}</a>
+      <FontAwesomeIcon icon={faInstagramSquare} style={styles.icon}/>
+      <a style={styles.text} href={`https://instagram.com/${props.entry.name}`}>@{props.entry.name}</a>
     </div>
   )
 }
@@ -140,6 +140,13 @@ const styles = {
     marginTop: 40,
     alignSelf: 'right',
     marginBottom: 20
+  },
+  icon: {
+    marginRight: 10,
+    fontSize: 18
+  },
+  text: {
+    fontSize: 16
   }
 }
 

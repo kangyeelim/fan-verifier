@@ -206,6 +206,7 @@ const styles = {
   },
   messageContainer:{
     padding: 20,
+    backgroundColor: 'white'
   },
   message: {
     alignSelf: 'center',

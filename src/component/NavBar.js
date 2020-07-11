@@ -19,7 +19,7 @@ class NavBar extends React.Component {
 
   render() {
     return (
-      <Navbar bg="light" expand="lg" className="shadow">
+      <Navbar style={styles.navbar} expand="lg" className="shadow">
         <Navbar.Brand href="#">
           <Image style={styles.logo} fluid src={require("../img/bts-army-logo.png")}/>
           BTS-ARMY Verifier
@@ -59,6 +59,9 @@ class NavBar extends React.Component {
 </Form>*/
 
 const styles = {
+  navbar: {
+    backgroundColor:'#dec3ff'
+  },
   logo: {
     width: 30,
     marginRight: 15,

@@ -34,7 +34,7 @@ class Contact extends React.Component {
             <Image fluid style={styles.image} src={require('./img/bwl.jpg')}/>
           </Col>
           <Col md={6}>
-            <h3>Message from the developer</h3>
+            <h3 className="my-3">Message from the developer</h3>
             <p style={styles.text}>
             I am a 21 year old ARMY from Singapore and I am the only developer for this website.
             This is my pet project out of my love for BTS
@@ -76,8 +76,9 @@ const styles = {
     alignItems: 'center',
   },
   text: {
-    fontSize: 16,
-    marginBottom: 30,
+    fontSize: 15,
+    marginBottom:30,
+    color: '#3e3e3e'
   },
   image: {
     width: 500,
