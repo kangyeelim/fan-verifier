@@ -46,7 +46,6 @@ class Login extends React.Component {
     //check if googleId exists in user db, if yes update
     //if googleId do not exist, then add
     auth.login(response)
-    console.log(response.profileObj);
     this.props.updateProfile(response.profileObj);
     this.setState({isSuccess:true});
   }

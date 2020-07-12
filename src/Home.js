@@ -5,6 +5,7 @@ import NavBar from './component/NavBar';
 import LoginNavBar from './component/LoginNavBar';
 import { connect } from 'react-redux';
 import auth from './services/auth';
+import { LoadingOutlined } from '@ant-design/icons';
 
 function ImageCarousel() {
     return (
@@ -40,14 +41,17 @@ class Home extends React.Component {
     super();
     this.state = {
       isLoggedIn: false,
+      isLoading: true,
     }
     this.onStartQuiz = this.onStartQuiz.bind(this);
   }
 
   async componentDidMount() {
+    console.log("here");
     if (await auth.isAuthenticated()) {
       this.setState({isLoggedIn: true});
     }
+    this.setState({isLoading: false});
   }
 
   onStartQuiz() {
@@ -56,6 +60,13 @@ class Home extends React.Component {
   }
 
   render() {
+    if (this.state.isLoading) {
+      return (
+        <Container>
+          <LoadingOutlined className="loading"/>
+        </Container>
+      );
+    }
     return (
       <div>
       { this.state.isLoggedIn && (
@@ -65,7 +76,12 @@ class Home extends React.Component {
         <LoginNavBar/>
       )}
       <Container>
-        <h1 className="my-4">Am I a verified BTS-ARMY?</h1>
+        { this.state.isLoggedIn && (
+          <h1 className="my-4">Welcome {this.props.profile[0].name} !</h1>
+        )}
+        { !this.state.isLoggedIn && (
+          <h1 className="my-4">Am I a verified BTS-ARMY?</h1>
+        )}
         <Row style={{display: 'flex', alignItems:'center'}}>
           <Col fluid md={8}>
             <ImageCarousel/>
@@ -74,9 +90,9 @@ class Home extends React.Component {
             <Container style={styles.instructionContainer}>
             { this.state.isLoggedIn && (
               <div>
-              <h3>Take our 2 minute quiz to find out!</h3>
+              <h3>Take our 2 minute quiz!</h3>
               <p style={styles.text}>Complete all quiz questions correctly to get a chance to put your social media username
-              in our Hall of Fame! This hall of fame is renewed on the first of the month so do come back to do this quiz
+              in our Hall of Fame if you do not have 3 entries yet! This hall of fame is renewed monthly so do come back to do this quiz
               to be back on the Hall of Fame next month.</p>
               </div>
             )}

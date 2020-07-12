@@ -8,6 +8,7 @@ import LoginNavBar from './component/LoginNavBar';
 import { connect } from 'react-redux';
 import auth from './services/auth';
 import { Progress } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
 
 const months = ["January", "February", "March", "April", "May",
         "June", "July", "August", "September", "October",
@@ -27,6 +28,7 @@ class Quiz extends React.Component {
       questionIndex: null,
       isLoggedIn: false,
       isNotAllowed: false,
+      isLoading: true,
     }
     this.updateScore = this.updateScore.bind(this);
     this.addIndexToAskedList = this.addIndexToAskedList.bind(this);
@@ -53,6 +55,7 @@ class Quiz extends React.Component {
         console.log(error);
       });
     this.timer = setInterval(this.decrementCount, 100);
+    this.setState({isLoading: false});
   }
 
   decrementCount = () => {
@@ -100,6 +103,13 @@ class Quiz extends React.Component {
   }
 
   render() {
+    if (this.state.isLoading) {
+      return (
+        <Container>
+          <LoadingOutlined className="loading"/>
+        </Container>
+      )
+    }
     if (this.state.score ===6 && !this.state.isLoggedIn) {
       return (
         <div>

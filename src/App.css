@@ -35,3 +35,11 @@ body {
     background-image: url(./img/bg.png);
   }
 }
+
+.loading {
+  margin-top: 30px;
+
+  font-size: 30px;
+
+  size: 30px;
+}
