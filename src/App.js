@@ -7,6 +7,7 @@ import Login from './Login';
 import Account from './Account';
 import Contact from './Contact';
 import Music from './Music';
+import Upload from './component/Upload';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 class App extends React.Component {
@@ -21,6 +22,7 @@ class App extends React.Component {
           <Route exact path="/account" component={Account}/>
           <Route exact path="/contact" component={Contact}/>
           <Route exact path="/music" component={Music}/>
+          <Route exact path="/upload" component={Upload}/>
         </Switch>
       </Router>
     );
