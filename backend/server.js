@@ -1,7 +1,6 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const formData = require('express-form-data');
 
 require('dotenv').config();
 
@@ -35,9 +34,6 @@ app.use('/users', usersRouter);
 app.use('/sessions', userSessionsRouter);
 app.use('/hallOfFameEntries', hallOfFameEntriesRouter);
 app.use('/posts', postsRouter);
-
-app.use(formData.parse());
-
 app.use('/images', imagesRouter);
 
 //starts server
