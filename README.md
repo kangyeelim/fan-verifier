@@ -123,4 +123,4 @@ Table "posts"
 | date| Date           | null |					null			   |
 | timestamp  |           | not null |								   |
 
-(images store an Array of image data that is returned when uploaded to Cloudinary.
+(images store an Array of image data that is returned when uploaded to Cloudinary.)
