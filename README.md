@@ -8,8 +8,16 @@ fan-verifier is a web application that allows you to verify yourself and others 
 * Take a quiz to verify yourself as a fan of an artist
 * Find other fans' social media accounts
 * Music page to listen to music and find lyrics
+* Community space to make posts that can include images to share with other fans
 
 ## Setup your own
+
+You would need to sign up for RapidAPI, Google developers, Orion Apiseeds, MongoDB and Cloudinary.
+The database that is used is MongoDB which is essential to store all data models.
+To listen to the music, you would need a Deezer account that is signed in the Music Tab.
+RapidAPI and Orion Apiseeds are to retrieve the lyrics for songs that are searched for in the Music Tab.
+Google developers is needed for the sign in/log in and log out function using GoogleOAuth.
+Lastly, Cloudinary is used to host images that are uploaded by users in posts for the Community Tab.
 
 ```bash
 # Clone repo
@@ -36,6 +44,9 @@ $ npm install
 # Create a .env file in current directory (/backend)
 # Inside /backend .env file, insert:
 ATLAS_URI=<Your MongoDB Atlas URI>
+API_SECRET=<Your Cloudinary API secret>
+API_KEY=<Your Cloudinary API key>
+CLOUD_NAME=<Your Cloudinary Cloud name>
 
 # To connect to MongoDB
 $ nodemon server
@@ -95,3 +106,21 @@ Table "hallOfFameEntries"
 | social |      String      | not null |					null			   |
 | googleId| String           | not null |					null			   |
 | timestamp  |           | not null |								   |
+
+Table "posts"
+|Column |       Type         | Nullable |              Default              |
+|------|------------------|----------|-------------------------------------------|
+| _id    |                    | not null |  |
+| title| String           | null |					null			   |
+| description| String           | null |					null			   |
+| tag| String           | null |					null			   |
+| images| Array           | null |					null			   |
+| isPosted| Boolean           | not null |					null			   |
+| googleName  | String          | not null |				null				   |
+| social |      String      |  null |					null			   |
+| name| String           | null |					null			   |
+| googleId| String           | not null |					null			   |
+| date| Date           | null |					null			   |
+| timestamp  |           | not null |								   |
+
+(images store an Array of image data that is returned when uploaded to Cloudinary.
