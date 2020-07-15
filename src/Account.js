@@ -5,12 +5,12 @@ import auth from './services/auth';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import axios from 'axios';
-import { Twitter, Facebook, Instagram } from './HallOfFame';
+import { Twitter, Facebook, Instagram } from './component/SocialMediaEntry';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import InputForm from './component/InputForm';
 
-function AlertDimissible(props) {
+export function AlertDimissible(props) {
   const [show, setShow] = useState(true);
   return (
     <Alert show={show} variant="danger" onClose={()=>setShow(false)} dismissible>
@@ -36,7 +36,7 @@ class Entry extends React.Component {
 
   async deleteEntry() {
     try {
-      axios.delete(`http://localhost:5000/hallOfFameEntries/${this.props.entry._id}`);
+      await axios.delete(`http://localhost:5000/hallOfFameEntries/${this.props.entry._id}`);
       this.props.refreshPage();
     } catch (error) {
       console.error(error);
@@ -187,7 +187,7 @@ class Account extends React.Component {
     if (this.state.isEditing) {
       return (
         <div>
-          <NavBar/>
+          <NavBar history={this.props.history}/>
           <Container style={styles.container}>
             <h3>Edit Hall of Fame entry</h3>
             <p>If you leave the page without submitting, the changes will not be saved.</p>
@@ -198,7 +198,7 @@ class Account extends React.Component {
     }
     return (
       <div>
-      <NavBar/>
+      <NavBar history={this.props.history}/>
       <Container style={styles.container}>
         <h3 className="my-4">Account Information</h3>
         <Image style={styles.image} src={this.props.profile[0].imageUrl}/>

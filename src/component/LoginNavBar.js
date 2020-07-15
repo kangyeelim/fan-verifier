@@ -16,6 +16,7 @@ class LoginNavBar extends React.Component {
             <Nav.Link style={styles.navlink} href="/home">Quiz</Nav.Link>
             <Nav.Link style={styles.navlink} href="/hallOfFame">Hall of Fame</Nav.Link>
             <Nav.Link style={styles.navlink} href="/music">Music</Nav.Link>
+            <Nav.Link style={styles.navlink} href="/community">Community</Nav.Link>
             <Nav.Link style={styles.navlink} href="/contact">Contact</Nav.Link>
          </Nav>
         </Navbar.Collapse>

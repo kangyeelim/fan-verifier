@@ -49,8 +49,10 @@ router.post('/upload', upload.single('file'), async (req, res) => {
 })
 
 router.post('/delete', (req, res) => {
-  const values = req.body.public_ids
-  const promises = values.map(public_id =>cloudinary.uploader.destroy(public_id))
+  const values = req.body.images
+  const promises = values.map(image => {
+    cloudinary.uploader.destroy(image.public_id)
+    })
 
   Promise
     .all(promises)

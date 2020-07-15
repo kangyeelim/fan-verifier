@@ -7,8 +7,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookSquare, faInstagramSquare, faTwitterSquare } from '@fortawesome/free-brands-svg-icons'
 import { connect } from 'react-redux';
 import auth from './services/auth';
-
-export function Twitter(props) {
+import { Entry } from './component/SocialMediaEntry'; 
+/*export function Twitter(props) {
   return (
     <div>
       <FontAwesomeIcon icon={faTwitterSquare} style={styles.icon}/>
@@ -56,7 +56,7 @@ export function Entry(props) {
     );
   }
 
-}
+}*/
 
 class HallOfFame extends React.Component {
 

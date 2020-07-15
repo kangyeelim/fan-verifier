@@ -3,18 +3,59 @@ import { Navbar, Nav, Image, NavDropdown } from 'react-bootstrap';
 import auth from '../services/auth';
 import { connect } from 'react-redux';
 import { deleteProfile } from '../redux/actions';
+import axios from 'axios';
 
 class NavBar extends React.Component {
 
   constructor() {
     super();
     this.handleLogout = this.handleLogout.bind(this);
+    this.goCommunity = this.goCommunity.bind(this);
+    this.goMusic = this.goMusic.bind(this);
+    this.goHome = this.goHome.bind(this);
+    this.goHOF = this.goHOF.bind(this);
+    this.goAccount = this.goAccount.bind(this);
+    this.goContact = this.goContact.bind(this);
+    this.goPosts = this.goPosts.bind(this);
+    this.goDrafts = this.goDrafts.bind(this);
   }
 
   handleLogout(){
     auth.logout();
     this.props.deleteProfile();
     this.props.history.push("/");
+  }
+
+  goCommunity() {
+    this.props.history.push("/community");
+  }
+
+  goHome() {
+    this.props.history.push("/home");
+  }
+
+  goHOF() {
+    this.props.history.push("/hallOfFame");
+  }
+
+  goMusic() {
+    this.props.history.push("/music");
+  }
+
+  goAccount() {
+    this.props.history.push("/account");
+  }
+
+  goPosts() {
+    this.props.history.push("/myposts");
+  }
+
+  goDrafts() {
+    this.props.history.push("/drafts");
+  }
+
+  goContact() {
+    this.props.history.push("/contact");
   }
 
   render() {
@@ -27,9 +68,10 @@ class NavBar extends React.Component {
         <Navbar.Toggle style={styles.navlink} aria-controls="basic-navbar-nav" />
         <Navbar.Collapse style={styles.navlink} id="basic-navbar-nav">
           <Nav style={styles.navlink} className="ml-auto">
-            <Nav.Link style={styles.navlink} href="/home">Quiz</Nav.Link>
-            <Nav.Link style={styles.navlink} href="/hallOfFame">Hall of Fame</Nav.Link>
-            <Nav.Link style={styles.navlink} href="/music">Music</Nav.Link>
+            <Nav.Link style={styles.navlink} onClick={this.goHome}>Quiz</Nav.Link>
+            <Nav.Link style={styles.navlink} onClick={this.goHOF}>Hall of Fame</Nav.Link>
+            <Nav.Link style={styles.navlink} onClick={this.goMusic}>Music</Nav.Link>
+            <Nav.Link style={styles.navlink} onClick={this.goCommunity}>Community</Nav.Link>
             <NavDropdown className="nav-dropdown"
               id="nav-dropdown" style={styles.dropdown}
               title={
@@ -42,8 +84,10 @@ class NavBar extends React.Component {
                           />
                       </div>
                   }>
-              <NavDropdown.Item href="/account">Account</NavDropdown.Item>
-              <NavDropdown.Item href="/contact">Contact</NavDropdown.Item>
+              <NavDropdown.Item onClick={this.goAccount}>Account</NavDropdown.Item>
+              <NavDropdown.Item onClick={this.goPosts}>My Posts</NavDropdown.Item>
+              <NavDropdown.Item onClick={this.goDrafts}>Drafts</NavDropdown.Item>
+              <NavDropdown.Item onClick={this.goContact}>Contact</NavDropdown.Item>
               <NavDropdown.Divider />
               <NavDropdown.Item onClick={this.handleLogout}>Logout</NavDropdown.Item>
             </NavDropdown>

@@ -47,7 +47,6 @@ class Home extends React.Component {
   }
 
   async componentDidMount() {
-    console.log("here");
     if (await auth.isAuthenticated()) {
       this.setState({isLoggedIn: true});
     }
@@ -55,7 +54,6 @@ class Home extends React.Component {
   }
 
   onStartQuiz() {
-    console.log(this.props.location.profileObj)
     this.props.history.push("/quiz");
   }
 
