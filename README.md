@@ -14,7 +14,7 @@ fan-verifier is a web application that allows you to verify yourself and others 
 
 You would need to sign up for RapidAPI, Google developers, Orion Apiseeds, MongoDB and Cloudinary.
 The database that is used is MongoDB which is essential to store all data models.
-To listen to the music, you would need a Deezer account that is signed in the Music Tab.
+To listen to the music in the Music Tab, you would need a Deezer account that is signed in.
 RapidAPI and Orion Apiseeds are to retrieve the lyrics for songs that are searched for in the Music Tab.
 Google developers is needed for the sign in/log in and log out function using GoogleOAuth.
 Lastly, Cloudinary is used to host images that are uploaded by users in posts for the Community Tab.
