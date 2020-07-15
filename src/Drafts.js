@@ -96,7 +96,6 @@ class Drafts extends React.Component {
     }
   }
 
-
   async refreshPage() {
     try {
       var response = await axios.get(`http://localhost:5000/posts/googleId/${this.props.profile[0].googleId}/isPosted/false`);
@@ -116,7 +115,7 @@ class Drafts extends React.Component {
       <Container style={styles.messageContainer}>
         <h1 className="my-4">Drafts</h1>
         { this.state.posts.map(post => {
-          return <Entry history={this.props.history} refreshPage={this.refreshPage} post={post}/>
+          return <Entry key={post._id} history={this.props.history} refreshPage={this.refreshPage} post={post}/>
         })}
       </Container>
       </div>
@@ -135,6 +134,5 @@ const mapStateToProps = (state) => {
     profile: state.profile,
   }
 }
-
 
 export default connect(mapStateToProps, {}) (Drafts);
