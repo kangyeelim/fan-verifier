@@ -2,13 +2,14 @@ import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import NavBar from './component/NavBar';
 import { Redirect } from 'react-router-dom';
-import { PostEntry } from './Community';
+import { PostEntry, ImageCarousel } from './Community';
 import auth from './services/auth';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { AlertDimissible } from './Account';
+import { FullscreenExitOutlined } from '@ant-design/icons';
 
 class Entry extends React.Component {
   constructor(props) {
@@ -52,7 +53,7 @@ class Entry extends React.Component {
   render() {
     return (
       <div style={{backgroundColor:'white'}}>
-        <PostEntry key={this.props.post._id} post={this.props.post}/>
+        <PostEntry key={this.props.post._id} post={this.props.post} showImages={this.props.showImages}/>
         <Row style={{marginLeft: 10, marginRight:10, alignSelf:'right'}}>
           <Col>
           </Col>
@@ -80,8 +81,11 @@ class Drafts extends React.Component {
       isLoggedIn: false,
       posts: [],
       showAlert: false,
+      isShowingImagesFull: false,
+      imagesToShow: null
     };
     this.refreshPage = this.refreshPage.bind(this);
+    this.showImages = this.showImages.bind(this);
   }
 
   async componentDidMount() {
@@ -89,7 +93,7 @@ class Drafts extends React.Component {
       this.setState({isLoggedIn: true});
     }
     try {
-      var response = await axios.get(`http://localhost:5000/posts/googleId/${this.props.profile[0].googleId}/isPosted/false`);
+      var response = await axios.get(`http://localhost:5000/posts/drafts/${this.props.profile[0].googleId}`);
       this.setState({posts: response.data })
     } catch (error) {
       console.error(error);
@@ -98,16 +102,31 @@ class Drafts extends React.Component {
 
   async refreshPage() {
     try {
-      var response = await axios.get(`http://localhost:5000/posts/googleId/${this.props.profile[0].googleId}/isPosted/false`);
+      var response = await axios.get(`http://localhost:5000/posts/drafts/${this.props.profile[0].googleId}`);
       this.setState({posts: response.data })
     } catch (error) {
       console.error(error);
     }
   }
 
+  showImages(images) {
+    this.setState({isShowingImagesFull:!this.state.isShowingImagesFull});
+    this.setState({imagesToShow:images});
+  }
+
   render() {
     if (!this.state.isLoggedIn && this.props.profile.length !== 1) {
       return <Redirect to="/"/>
+    }
+    if (this.state.isShowingImagesFull) {
+      return (
+        <div>
+        <FullscreenExitOutlined onClick={() => this.showImages(null)} style={styles.screenIcon}/>
+        {this.state.imagesToShow && (
+          <ImageCarousel images={this.state.imagesToShow} height="700"/>
+        )}
+        </div>
+      );
     }
     return (
       <div>
@@ -115,7 +134,7 @@ class Drafts extends React.Component {
       <Container style={styles.messageContainer}>
         <h1 className="my-4">Drafts</h1>
         { this.state.posts.map(post => {
-          return <Entry key={post._id} history={this.props.history} refreshPage={this.refreshPage} post={post}/>
+          return <Entry key={post._id} history={this.props.history} refreshPage={this.refreshPage} post={post} showImages={this.showImages}/>
         })}
       </Container>
       </div>

@@ -48,7 +48,7 @@ API_SECRET=<Your Cloudinary API secret>
 API_KEY=<Your Cloudinary API key>
 CLOUD_NAME=<Your Cloudinary Cloud name>
 
-# To connect to MongoDB
+# To connect to MongoDB in /backend
 $ nodemon server
 
 #To run application 

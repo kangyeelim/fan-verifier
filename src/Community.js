@@ -1,13 +1,60 @@
 import React from 'react';
-import { Container, ListGroup, Row, Col, Form, FormControl, Button, Image, Carousel, Badge } from 'react-bootstrap';
+import { Container, ListGroup, Row, Col, Form, FormControl,
+  Button, Image, Carousel, Badge, Popover, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import NavBar from './component/NavBar';
 import LoginNavBar from './component/LoginNavBar';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import auth from './services/auth';
-import { FormOutlined } from '@ant-design/icons';
+import { FormOutlined, FullscreenOutlined, FullscreenExitOutlined } from '@ant-design/icons';
 import { Entry } from './component/SocialMediaEntry';
 
+export function FilterPopover(props) {
+  return (
+    <Popover id="popover-basic">
+      <Popover.Title as="h3">Filter and Search</Popover.Title>
+      <Popover.Content>
+      <Form style={{margin: 20}}>
+       <FormControl
+        as="select"
+        id="tag"
+        onChange={props.handleFilterInput}
+        value={props.filter}
+        className="mr-sm-2"
+        style={{marginBottom:20}}
+        >
+          <option value="">Show posts that are</option>
+          <option value="selling">Selling</option>
+          <option value="buying">Buying</option>
+          <option value="sharing">Sharing</option>
+          <option value="others">Others</option>
+        </FormControl>
+        <FormControl onChange={props.handleKeywordInput} value={props.keyword} type="text" placeholder="Keyword(s)" className="mr-sm-2" style={{marginBottom:20}}/>
+        <Button onClick={props.apply} variant="outline-success">Apply</Button>
+      </Form>
+      </Popover.Content>
+    </Popover>
+  );
+}
+
+/*  <Form style={styles.form} inline>
+   <FormControl
+    as="select"
+    custom
+    id="tag"
+    onChange={props.handleFilterInput}
+    value={props.filter}
+    className="mr-sm-2"
+    >
+      <option value="" disabled>Show posts that are</option>
+      <option value="selling">Selling</option>
+      <option value="buying">Buying</option>
+      <option value="sharing">Sharing</option>
+      <option value="others">Others</option>
+    </FormControl>
+    <FormControl value={props.keyword} onChange={props.handleKeywordInput} type="text" placeholder="Keyword(s)" className="mr-sm-2" />
+    <Button onClick={props.filter} variant="outline-success">Apply</Button>
+  </Form>*/
 export function ImageCarousel(props) {
     return (
       <Carousel style={styles.carousel}>
@@ -19,7 +66,7 @@ export function ImageCarousel(props) {
               className="d-block w-100"
               src={image.secure_url}
               alt="Image"
-              height="400"
+              height={props.height}
               style={{width:"undefined", maxHeight: '100%', objectFit: "contain"}}
             />
           </Carousel.Item>);
@@ -42,11 +89,29 @@ export function PostEntry(props) {
           <Entry entry={props.post}/>
           </div>
         )}
-        { props.post.images && <ImageCarousel images={props.post.images}/> }
+        { props.post.images && (
+          <div>
+            <OverlayTrigger
+            placement="top"
+            overlay={
+              <Tooltip>
+                Show in fullscreen
+              </Tooltip>
+            }>
+
+              <FullscreenOutlined onClick={()=> props.showImages(props.post.images)} style={styles.screenIcon}/>
+
+      
+            </OverlayTrigger>
+            <ImageCarousel images={props.post.images} height="400"/>
+          </div>
+        )}
         <p>posted on: {Date(props.post.date)}</p>
       </ListGroup.Item>
     );
 }
+
+const LinkFilterPopover = React.forwardRef((props, ref) => <FilterPopover innerRef={ref} {...props} />);
 
 class Community extends React.Component {
 
@@ -56,11 +121,17 @@ class Community extends React.Component {
       isLoggedIn: false,
       filter: "",
       posts: null,
-      filteredPosts: null
+      filteredPosts: null,
+      keyword: "",
+      isShowingImagesFull: false,
+      imagesToShow: null
     }
-    this.filter = this.filter.bind(this);
+    this.apply = this.apply.bind(this);
     this.handleFilterInput = this.handleFilterInput.bind(this);
     this.handleNewPost = this.handleNewPost.bind(this);
+    this.handleKeywordInput = this.handleKeywordInput.bind(this);
+    this.reset = this.reset.bind(this);
+    this.showImages = this.showImages.bind(this);
   }
 
   async componentDidMount() {
@@ -73,10 +144,21 @@ class Community extends React.Component {
     this.setState({posts:posts});
   }
 
-  async filter() {
-    const response = await axios.get(`http://localhost:5000/posts/tag/${this.state.filter}`);
-      const posts = await response.data;
-      this.setState({filteredPosts:posts});
+  async apply() {
+    var posts = [];
+    if (this.state.filter !== "" && this.state.keyword === "") {
+      const response = await axios.get(`http://localhost:5000/posts/tag/${this.state.filter}`);
+      posts = await response.data;
+    } else if (this.state.filter === "" && this.state.keyword !== "") {
+      const response = await axios.get(`http://localhost:5000/posts/title/${this.state.keyword}/description/${this.state.keyword}`);
+      posts = await response.data;
+    } else if (this.state.filter !== "" && this.state.keyword !== "") {
+      const response = await axios.get(`http://localhost:5000/posts/title/${this.state.keyword}/description/${this.state.keyword}/tag/${this.state.filter}`);
+      posts = await response.data;
+    } else {
+      posts = this.state.posts;
+    }
+    this.setState({filteredPosts:posts});
   }
 
   handleFilterInput(e) {
@@ -87,11 +169,33 @@ class Community extends React.Component {
     this.props.history.push("/createPost");
   }
 
+  handleKeywordInput(e) {
+    this.setState({keyword:e.currentTarget.value});
+  }
+
   reset() {
     this.setState({filteredPosts: this.state.posts});
+    this.setState({keyword:""});
+    this.setState({filter:""})
+  }
+
+  showImages(images) {
+    console.log("triggered");
+    this.setState({isShowingImagesFull:!this.state.isShowingImagesFull});
+    this.setState({imagesToShow:images});
   }
 
   render() {
+    if (this.state.isShowingImagesFull) {
+      return (
+        <div>
+        <FullscreenExitOutlined onClick={() => this.showImages(null)} style={styles.screenIcon}/>
+        {this.state.imagesToShow && (
+          <ImageCarousel images={this.state.imagesToShow} height="700"/>
+        )}
+        </div>
+      );
+    }
     return (
       <div>
       { this.props.profile.length === 1 && this.state.isLoggedIn && (
@@ -107,31 +211,32 @@ class Community extends React.Component {
           </Col>
           <Col md={2}>
           </Col>
-          <Col md="auto">
-            <Form style={styles.form} inline>
-             <FormControl as="select"
-              custom
-              id="tag"
-              onChange={this.handleFilterInput}
-              value={this.state.filter}
-              className="mr-sm-2"
-            >
-               <option value="" disabled>Show posts that are</option>
-               <option value="selling">Selling</option>
-               <option value="buying">Buying</option>
-               <option value="sharing">Sharing</option>
-               <option value="others">Others</option>
-              </FormControl>
-             <Button onClick={this.filter} variant="outline-success">Filter</Button>
-             <Button style={styles.icon} onClick={this.reset} variant="outline-success">Reset</Button>
-             { this.state.isLoggedIn && (<Button style={styles.icon} onClick={this.handleNewPost} variant="outline-primary">Make New Post</Button>)}
-            </Form>
+          <Col md="auto" style={{padding:10}}>
+            <>
+            <OverlayTrigger
+            trigger="click"
+            placement="right"
+            overlay={
+              <div style={{width:400}}>
+              <LinkFilterPopover
+              apply={this.apply}
+              handleFilterInput={this.handleFilterInput}
+              handleKeywordInput={this.handleKeywordInput}
+              filter={this.state.filter}
+              keyword={this.state.keyword}/>
+              </div>
+            }>
+              <Button style={styles.form} variant="outline-success">Filters</Button>
+            </OverlayTrigger>
+            </>
+            <Button style={styles.icon} onClick={this.reset} variant="outline-success">Show All</Button>
+            { this.state.isLoggedIn && (<Button style={styles.icon} onClick={this.handleNewPost} variant="outline-primary">Make New Post</Button>)}
           </Col>
         </Row>
         {this.state.filteredPosts && (
           <ListGroup>
           {this.state.filteredPosts.map(post => {
-             return <PostEntry key={post._id} post={post}/>
+             return <PostEntry key={post._id} post={post} showImages={this.showImages}/>
           })}
           </ListGroup>
         )}
@@ -143,7 +248,7 @@ class Community extends React.Component {
 
 const styles = {
   form: {
-    marginTop: 40,
+    marginTop: 20,
     alignSelf: 'right',
     marginBottom: 20
   },
@@ -163,6 +268,9 @@ const styles = {
   },
   container: {
     marginBottom:30
+  },
+  screenIcon: {
+    fontSize: 20
   }
 }
 

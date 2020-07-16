@@ -155,8 +155,6 @@ class PostForm extends React.Component {
       alert('Saved in draft.')
     }
     if (!this.state.isPosted && this.state.isLoggedIn && !this._isCancelled && !this.state.isEditingDraft) {
-      console.log("supposed to save here");
-      console.log(this.props.profile[0].name)
       axios.post('http://localhost:5000/posts/upload', {
         title: this.state.title,
         description: this.state.text,

@@ -15,6 +15,32 @@ router.route('/:id').get((req, res) => {
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
+router.route('/drafts/:id').get((req, res) => {
+  var query = {};
+  query['isPosted'] = false;
+  var query2 = {};
+  query2['googleId'] = req.params.id;
+  Post.find()
+  .and([query, query2])
+  .limit(2000)
+  .sort({date:-1})
+  .then(entries => res.json(entries))
+  .catch(err => res.status(400).json('Error: ' + err));
+});
+
+router.route('/myposts/:id').get((req, res) => {
+  var query = {};
+  query['isPosted'] = true;
+  var query2 = {};
+  query2['googleId'] = req.params.id;
+  Post.find()
+  .and([query, query2])
+  .limit(2000)
+  .sort({date:-1})
+  .then(entries => res.json(entries))
+  .catch(err => res.status(400).json('Error: ' + err));
+});
+
 router.route('/:name/:value').get((req, res) => {
   var query = {};
   query[req.params.name] = req.params.value;
@@ -27,9 +53,26 @@ router.route('/:name/:value').get((req, res) => {
 
 router.route('/:name/:value/:name2/:value2').get((req, res) => {
   var query = {};
-  query[req.params.name] = req.params.value;
-  query[req.params.name2] = req.params.value2;
-  Post.find(query)
+  query[req.params.name] = { $regex: req.params.value, $options: "i" };
+  var query2 = {};
+  query2[req.params.name2] = { $regex: req.params.value2, $options: "i" };
+  Post.find()
+  .or([query, query2])
+  .limit(2000)
+  .sort({date:-1})
+  .then(entries => res.json(entries))
+  .catch(err => res.status(400).json('Error: ' + err));
+});
+
+router.route('/:name/:value/:name2/:value2/:name3/:value3').get((req, res) => {
+  var query = {};
+  query[req.params.name] = { $regex: req.params.value, $options: "i" };
+  var query2 = {};
+  query2[req.params.name2] = { $regex: req.params.value2, $options: "i" };
+  var query3 = {};
+  query3[req.params.name3] = req.params.value3;
+  Post.find()
+  .or([query, query2, query3])
   .limit(2000)
   .sort({date:-1})
   .then(entries => res.json(entries))
@@ -47,7 +90,7 @@ router.post('/upload', (req, res) => {
     googleName: req.body.name,
     social: req.body.social,
     name: req.body.username,
-    time: Date.now()
+    date: Date.now()
   })
 
   post.save()
@@ -65,7 +108,7 @@ router.route('/update/:id').post((req, res) => {
       post.isPosted = req.body.isPosted,
       post.social = req.body.social,
       post.name = req.body.username,
-      post.time = Date.now()
+      post.date = Date.now()
 
       post.save()
         .then(() => res.json('Post updated!'))

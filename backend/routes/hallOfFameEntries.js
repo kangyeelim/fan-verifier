@@ -55,7 +55,7 @@ router.route('/:id').get((req, res) => {
 
 router.route('/:name/:value').get((req, res) => {
   var query = {};
-  query[req.params.name] = req.params.value;
+  query[req.params.name] = { $regex: req.params.value, $options: "i" };
   Entry.find(query)
   .then(entries => res.json(entries))
   .catch(err => res.status(400).json('Error: ' + err));
