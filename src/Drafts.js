@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import NavBar from './component/NavBar';
 import { Redirect } from 'react-router-dom';
 import { PostEntry, ImageCarousel } from './Community';
@@ -120,8 +120,18 @@ class Drafts extends React.Component {
     }
     if (this.state.isShowingImagesFull) {
       return (
-        <div>
-        <FullscreenExitOutlined onClick={() => this.showImages(null)} style={styles.screenIcon}/>
+        <div style={{display:"flex", flexDirection:"column"}}>
+        <div style={{marginBottom:-40, zIndex:"50"}}>
+        <OverlayTrigger
+        placement="bottom"
+        overlay={
+          <Tooltip>
+            Exit fullscreen
+          </Tooltip>
+        }>
+          <FullscreenExitOutlined onClick={() => this.showImages(null)} style={styles.screenIcon}/>
+        </OverlayTrigger>
+        </div>
         {this.state.imagesToShow && (
           <ImageCarousel images={this.state.imagesToShow} height="700"/>
         )}

@@ -37,46 +37,26 @@ export function FilterPopover(props) {
   );
 }
 
-/*  <Form style={styles.form} inline>
-   <FormControl
-    as="select"
-    custom
-    id="tag"
-    onChange={props.handleFilterInput}
-    value={props.filter}
-    className="mr-sm-2"
-    >
-      <option value="" disabled>Show posts that are</option>
-      <option value="selling">Selling</option>
-      <option value="buying">Buying</option>
-      <option value="sharing">Sharing</option>
-      <option value="others">Others</option>
-    </FormControl>
-    <FormControl value={props.keyword} onChange={props.handleKeywordInput} type="text" placeholder="Keyword(s)" className="mr-sm-2" />
-    <Button onClick={props.filter} variant="outline-success">Apply</Button>
-  </Form>*/
 export function ImageCarousel(props) {
-    return (
-      <Carousel style={styles.carousel}>
-        {props.images.map(image => {
-          return (
-            <Carousel.Item key={image.public_id} style={{backgroundColor:'grey'}}>
-            <img
-              key={image.public_id}
-              className="d-block w-100"
-              src={image.secure_url}
-              alt="Image"
-              height={props.height}
-              style={{width:"undefined", maxHeight: '100%', objectFit: "contain"}}
-            />
+  return (
+    <Carousel style={styles.carousel}>
+      {props.images.map(image => {
+        return (
+          <Carousel.Item key={image.public_id} style={{backgroundColor:'grey'}}>
+          <img
+            key={image.public_id}
+            className="d-block w-100"
+            src={image.secure_url}
+            alt="Image"
+            height={props.height}
+            style={{width:"undefined", maxHeight: '100%', objectFit: "contain"}}
+          />
           </Carousel.Item>);
-        })}
-      </Carousel>
-    );
+      })}
+    </Carousel>
+  );
 }
-/*&& props.post.images.map(image => {
-  return <Image src={image.secure_url} alt="Image" style={{maxWidth: 400}}/>
-})*/
+
 export function PostEntry(props) {
     return (
       <ListGroup.Item>
@@ -90,7 +70,8 @@ export function PostEntry(props) {
           </div>
         )}
         { props.post.images && (
-          <div>
+          <div style={{display:"flex", flexDirection:"column"}}>
+            <div style={{marginBottom:-30, zIndex:"50"}}>
             <OverlayTrigger
             placement="top"
             overlay={
@@ -101,8 +82,9 @@ export function PostEntry(props) {
 
               <FullscreenOutlined onClick={()=> props.showImages(props.post.images)} style={styles.screenIcon}/>
 
-      
+
             </OverlayTrigger>
+            </div>
             <ImageCarousel images={props.post.images} height="400"/>
           </div>
         )}
@@ -180,7 +162,6 @@ class Community extends React.Component {
   }
 
   showImages(images) {
-    console.log("triggered");
     this.setState({isShowingImagesFull:!this.state.isShowingImagesFull});
     this.setState({imagesToShow:images});
   }
@@ -188,8 +169,18 @@ class Community extends React.Component {
   render() {
     if (this.state.isShowingImagesFull) {
       return (
-        <div>
-        <FullscreenExitOutlined onClick={() => this.showImages(null)} style={styles.screenIcon}/>
+        <div style={{display:"flex", flexDirection:"column"}}>
+        <div style={{marginBottom:-40, zIndex:"50"}}>
+        <OverlayTrigger
+        placement="bottom"
+        overlay={
+          <Tooltip>
+            Exit fullscreen
+          </Tooltip>
+        }>
+          <FullscreenExitOutlined onClick={() => this.showImages(null)} style={styles.screenIcon}/>
+        </OverlayTrigger>
+        </div>
         {this.state.imagesToShow && (
           <ImageCarousel images={this.state.imagesToShow} height="700"/>
         )}
@@ -229,7 +220,7 @@ class Community extends React.Component {
               <Button style={styles.form} variant="outline-success">Filters</Button>
             </OverlayTrigger>
             </>
-            <Button style={styles.icon} onClick={this.reset} variant="outline-success">Show All</Button>
+            <Button style={styles.icon} onClick={this.reset} variant="outline-success">Clear Filters</Button>
             { this.state.isLoggedIn && (<Button style={styles.icon} onClick={this.handleNewPost} variant="outline-primary">Make New Post</Button>)}
           </Col>
         </Row>
@@ -270,7 +261,10 @@ const styles = {
     marginBottom:30
   },
   screenIcon: {
-    fontSize: 20
+    fontSize: 20,
+    marginTop: 20,
+    alignSelf: 'right',
+    color: 'white'
   }
 }
 

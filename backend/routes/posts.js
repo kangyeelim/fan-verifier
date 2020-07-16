@@ -3,8 +3,19 @@ let Post = require('../models/post.model');
 
 router.route('/').get((req, res) => {
   Post.find()
-    .limit(2000)
     .sort({date: -1})
+    .limit(2000)
+    .then(entries => res.json(entries))
+    .catch(err => res.status(400).json('Error: ' + err));
+});
+
+router.route('/page/:skip/:next').get((req, res) => {
+  const entries_skip = req.params.skip;
+  const entries_next = req.params.next;
+  Post.find()
+    .sort({date: -1})
+    .skip(entries_skip)
+    .limit(entries_next)
     .then(entries => res.json(entries))
     .catch(err => res.status(400).json('Error: ' + err));
 });
@@ -22,8 +33,8 @@ router.route('/drafts/:id').get((req, res) => {
   query2['googleId'] = req.params.id;
   Post.find()
   .and([query, query2])
-  .limit(2000)
   .sort({date:-1})
+  .limit(2000)
   .then(entries => res.json(entries))
   .catch(err => res.status(400).json('Error: ' + err));
 });
@@ -35,8 +46,8 @@ router.route('/myposts/:id').get((req, res) => {
   query2['googleId'] = req.params.id;
   Post.find()
   .and([query, query2])
-  .limit(2000)
   .sort({date:-1})
+  .limit(2000)
   .then(entries => res.json(entries))
   .catch(err => res.status(400).json('Error: ' + err));
 });
@@ -45,8 +56,8 @@ router.route('/:name/:value').get((req, res) => {
   var query = {};
   query[req.params.name] = req.params.value;
   Post.find(query)
-  .limit(2000)
   .sort({date:-1})
+  .limit(2000)
   .then(entries => res.json(entries))
   .catch(err => res.status(400).json('Error: ' + err));
 });
@@ -58,8 +69,8 @@ router.route('/:name/:value/:name2/:value2').get((req, res) => {
   query2[req.params.name2] = { $regex: req.params.value2, $options: "i" };
   Post.find()
   .or([query, query2])
-  .limit(2000)
   .sort({date:-1})
+  .limit(2000)
   .then(entries => res.json(entries))
   .catch(err => res.status(400).json('Error: ' + err));
 });
@@ -73,8 +84,8 @@ router.route('/:name/:value/:name2/:value2/:name3/:value3').get((req, res) => {
   query3[req.params.name3] = req.params.value3;
   Post.find()
   .or([query, query2, query3])
-  .limit(2000)
   .sort({date:-1})
+  .limit(2000)
   .then(entries => res.json(entries))
   .catch(err => res.status(400).json('Error: ' + err));
 });

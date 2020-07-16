@@ -163,11 +163,10 @@ class Music extends React.Component {
         <Row>
         <Col fluid md={8}>
         <h3>BTS Top 100 tracks</h3>
-        <iframe
-          scrolling="no"
+        <iframe scrolling="no"
           frameborder="0"
           allowTransparency="true"
-          src="https://www.deezer.com/plugins/player?format=classic&autoplay=false&playlist=true&width=700&height=350&color=007FEB&layout=dark&size=medium&type=playlist&id=7871175002&app_id=1"
+          src="https://www.deezer.com/plugins/player?format=classic&autoplay=false&playlist=true&width=600&height=350&color=007FEB&layout=dark&size=medium&type=playlist&id=7871175002&app_id=1"
           width="600"
           height="350">
         </iframe>
