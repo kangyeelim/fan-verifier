@@ -78,7 +78,6 @@ class Posts extends React.Component {
     }
     try {
       var response = await axios.get(`http://localhost:5000/posts/myposts/${this.props.profile[0].googleId}`);
-      console.log(response.data);
       this.setState({posts: response.data })
     } catch (error) {
       console.error(error);

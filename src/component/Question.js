@@ -31,7 +31,6 @@ class Question extends React.Component {
     }
     if (counter < 0) {
       clearInterval(this.timer);
-      console.log("stopped");
     }
   }
 

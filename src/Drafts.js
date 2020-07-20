@@ -41,9 +41,6 @@ class Entry extends React.Component {
   }
 
   editPost() {
-    console.log(this.props.post);
-    /*this.props.setEntryInfo(this.props.entry._id, this.props.entry.name, this.props.entry.social)
-    this.props.isEditing();*/
     this.props.history.push({
       pathname:"/createPost",
       state: {post:this.props.post}

@@ -63,7 +63,7 @@ class Auth {
       .catch((error) => {
         console.log(error);
       });
-    axios.post(`http://localhost:5000/favourites/add/`, {
+    axios.post(`http://localhost:5000/favourites/add/${response.googleId}`, {
       name:response.profileObj.name,
       googleId: response.googleId
     })

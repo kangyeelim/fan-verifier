@@ -28,7 +28,6 @@ class InputForm extends React.Component {
 
   handleSocialMediaInput(e) {
     var social = e.target.value;
-    console.log(social);
     this.setState({social:social});
   }
 
@@ -39,7 +38,7 @@ class InputForm extends React.Component {
 
   onSubmit() {
     if (this.state.social == "" || this.state.username == "") {
-      console.log("Did not fill in social media or username");
+      alert("Did not fill in social media or username");
     }
 
     if (this.props.isEdit) {
@@ -53,7 +52,7 @@ class InputForm extends React.Component {
           this.props.refreshPage();
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
         });
     } else {
       axios.post('http://localhost:5000/hallOfFameEntries/add', {
@@ -65,7 +64,7 @@ class InputForm extends React.Component {
           console.log("Added HOF entry into database");
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
         });
       this.props.history.push("/hallOfFame");
     }

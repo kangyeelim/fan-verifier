@@ -48,7 +48,6 @@ class Entry extends React.Component {
   }
 
   editEntry() {
-    console.log(this.props.entry._id);
     this.props.setEntryInfo(this.props.entry._id, this.props.entry.name, this.props.entry.social)
     this.props.isEditing();
   }

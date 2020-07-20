@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookSquare, faInstagramSquare, faTwitterSquare } from '@fortawesome/free-brands-svg-icons'
 import { connect } from 'react-redux';
 import auth from './services/auth';
-import { Entry } from './component/SocialMediaEntry'; 
+import { Entry } from './component/SocialMediaEntry';
 
 class HallOfFame extends React.Component {
 
@@ -33,7 +33,7 @@ class HallOfFame extends React.Component {
         this.setState({ filteredEntries: response.data});
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       })
   }
 

@@ -52,7 +52,7 @@ class Quiz extends React.Component {
         this.setState({ questions: response.data })
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
     this.timer = setInterval(this.decrementCount, 100);
     this.setState({isLoading: false});

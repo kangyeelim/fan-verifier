@@ -161,27 +161,30 @@ class Music extends React.Component {
         <div>
         <h1 className="my-4">Discover BTS Music</h1>
         <Row>
-        <Col fluid md={8}>
+        <Col md={8}>
         <h3>BTS Top 100 tracks</h3>
+        <p>Make sure you are signed in to Deezer to enjoy this.</p>
         <iframe scrolling="no"
-          frameborder="0"
-          allowTransparency="true"
+          frameBorder="0"
+          allowtransparency="true"
           src="https://www.deezer.com/plugins/player?format=classic&autoplay=false&playlist=true&width=600&height=350&color=007FEB&layout=dark&size=medium&type=playlist&id=7871175002&app_id=1"
           width="600"
           height="350">
         </iframe>
         <h3 style={styles.title}>Top Picks from BTS</h3>
+        <p>Make sure you are signed in to Deezer to enjoy this.</p>
         <iframe scrolling="no"
-         frameborder="0"
-         allowTransparency="true"
+         frameBorder="0"
+         allowtransparency="true"
          src="https://www.deezer.com/plugins/player?format=classic&autoplay=false&playlist=true&width=700&height=350&color=007FEB&layout=dark&size=medium&type=playlist&id=4884313904&app_id=1"
          width="600"
          height="350">
         </iframe>
         <h3 style={styles.title}>Latest Album</h3>
+        <p>Make sure you are signed in to Deezer to enjoy this.</p>
         <iframe scrolling="no"
-         frameborder="0"
-         allowTransparency="true"
+         frameBorder="0"
+         allowtransparency="true"
          src="https://www.deezer.com/plugins/player?format=classic&autoplay=false&playlist=true&width=700&height=350&color=007FEB&layout=dark&size=medium&type=album&id=131916932&app_id=1"
          width="600"
          height="350">
