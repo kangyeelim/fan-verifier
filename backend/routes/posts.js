@@ -119,7 +119,8 @@ router.route('/update/:id').post((req, res) => {
       post.isPosted = req.body.isPosted,
       post.social = req.body.social,
       post.name = req.body.username,
-      post.date = Date.now()
+      post.favouritedBy = req.body.favouritedBy
+      post.date = req.body.date
 
       post.save()
         .then(() => res.json('Post updated!'))

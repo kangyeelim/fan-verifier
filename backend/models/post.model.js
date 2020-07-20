@@ -12,6 +12,7 @@ const postSchema = new Schema({
   googleName: {type: String, required: true},
   social: {type: String, required: false},
   name: {type: String, required: false},
+  favouritedBy: {type: Array, default: []},
   date: {type: Date, required: false}
 }, {
   timestamp: true,

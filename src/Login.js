@@ -69,7 +69,7 @@ class Login extends React.Component {
         <AlertDimissible/>
       )}
         <Card className="bg-dark text-white" style={styles.card}>
-          <Card.Img fluid src={require("./img/bts-festa.jpg")} alt="BTS image"/>
+          <Card.Img fluid="true" src={require("./img/bts-festa.jpg")} alt="BTS image"/>
           <Card.ImgOverlay>
             <Card.Title as="h3" style={styles.header}>
               Would you like to be in our Hall of Fame?

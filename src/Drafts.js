@@ -2,7 +2,7 @@ import React from 'react';
 import { Container, Row, Col, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import NavBar from './component/NavBar';
 import { Redirect } from 'react-router-dom';
-import { PostEntry, ImageCarousel } from './Community';
+import { PostEntry, ImageCarousel } from './component/Post';
 import auth from './services/auth';
 import axios from 'axios';
 import { connect } from 'react-redux';

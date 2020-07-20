@@ -1,13 +1,13 @@
 import React from 'react';
 import { Container, ListGroup, Row, Col, Form, FormControl,
-  Button, Image, Carousel, Badge, Popover, OverlayTrigger, Tooltip } from 'react-bootstrap';
+  Button, Image, Badge, Popover, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import NavBar from './component/NavBar';
 import LoginNavBar from './component/LoginNavBar';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import auth from './services/auth';
-import { FormOutlined, FullscreenOutlined, FullscreenExitOutlined } from '@ant-design/icons';
-import { Entry } from './component/SocialMediaEntry';
+import { FormOutlined, FullscreenExitOutlined } from '@ant-design/icons';
+import { PostEntry, ImageCarousel, PostBottomBar } from './component/Post';
 
 export function FilterPopover(props) {
   return (
@@ -37,62 +37,6 @@ export function FilterPopover(props) {
   );
 }
 
-export function ImageCarousel(props) {
-  return (
-    <Carousel style={styles.carousel}>
-      {props.images.map(image => {
-        return (
-          <Carousel.Item key={image.public_id} style={{backgroundColor:'grey'}}>
-          <img
-            key={image.public_id}
-            className="d-block w-100"
-            src={image.secure_url}
-            alt="Image"
-            height={props.height}
-            style={{width:"undefined", maxHeight: '100%', objectFit: "contain"}}
-          />
-          </Carousel.Item>);
-      })}
-    </Carousel>
-  );
-}
-
-export function PostEntry(props) {
-    return (
-      <ListGroup.Item>
-        <p>User {props.post.googleName} posted:</p>
-        <h5>{props.post.title} <Badge variant="secondary">{props.post.tag}</Badge></h5>
-        <h6>{props.post.description}</h6>
-        { props.post.social !== "" && (
-          <div style={{marginTop: 20}}>
-          <p>DM me via</p>
-          <Entry entry={props.post}/>
-          </div>
-        )}
-        { props.post.images && (
-          <div style={{display:"flex", flexDirection:"column"}}>
-            <div style={{marginBottom:-30, zIndex:"50"}}>
-            <OverlayTrigger
-            placement="top"
-            overlay={
-              <Tooltip>
-                Show in fullscreen
-              </Tooltip>
-            }>
-
-              <FullscreenOutlined onClick={()=> props.showImages(props.post.images)} style={styles.screenIcon}/>
-
-
-            </OverlayTrigger>
-            </div>
-            <ImageCarousel images={props.post.images} height="400"/>
-          </div>
-        )}
-        <p>posted on: {Date(props.post.date)}</p>
-      </ListGroup.Item>
-    );
-}
-
 const LinkFilterPopover = React.forwardRef((props, ref) => <FilterPopover innerRef={ref} {...props} />);
 
 class Community extends React.Component {
@@ -114,6 +58,8 @@ class Community extends React.Component {
     this.handleKeywordInput = this.handleKeywordInput.bind(this);
     this.reset = this.reset.bind(this);
     this.showImages = this.showImages.bind(this);
+    this.favouritePost = this.favouritePost.bind(this);
+    this.unfavouritePost = this.unfavouritePost.bind(this);
   }
 
   async componentDidMount() {
@@ -164,6 +110,80 @@ class Community extends React.Component {
   showImages(images) {
     this.setState({isShowingImagesFull:!this.state.isShowingImagesFull});
     this.setState({imagesToShow:images});
+  }
+
+  async favouritePost(postId) {
+    var response = await axios.get(`http://localhost:5000/posts/${postId}`);
+    var post = await response.data;
+    var favouritedBy = await post.favouritedBy;
+    favouritedBy.push(this.props.profile[0].googleId);
+    try {
+      await axios.post(`http://localhost:5000/posts/update/${postId}`, {
+        title:post.title,
+        description:post.description,
+        tag:post.tag,
+        images:post.images,
+        isPosted:post.isPosted,
+        social:post.social,
+        name:post.name,
+        favouritedBy:favouritedBy,
+        date:post.date,
+      });
+    } catch (err) {
+      console.error(err);
+    }
+    var response = await axios.get(`http://localhost:5000/favourites/myfavourites/${this.props.profile[0].googleId}`);
+    var favouritePostIds = await response.data.postIds;
+    console.log(this.props.profile[0].googleId)
+    console.log(await favouritePostIds);
+    await favouritePostIds.push(postId);
+    try {
+      await axios.post(`http://localhost:5000/favourites/updateBy/googleId/${this.props.profile[0].googleId}`, {
+        name:this.props.profile[0].name,
+        postIds:favouritePostIds,
+        googleId:this.props.profile[0].googleId,
+      });
+    } catch (err) {
+      console.error(err);
+    }
+    this.apply();
+  }
+
+  async unfavouritePost(postId) {
+    var response = await axios.get(`http://localhost:5000/posts/${postId}`);
+    var post = await response.data;
+    var favouritedBy = await post.favouritedBy;
+    var newIds = await favouritedBy.filter(id => {return this.props.profile[0].googleId !== id});
+    try {
+      await axios.post(`http://localhost:5000/posts/update/${postId}`, {
+        title:post.title,
+        description:post.description,
+        tag:post.tag,
+        images:post.images,
+        isPosted:post.isPosted,
+        social:post.social,
+        name:post.name,
+        favouritedBy:newIds,
+        date:post.date,
+      });
+    } catch (err) {
+      console.error(err);
+    }
+    var response = await axios.get(`http://localhost:5000/favourites/myfavourites/${this.props.profile[0].googleId}`);
+    var favouritePostIds = await response.data.postIds;
+    console.log(this.props.profile[0].googleId)
+    console.log(await favouritePostIds);
+    var newPostIds = await favouritePostIds.filter(id => { return id !== postId});
+    try {
+      await axios.post(`http://localhost:5000/favourites/updateBy/googleId/${this.props.profile[0].googleId}`, {
+        name:this.props.profile[0].name,
+        postIds:newPostIds,
+        googleId:this.props.profile[0].googleId,
+      });
+    } catch (err) {
+      console.error(err);
+    }
+    this.apply();
   }
 
   render() {
@@ -227,7 +247,19 @@ class Community extends React.Component {
         {this.state.filteredPosts && (
           <ListGroup>
           {this.state.filteredPosts.map(post => {
-             return <PostEntry key={post._id} post={post} showImages={this.showImages}/>
+            var mygoogleId = this.props.profile[0].googleId;
+            var googleIds = post.favouritedBy;
+            var isLiked = false;
+            if (googleIds.includes(mygoogleId)) {
+              isLiked = true;
+            }
+            return (
+              <div key={post._id} style={{backgroundColor:'white'}}>
+                <PostEntry post={post} showImages={this.showImages}/>
+                <PostBottomBar post={post} favouritesNum={post.favouritedBy.length} isLiked={isLiked}
+                favouritePost={this.favouritePost} unfavouritePost={this.unfavouritePost} isLoggedIn={this.state.isLoggedIn}/>
+              </div>
+            )
           })}
           </ListGroup>
         )}
@@ -252,10 +284,6 @@ const styles = {
   },
   icon: {
     marginLeft: 30
-  },
-  carousel: {
-    marginBottom: 10,
-    marginTop: 10
   },
   container: {
     marginBottom:30

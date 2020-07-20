@@ -63,6 +63,16 @@ class Auth {
       .catch((error) => {
         console.log(error);
       });
+    axios.post(`http://localhost:5000/favourites/add/`, {
+      name:response.profileObj.name,
+      googleId: response.googleId
+    })
+      .then(res => {
+        console.log("Added/Updated favourites data into database");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   login(response) {

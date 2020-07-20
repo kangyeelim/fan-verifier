@@ -86,6 +86,7 @@ class PostForm extends React.Component {
   }
 
   updateOrPostDraft(isPosted) {
+    console.log("posted");
     axios.post(`http://localhost:5000/posts/update/${this.props.location.state.post._id}`, {
       title: this.state.title,
       description: this.state.text,
@@ -93,7 +94,9 @@ class PostForm extends React.Component {
       images: this.state.images,
       isPosted: isPosted,
       social: this.state.social,
-      username: this.state.username
+      username: this.state.username,
+      favouritedBy: [],
+      date: Date.now()
     })
       .then(res => {
         this.setState({isPosted: isPosted});
@@ -108,10 +111,11 @@ class PostForm extends React.Component {
     if (!this.suppliedAllInputs()) {
       alert("Please make sure the title, description, tag is inputted");
     }
-    if (this.suppliedAllInputs() && this.isEditingDraft) {
+    if (this.suppliedAllInputs() && this.state.isEditingDraft) {
+      console.log("correct");
       this.updateOrPostDraft(true);
     }
-    if (this.suppliedAllInputs() && !this.isEditingDraft) {
+    if (this.suppliedAllInputs() && !this.state.isEditingDraft) {
       axios.post('http://localhost:5000/posts/upload', {
         title: this.state.title,
         description: this.state.text,
@@ -151,10 +155,14 @@ class PostForm extends React.Component {
 
   componentWillUnmount() {
     if (!this.state.isPosted && this.state.isLoggedIn && !this._isCancelled && this.state.isEditingDraft) {
+      console.log("dont");
       this.updateOrPostDraft(false);
       alert('Saved in draft.')
     }
     if (!this.state.isPosted && this.state.isLoggedIn && !this._isCancelled && !this.state.isEditingDraft) {
+      console.log(this.state.isEditingDraft);
+      console.log("dont");
+
       axios.post('http://localhost:5000/posts/upload', {
         title: this.state.title,
         description: this.state.text,
