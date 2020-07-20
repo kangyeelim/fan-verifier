@@ -67,7 +67,6 @@ router.route('/update/:id').post((req, res) => {
   Favourite.findById(req.params.id)
     .then(favourite => {
       favourite.postIds = req.body.postsIds,
-      favourite.date = Date.now()
 
       favourite.save()
         .then(() => res.json('Favourites updated!'))
@@ -84,9 +83,8 @@ router.route('/updateBy/:name/:value').post((req, res) => {
       favourite.googleId = req.body.googleId;
       favourite.postIds = req.body.postIds;
       favourite.name = req.body.name;
-      favourite.date = Date.now();
 
-      entry.save()
+      favourite.save()
         .then(() => res.json('Favourites updated!'))
         .catch(err => res.status(400).json('Error: ' + err));
     })

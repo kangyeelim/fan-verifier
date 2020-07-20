@@ -30,7 +30,7 @@ export function FilterPopover(props) {
           <option value="others">Others</option>
         </FormControl>
         <FormControl onChange={props.handleKeywordInput} value={props.keyword} type="text" placeholder="Keyword(s)" className="mr-sm-2" style={{marginBottom:20}}/>
-        <Button onClick={props.apply} variant="outline-success">Apply</Button>
+        <Button onClick={() => props.apply(false)} variant="outline-success">Apply</Button>
       </Form>
       </Popover.Content>
     </Popover>
@@ -72,7 +72,7 @@ class Community extends React.Component {
     this.setState({posts:posts});
   }
 
-  async apply() {
+  async apply(isApplyDueToFavouriteAction) {
     var posts = [];
     if (this.state.filter !== "" && this.state.keyword === "") {
       const response = await axios.get(`http://localhost:5000/posts/tag/${this.state.filter}`);
@@ -82,6 +82,9 @@ class Community extends React.Component {
       posts = await response.data;
     } else if (this.state.filter !== "" && this.state.keyword !== "") {
       const response = await axios.get(`http://localhost:5000/posts/title/${this.state.keyword}/description/${this.state.keyword}/tag/${this.state.filter}`);
+      posts = await response.data;
+    } else if (isApplyDueToFavouriteAction) {
+      const response = await axios.get('http://localhost:5000/posts/isPosted/true');
       posts = await response.data;
     } else {
       posts = this.state.posts;
@@ -113,8 +116,8 @@ class Community extends React.Component {
   }
 
   async favouritePost(postId) {
-    var response = await axios.get(`http://localhost:5000/posts/${postId}`);
-    var post = await response.data;
+    const response = await axios.get(`http://localhost:5000/posts/${postId}`);
+    const post = await response.data;
     var favouritedBy = await post.favouritedBy;
     favouritedBy.push(this.props.profile[0].googleId);
     try {
@@ -132,10 +135,8 @@ class Community extends React.Component {
     } catch (err) {
       console.error(err);
     }
-    var response = await axios.get(`http://localhost:5000/favourites/myfavourites/${this.props.profile[0].googleId}`);
-    var favouritePostIds = await response.data.postIds;
-    console.log(this.props.profile[0].googleId)
-    console.log(await favouritePostIds);
+    const response2 = await axios.get(`http://localhost:5000/favourites/myfavourites/${this.props.profile[0].googleId}`);
+    var favouritePostIds = await response2.data[0].postIds;
     await favouritePostIds.push(postId);
     try {
       await axios.post(`http://localhost:5000/favourites/updateBy/googleId/${this.props.profile[0].googleId}`, {
@@ -146,12 +147,12 @@ class Community extends React.Component {
     } catch (err) {
       console.error(err);
     }
-    this.apply();
+    await this.apply(true);
   }
 
   async unfavouritePost(postId) {
-    var response = await axios.get(`http://localhost:5000/posts/${postId}`);
-    var post = await response.data;
+    const response = await axios.get(`http://localhost:5000/posts/${postId}`);
+    const post = await response.data;
     var favouritedBy = await post.favouritedBy;
     var newIds = await favouritedBy.filter(id => {return this.props.profile[0].googleId !== id});
     try {
@@ -169,10 +170,8 @@ class Community extends React.Component {
     } catch (err) {
       console.error(err);
     }
-    var response = await axios.get(`http://localhost:5000/favourites/myfavourites/${this.props.profile[0].googleId}`);
-    var favouritePostIds = await response.data.postIds;
-    console.log(this.props.profile[0].googleId)
-    console.log(await favouritePostIds);
+    const response2 = await axios.get(`http://localhost:5000/favourites/myfavourites/${this.props.profile[0].googleId}`);
+    var favouritePostIds = await response2.data[0].postIds;
     var newPostIds = await favouritePostIds.filter(id => { return id !== postId});
     try {
       await axios.post(`http://localhost:5000/favourites/updateBy/googleId/${this.props.profile[0].googleId}`, {
@@ -183,7 +182,7 @@ class Community extends React.Component {
     } catch (err) {
       console.error(err);
     }
-    this.apply();
+    await this.apply(true);
   }
 
   render() {
