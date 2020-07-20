@@ -120,7 +120,17 @@ Table "posts"
 | social |      String      |  null |					null			   |
 | name| String           | null |					null			   |
 | googleId| String           | not null |					null			   |
-| date| Date           | null |					null			   |
+| favouritedBy | Array           | null |					[]			   |
+| postedAt| Date           | null |					Date.now			   |
 | timestamp  |           | not null |								   |
 
 (images store an Array of image data that is returned when uploaded to Cloudinary.)
+
+Table "userFavourites"
+|Column |       Type         | Nullable |              Default              |
+|------|------------------|----------|-------------------------------------------|
+| _id    |                    | not null |  |
+| name  | String          | not null |				null				   |
+| googleId| String           | not null |					null			   |
+| postIds |      Array      | null |					[]			   |
+| timestamp  |           | not null |								   |
