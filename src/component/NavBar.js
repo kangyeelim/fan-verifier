@@ -18,6 +18,7 @@ class NavBar extends React.Component {
     this.goContact = this.goContact.bind(this);
     this.goPosts = this.goPosts.bind(this);
     this.goDrafts = this.goDrafts.bind(this);
+    this.goFavourites = this.goFavourites.bind(this);
   }
 
   handleLogout(){
@@ -58,6 +59,10 @@ class NavBar extends React.Component {
     this.props.history.push("/contact");
   }
 
+  goFavourites() {
+    this.props.history.push("/favourites");
+  }
+
   render() {
     return (
       <Navbar style={styles.navbar} expand="lg" className="shadow">
@@ -86,7 +91,8 @@ class NavBar extends React.Component {
                   }>
               <NavDropdown.Item onClick={this.goAccount}>Account</NavDropdown.Item>
               <NavDropdown.Item onClick={this.goPosts}>My Posts</NavDropdown.Item>
-              <NavDropdown.Item onClick={this.goDrafts}>Drafts</NavDropdown.Item>
+              <NavDropdown.Item onClick={this.goDrafts}>My Drafts</NavDropdown.Item>
+              <NavDropdown.Item onClick={this.goFavourites}>My Favourites</NavDropdown.Item>
               <NavDropdown.Item onClick={this.goContact}>Contact</NavDropdown.Item>
               <NavDropdown.Divider />
               <NavDropdown.Item onClick={this.handleLogout}>Logout</NavDropdown.Item>

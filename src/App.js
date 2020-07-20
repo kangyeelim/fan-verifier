@@ -11,6 +11,7 @@ import Community from './Community';
 import PostForm from './PostForm';
 import Posts from './Posts';
 import Drafts from './Drafts';
+import Favourites from './Favourites';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 class App extends React.Component {
@@ -29,6 +30,7 @@ class App extends React.Component {
           <Route exact path="/createPost" component={PostForm}/>
           <Route exact path="/drafts" component={Drafts}/>
           <Route exact path="/myposts" component={Posts}/>
+          <Route exact path="/favourites" component={Favourites}/>
         </Switch>
       </Router>
     );

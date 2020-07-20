@@ -120,6 +120,7 @@ class Community extends React.Component {
     const post = await response.data;
     var favouritedBy = await post.favouritedBy;
     favouritedBy.push(this.props.profile[0].googleId);
+
     try {
       await axios.post(`http://localhost:5000/posts/update/${postId}`, {
         title:post.title,
@@ -130,7 +131,7 @@ class Community extends React.Component {
         social:post.social,
         name:post.name,
         favouritedBy:favouritedBy,
-        date:post.date,
+        date:post.postedAt,
       });
     } catch (err) {
       console.error(err);
@@ -155,6 +156,7 @@ class Community extends React.Component {
     const post = await response.data;
     var favouritedBy = await post.favouritedBy;
     var newIds = await favouritedBy.filter(id => {return this.props.profile[0].googleId !== id});
+
     try {
       await axios.post(`http://localhost:5000/posts/update/${postId}`, {
         title:post.title,
@@ -165,7 +167,7 @@ class Community extends React.Component {
         social:post.social,
         name:post.name,
         favouritedBy:newIds,
-        date:post.date,
+        date:post.postedAt,
       });
     } catch (err) {
       console.error(err);

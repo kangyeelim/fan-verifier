@@ -58,7 +58,7 @@ export function PostEntry(props) {
             <ImageCarousel images={props.post.images} height="400"/>
           </div>
         )}
-        <p>posted on: {Date(props.post.date)}</p>
+        <p>posted on: {new Date(props.post.postedAt).toLocaleDateString()} {new Date(props.post.postedAt).toLocaleTimeString()}</p>
       </ListGroup.Item>
     );
 }

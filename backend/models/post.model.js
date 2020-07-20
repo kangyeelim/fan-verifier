@@ -13,7 +13,7 @@ const postSchema = new Schema({
   social: {type: String, required: false},
   name: {type: String, required: false},
   favouritedBy: {type: Array, default: []},
-  date: {type: Date, required: false}
+  postedAt: {type: Date, default: Date.now}
 }, {
   timestamp: true,
 });

@@ -42,7 +42,6 @@ class PostForm extends React.Component {
     }
     if (this.props.location.state != undefined) {
       const post = this.props.location.state.post;
-      console.log(post.images);
       this.setState({
         title:post.title,
         text:post.description,
@@ -86,7 +85,6 @@ class PostForm extends React.Component {
   }
 
   updateOrPostDraft(isPosted) {
-    console.log("posted");
     axios.post(`http://localhost:5000/posts/update/${this.props.location.state.post._id}`, {
       title: this.state.title,
       description: this.state.text,
@@ -103,7 +101,7 @@ class PostForm extends React.Component {
         this.props.history.push("/community");
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   }
 
@@ -112,7 +110,6 @@ class PostForm extends React.Component {
       alert("Please make sure the title, description, tag is inputted");
     }
     if (this.suppliedAllInputs() && this.state.isEditingDraft) {
-      console.log("correct");
       this.updateOrPostDraft(true);
     }
     if (this.suppliedAllInputs() && !this.state.isEditingDraft) {
@@ -133,7 +130,7 @@ class PostForm extends React.Component {
         this.props.history.push("/community");
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
     }
   }
@@ -155,13 +152,10 @@ class PostForm extends React.Component {
 
   componentWillUnmount() {
     if (!this.state.isPosted && this.state.isLoggedIn && !this._isCancelled && this.state.isEditingDraft) {
-      console.log("dont");
       this.updateOrPostDraft(false);
       alert('Saved in draft.')
     }
     if (!this.state.isPosted && this.state.isLoggedIn && !this._isCancelled && !this.state.isEditingDraft) {
-      console.log(this.state.isEditingDraft);
-      console.log("dont");
 
       axios.post('http://localhost:5000/posts/upload', {
         title: this.state.title,
@@ -179,7 +173,7 @@ class PostForm extends React.Component {
         alert('Saved in draft.');
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
     }
   }
