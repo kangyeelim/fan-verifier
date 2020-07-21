@@ -90,8 +90,7 @@ router.route('/:name/:value/:name2/:value2/:name3/:value3').get((req, res) => {
   .catch(err => res.status(400).json('Error: ' + err));
 });
 
-router.post('/upload', (req, res) => {
-  console.log("somehow triggered");
+router.route('/upload').post((req, res) => {
   const post = new Post({
     title: req.body.title,
     description: req.body.description,
@@ -105,9 +104,9 @@ router.post('/upload', (req, res) => {
   })
 
   post.save()
-    .then(() => res.json('Post added!'))
+    .then(() => res.send(post._id))
     .catch(err => res.status(400).json('Error: ' + err));
-})
+});
 
 router.route('/update/:id').post((req, res) => {
   Post.findById(req.params.id)

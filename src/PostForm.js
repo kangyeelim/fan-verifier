@@ -125,6 +125,11 @@ class PostForm extends React.Component {
         username: this.state.username
       })
       .then(res => {
+        const postId = res.data;
+        axios.post(`http://localhost:5000/offensiveLanguageChecks/check/${postId}`, {
+          title:this.state.title,
+          description: this.state.text
+        })
         this.setState({isPosted: true});
         console.log("Posted!");
         this.props.history.push("/community");
