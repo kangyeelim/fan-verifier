@@ -1,5 +1,6 @@
 const router = require('express').Router();
 let Post = require('../models/post.model');
+let Favourite = require('../models/UserFavourite.model');
 var natural = require('natural');
 var sentenceTokenizer = new natural.SentenceTokenizer();
 const toxicity = require('@tensorflow-models/toxicity');
