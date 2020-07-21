@@ -1,14 +1,16 @@
 # fan-verifier web app
-fan-verifier is a web application that allows you to verify yourself and others as true fans of an artist with other features to enjoy.
+fan-verifier is a Fanclub community website that allows you to verify yourself and others as true fans of an artist through a quiz
+and comes with other features to enjoy.
 (on going)
 
 ## Usage
 
-* Login via google to save state
-* Take a quiz to verify yourself as a fan of an artist
-* Find other fans' social media accounts
-* Music page to listen to music and find lyrics
-* Community space to make posts that can include images to share with other fans
+* Login via google to save information
+* Take a quiz to verify yourself as a fan in the Quiz tab
+* Find other verified fans' social media accounts in the Hall of Fame tab
+* Music page to listen to music and search for lyrics
+* Community space to make posts that can include images to share with other fans and acts as a marketplace for fan goods
+* Simple offensive language detection in backend removes posts that are deemed inappropriate
 
 ## Setup your own
 
