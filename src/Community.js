@@ -211,10 +211,10 @@ class Community extends React.Component {
     return (
       <div>
       { this.props.profile.length === 1 && this.state.isLoggedIn && (
-        <NavBar history={this.props.history}/>
+        <NavBar history={this.props.history} activeKey={4}/>
       )}
       { this.props.profile.length !== 1 && !this.state.isLoggedIn && (
-        <LoginNavBar/>
+        <LoginNavBar activeKey={4}/>
       )}
       <Container style={styles.container}>
         <Row>
@@ -248,11 +248,13 @@ class Community extends React.Component {
         {this.state.filteredPosts && (
           <ListGroup>
           {this.state.filteredPosts.map(post => {
-            var mygoogleId = this.props.profile[0].googleId;
-            var googleIds = post.favouritedBy;
             var isLiked = false;
-            if (googleIds.includes(mygoogleId)) {
-              isLiked = true;
+            if (this.props.profile.length > 0) {
+              var mygoogleId = this.props.profile[0].googleId;
+              var googleIds = post.favouritedBy;
+              if (googleIds.includes(mygoogleId)) {
+                isLiked = true;
+              }
             }
             return (
               <div key={post._id} style={{backgroundColor:'white'}}>

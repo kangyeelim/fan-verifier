@@ -7,6 +7,7 @@ import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { updateProfile, deleteProfile } from './redux/actions';
 import backgroundImg from './img/bg.png';
+import { Transition, animated } from 'react-spring/renderprops';
 
 const GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 
@@ -19,6 +20,41 @@ function AlertDimissible() {
   );
 }
 
+function Title() {
+  return (
+    <Card.Title as="h3" style={styles.header}>
+      Would you like to be in our Hall of Fame?
+    </Card.Title>
+  );
+}
+
+function Description() {
+  return (
+    <Card.Text style={styles.cardText}>
+      <mark style={styles.mark}>
+      Login to do our 2 minute quiz to become a verified BTS-ARMY and get your
+      social media username up on our Hall of Fame! Our Hall of Fame is renewed monthly so do
+      check back again next month to get back on it. If you would like to try the quiz without signing in,
+      you can do so too but upon completion you would not be able to get on the Hall of Fame!
+      </mark>
+    </Card.Text>
+  );
+}
+
+function GoogleButton(props) {
+  return (
+    <GoogleLogin
+    clientId= {GOOGLE_CLIENT_ID}
+    buttonText="Login with Google"
+    onSuccess={props.responseGoogleSuccess}
+    onFailure={props.responseGoogleFailure}
+    cookiePolicy={'single_host_origin'}
+    responseType='code,token'
+    />
+  );
+}
+
+
 class Login extends React.Component {
 
   constructor() {
@@ -27,6 +63,8 @@ class Login extends React.Component {
       isFailure: false,
       isSuccess: false,
       isLoggedIn: false,
+      items:[]
+
     }
     this.responseGoogleSuccess = this.responseGoogleSuccess.bind(this);
     this.responseGoogleFailure = this.responseGoogleFailure.bind(this);
@@ -63,33 +101,30 @@ class Login extends React.Component {
     }
     return (
       <div>
-      <LoginNavBar/>
+      <LoginNavBar activeKey={0}/>
       <Container>
       { this.state.isFailure && (
         <AlertDimissible/>
       )}
+
         <Card className="bg-dark text-white" style={styles.card}>
           <Card.Img fluid="true" src={require("./img/bts-festa.jpg")} alt="BTS image"/>
           <Card.ImgOverlay>
-            <Card.Title as="h3" style={styles.header}>
-              Would you like to be in our Hall of Fame?
-            </Card.Title>
-            <Card.Text style={styles.cardText}>
-              <mark style={styles.mark}>
-              Login to do our 2 minute quiz to become a verified BTS-ARMY and get your
-              social media username up on our Hall of Fame! Our Hall of Fame is renewed monthly so do
-              check back again next month to get back on it. If you would like to try the quiz without signing in,
-              you can do so too but upon completion you would not be able to get on the Hall of Fame!
-              </mark>
-            </Card.Text>
-            <GoogleLogin
-            clientId= {GOOGLE_CLIENT_ID}
-            buttonText="Login with Google"
-            onSuccess={this.responseGoogleSuccess}
-            onFailure={this.responseGoogleFailure}
-            cookiePolicy={'single_host_origin'}
-            responseType='code,token'
-            />
+            <Transition
+              items={true}
+              from={{ position: 'absolute', overflow: 'hidden', height: 0 }}
+              enter={[{ height: 'auto' }]}
+              leave={{ height: 0 }}
+            >
+              {show => (props) => <animated.div style={props}>
+                <Title/>
+                <Description/>
+                <GoogleButton
+                  responseGoogleFailure={this.responseGoogleFailure}
+                  responseGoogleSuccess={this.responseGoogleSuccess}/>
+                </animated.div>
+              }
+            </Transition>
           </Card.ImgOverlay>
         </Card>
       </Container>

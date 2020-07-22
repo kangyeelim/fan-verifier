@@ -152,10 +152,10 @@ class Music extends React.Component {
     return (
       <div>
       { this.state.isLoggedIn && (
-        <NavBar history={this.props.history}/>
+        <NavBar history={this.props.history} activeKey={3}/>
       )}
       { !this.state.isLoggedIn && (
-        <LoginNavBar/>
+        <LoginNavBar activeKey={3}/>
       )}
       <Container>
         <div>

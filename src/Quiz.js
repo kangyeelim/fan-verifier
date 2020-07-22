@@ -113,7 +113,7 @@ class Quiz extends React.Component {
     if (this.state.score ===6 && !this.state.isLoggedIn) {
       return (
         <div>
-        <LoginNavBar/>
+        <LoginNavBar activeKey={1}/>
         <Container style={styles.container}>
           <h3 className="my-4">Congratulations on getting all the questions correct!</h3>
           <p style={styles.text}>However, you have to be signed in to enter your social media
@@ -126,7 +126,7 @@ class Quiz extends React.Component {
     if (this.state.score === 6 && this.state.isNotAllowed) {
       return (
         <div>
-        <NavBar history={this.props.history}/>
+        <NavBar history={this.props.history} activeKey={1}/>
         <Container style={styles.container}>
           <h3 className="my-4">Congratulations on getting all the questions correct!</h3>
           <p style={styles.text}>However, you already have 3 Hall of Fame entries which is the maximum per account.
@@ -139,7 +139,7 @@ class Quiz extends React.Component {
     if (this.state.score === 6) {
       return (
         <div>
-        <NavBar history={this.props.history}/>
+        <NavBar history={this.props.history} activeKey={1}/>
         <Container style={styles.messageContainer}>
           <Row>
             <Col>
@@ -158,10 +158,10 @@ class Quiz extends React.Component {
     return (
       <div>
       { this.state.isLoggedIn && (
-        <NavBar history={this.props.history}/>
+        <NavBar history={this.props.history} activeKey={1}/>
       )}
       { !this.state.isLoggedIn && (
-        <LoginNavBar/>
+        <LoginNavBar activeKey={1}/>
       )}
       <Container style={styles.quizContainer}>
         { !this.state.isStarted && !this.state.isWrong &&

@@ -72,6 +72,9 @@ export function PostBottomBar(props) {
         <p>{props.favouritesNum}</p>
       </Col>
       <Col md="auto">
+        { !props.isLoggedIn && (
+          <FontAwesomeIcon icon={farHeart} style={{alignSelf:'right'}}/>
+        ) }
         { props.isLiked && props.isLoggedIn && (
           <a onClick={() => props.unfavouritePost(props.post._id)}>
           <FontAwesomeIcon icon={faHeart} style={{alignSelf:'right'}}/>

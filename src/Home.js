@@ -68,10 +68,10 @@ class Home extends React.Component {
     return (
       <div>
       { this.state.isLoggedIn && (
-        <NavBar history={this.props.history}/>
+        <NavBar history={this.props.history} activeKey={1}/>
       )}
       { !this.state.isLoggedIn && (
-        <LoginNavBar/>
+        <LoginNavBar activeKey={1}/>
       )}
       <Container>
         { this.state.isLoggedIn && (

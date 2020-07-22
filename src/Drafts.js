@@ -137,7 +137,7 @@ class Drafts extends React.Component {
     }
     return (
       <div>
-      <NavBar history={this.props.history}/>
+      <NavBar history={this.props.history} activeKey={0}/>
       <Container style={styles.messageContainer}>
         <h1 className="my-4">Drafts</h1>
         { this.state.posts.map(post => {

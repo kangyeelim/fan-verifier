@@ -72,11 +72,11 @@ class NavBar extends React.Component {
         </Navbar.Brand>
         <Navbar.Toggle style={styles.navlink} aria-controls="basic-navbar-nav" />
         <Navbar.Collapse style={styles.navlink} id="basic-navbar-nav">
-          <Nav style={styles.navlink} className="ml-auto">
-            <Nav.Link style={styles.navlink} onClick={this.goHome}>Quiz</Nav.Link>
-            <Nav.Link style={styles.navlink} onClick={this.goHOF}>Hall of Fame</Nav.Link>
-            <Nav.Link style={styles.navlink} onClick={this.goMusic}>Music</Nav.Link>
-            <Nav.Link style={styles.navlink} onClick={this.goCommunity}>Community</Nav.Link>
+          <Nav style={styles.navlink} activeKey={this.props.activeKey} className="ml-auto">
+            <Nav.Link eventKey={1} style={styles.navlink} onClick={this.goHome}>Quiz</Nav.Link>
+            <Nav.Link eventKey={2} style={styles.navlink} onClick={this.goHOF}>Hall of Fame</Nav.Link>
+            <Nav.Link eventKey={3} style={styles.navlink} onClick={this.goMusic}>Music</Nav.Link>
+            <Nav.Link eventKey={4} style={styles.navlink} onClick={this.goCommunity}>Community</Nav.Link>
             <NavDropdown className="nav-dropdown"
               id="nav-dropdown" style={styles.dropdown}
               title={
@@ -103,10 +103,6 @@ class NavBar extends React.Component {
     );
   }
 }
-
-/*<Form inline>
-  <Button onClick={this.handleLogout} variant="outline-success">Logout</Button>
-</Form>*/
 
 const styles = {
   navbar: {

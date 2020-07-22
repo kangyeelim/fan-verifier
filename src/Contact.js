@@ -22,10 +22,10 @@ class Contact extends React.Component {
     return (
       <div>
       { this.state.isLoggedIn && (
-        <NavBar history={this.props.history}/>
+        <NavBar history={this.props.history} activeKey={0}/>
       )}
       { !this.state.isLoggedIn && (
-        <LoginNavBar/>
+        <LoginNavBar activeKey={5}/>
       )}
       <Container>
         <h1 className="my-4">Contact Developer</h1>

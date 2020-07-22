@@ -194,7 +194,7 @@ class PostForm extends React.Component {
     }
     return (
       <div>
-      <NavBar history={this.props.history}/>
+      <NavBar history={this.props.history} activeKey={4}/>
       <Container style={styles.messageContainer}>
           <h3 className="my-4">New post</h3>
           <Form>
