@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container, ListGroup, Image, Carousel, Badge, OverlayTrigger,
-  Tooltip, Row, Col, } from 'react-bootstrap';
+  Tooltip, Row, Col } from 'react-bootstrap';
 import { FullscreenOutlined } from '@ant-design/icons';
 import { Entry } from './SocialMediaEntry';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

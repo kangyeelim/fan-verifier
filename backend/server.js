@@ -30,6 +30,7 @@ const postsRouter = require('./routes/posts');
 const imagesRouter = require('./routes/images');
 const favouriteRouter = require('./routes/UserFavourites');
 const languageCheckRouter = require('./services/offensiveLanguageChecks');
+const imageCheckRouter = require('./services/nsfwImageChecks');
 
 app.use('/questions', questionsRouter);
 app.use('/users', usersRouter);
@@ -39,6 +40,7 @@ app.use('/posts', postsRouter);
 app.use('/images', imagesRouter);
 app.use('/favourites', favouriteRouter);
 app.use('/offensiveLanguageChecks', languageCheckRouter);
+app.use('/nsfwImageChecks', imageCheckRouter);
 
 //starts server
 app.listen(port, () => {

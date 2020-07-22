@@ -130,6 +130,11 @@ class PostForm extends React.Component {
           title:this.state.title,
           description: this.state.text
         })
+        if (this.state.images) {
+          axios.post(`http://localhost:5000/nsfwImageChecks/check/${postId}`, {
+            images: this.state.images
+          })
+        }
         this.setState({isPosted: true});
         console.log("Posted!");
         this.props.history.push("/community");

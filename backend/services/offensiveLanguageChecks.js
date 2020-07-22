@@ -1,10 +1,9 @@
 const router = require('express').Router();
-let Post = require('../models/post.model');
-let Favourite = require('../models/UserFavourite.model');
 var natural = require('natural');
 var sentenceTokenizer = new natural.SentenceTokenizer();
 const toxicity = require('@tensorflow-models/toxicity');
 require('@tensorflow/tfjs-node');
+const deletePostFromCommunity = require('./deletePostFromCommunity');
 
 router.route('/check/:postId').post((req, res) => {
   var postId = req.params.postId;
@@ -36,27 +35,7 @@ router.route('/check/:postId').post((req, res) => {
           }
         }
         if (isOffensiveLanguageFound) {
-          var favouritedBy = [];
-          Post.findById(postId)
-            .then(post => {
-              favouritedBy = post.favouritedBy;
-            })
-            .catch(err => res.status(400).json('Error: ' + err));
-          Post.findByIdAndDelete(postId)
-            .then(() => res.json('Post not allowed and deleted.'))
-            .catch(err => res.status(400).json('Error: ' + err));
-          for (var i =0 ; i < favouritedBy.length; i++) {
-            Favourite.findOne({googleId:favouritedBy[i]})
-              .then(favourite => {
-                var newArray = favourite.postIds.filter(id=> id !== postId);
-                favourite.postIds = newArray;
-
-                favourite.save()
-                  .then(() => res.json('Favourites updated!'))
-                  .catch(err => res.status(400).json('Error: ' + err));
-              })
-              .catch(err => res.status(400).json('Error: ' + err));
-          }
+          deletePostFromCommunity(postId, res);
         } else {
           res.json("Allowed");
         }

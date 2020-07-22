@@ -15,6 +15,7 @@
     "@tensorflow/tfjs-converter": "^1.7.4",
     "@tensorflow/tfjs-core": "^2.0.1",
     "@tensorflow/tfjs-node": "^2.0.1",
+    "axios": "^0.19.2",
     "cloudinary": "^1.22.0",
     "cors": "^2.8.5",
     "dayjs": "^1.8.29",
@@ -24,6 +25,7 @@
     "jquery": "^3.5.1",
     "mongoose": "^5.9.20",
     "natural": "^2.1.5",
+    "nsfwjs": "^2.2.0",
     "popper.js": "^1.16.1",
     "typescript": "^3.9.7"
   },
