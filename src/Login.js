@@ -62,9 +62,7 @@ class Login extends React.Component {
     this.state = {
       isFailure: false,
       isSuccess: false,
-      isLoggedIn: false,
-      items:[]
-
+      isLoggedIn: false
     }
     this.responseGoogleSuccess = this.responseGoogleSuccess.bind(this);
     this.responseGoogleFailure = this.responseGoogleFailure.bind(this);
@@ -106,27 +104,27 @@ class Login extends React.Component {
       { this.state.isFailure && (
         <AlertDimissible/>
       )}
-
+        <Transition
+          items={true}
+          from={{ transform: 'translate3d(-300px,0,0)' }}
+          enter={{ transform: 'translate3d(0px,0,0)' }}
+          leave={{ opacity:0 }}
+        >
+        {show => (props) => <animated.div style={props}>
         <Card className="bg-dark text-white" style={styles.card}>
           <Card.Img fluid="true" src={require("./img/bts-festa.jpg")} alt="BTS image"/>
           <Card.ImgOverlay>
-            <Transition
-              items={true}
-              from={{ position: 'absolute', overflow: 'hidden', height: 0 }}
-              enter={[{ height: 'auto' }]}
-              leave={{ height: 0 }}
-            >
-              {show => (props) => <animated.div style={props}>
-                <Title/>
-                <Description/>
-                <GoogleButton
-                  responseGoogleFailure={this.responseGoogleFailure}
-                  responseGoogleSuccess={this.responseGoogleSuccess}/>
-                </animated.div>
-              }
-            </Transition>
+            <Title/>
+            <Description/>
+            <GoogleButton
+              responseGoogleFailure={this.responseGoogleFailure}
+              responseGoogleSuccess={this.responseGoogleSuccess}
+            />
           </Card.ImgOverlay>
         </Card>
+        </animated.div>
+        }
+        </Transition>
       </Container>
       </div>
     );

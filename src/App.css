@@ -25,8 +25,20 @@ body {
   /* Set a background color that will be displayed
      while the background image is loading */
   background-color: #e8d9fa;
+
 }
 
+#page-container {
+  position: relative;
+  min-height: 100vh;
+  bottom: 0;
+  margin-top: 0;
+}
+
+#content-wrap {
+  min-height: 100vh;
+  padding-bottom: 60px;    /* Footer height */
+}
 
 @media only screen and (max-width: 767px) {
   body {

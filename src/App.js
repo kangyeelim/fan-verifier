@@ -13,10 +13,13 @@ import Posts from './Posts';
 import Drafts from './Drafts';
 import Favourites from './Favourites';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import Footer from './component/Footer';
 
 class App extends React.Component {
   render() {
     return (
+      <div id="page-container">
+      <div id="content-wrap">
       <Router>
         <Switch>
           <Route exact path="/" component={Login}/>
@@ -33,6 +36,9 @@ class App extends React.Component {
           <Route exact path="/favourites" component={Favourites}/>
         </Switch>
       </Router>
+      </div>
+      <Footer/>
+      </div>
     );
   }
 }

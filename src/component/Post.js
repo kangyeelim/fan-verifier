@@ -4,7 +4,7 @@ import { Container, ListGroup, Image, Carousel, Badge, OverlayTrigger,
 import { FullscreenOutlined } from '@ant-design/icons';
 import { Entry } from './SocialMediaEntry';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart, faShareSquare, faFarHeart } from '@fortawesome/free-solid-svg-icons';
+import { faHeart, faShareSquare } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as farHeart } from '@fortawesome/free-regular-svg-icons';
 
 export function ImageCarousel(props) {
