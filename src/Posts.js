@@ -28,6 +28,19 @@ class Entry extends React.Component {
           images: this.props.post.images
         })
       }
+      var favouritedBy = this.props.post.favouritedBy;
+      for (var i = 0; i < favouritedBy.length; i++) {
+        try {
+          var response = await axios.get(`http://localhost:5000/favourites/myfavourites/${favouritedBy[i]}`);
+          var postIds = response.data[0].postIds;
+          var newPostIds = postIds.filer(id => id !== this.props.post._id);
+          var response = await axios.post(`http://localhost:5000/favourites/update/${response.data[0]._id}`, {
+            postIds:newPostIds
+          });
+        } catch(err) {
+          console.error(err);
+        }
+      }
       await axios.delete(`http://localhost:5000/posts/${this.props.post._id}`);
       this.props.refreshPage();
     } catch (error) {
