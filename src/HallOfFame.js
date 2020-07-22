@@ -53,7 +53,7 @@ class HallOfFame extends React.Component {
 
   render() {
     return (
-      <div className="content-wrap">
+      <div>
       { this.props.profile.length === 1 && this.state.isLoggedIn && (
         <NavBar history={this.props.history} activeKey={2}/>
       )}

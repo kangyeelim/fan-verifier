@@ -93,7 +93,6 @@ class NavBar extends React.Component {
               <NavDropdown.Item onClick={this.goPosts}>My Posts</NavDropdown.Item>
               <NavDropdown.Item onClick={this.goDrafts}>My Drafts</NavDropdown.Item>
               <NavDropdown.Item onClick={this.goFavourites}>My Favourites</NavDropdown.Item>
-              <NavDropdown.Item onClick={this.goContact}>Contact</NavDropdown.Item>
               <NavDropdown.Divider />
               <NavDropdown.Item onClick={this.handleLogout}>Logout</NavDropdown.Item>
             </NavDropdown>
