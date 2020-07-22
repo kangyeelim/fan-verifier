@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Container, Card, Alert } from 'react-bootstrap';
+import { Container, Card, Alert, Button } from 'react-bootstrap';
 import LoginNavBar from './component/LoginNavBar';
 import auth from './services/auth';
 import GoogleLogin from 'react-google-login';
@@ -17,27 +17,6 @@ function AlertDimissible() {
     <Alert show={show} variant="danger" onClose={()=>setShow(false)} dismissible>
       <Alert.Heading>Login failed. Please try again.</Alert.Heading>
     </Alert>
-  );
-}
-
-function Title() {
-  return (
-    <Card.Title as="h3" style={styles.header}>
-      Would you like to be in our Hall of Fame?
-    </Card.Title>
-  );
-}
-
-function Description() {
-  return (
-    <Card.Text style={styles.cardText}>
-      <mark style={styles.mark}>
-      Login to do our 2 minute quiz to become a verified BTS-ARMY and get your
-      social media username up on our Hall of Fame! Our Hall of Fame is renewed monthly so do
-      check back again next month to get back on it. If you would like to try the quiz without signing in,
-      you can do so too but upon completion you would not be able to get on the Hall of Fame!
-      </mark>
-    </Card.Text>
   );
 }
 
@@ -111,20 +90,98 @@ class Login extends React.Component {
           leave={{ opacity:0 }}
         >
         {show => (props) => <animated.div style={props}>
-        <Card className="bg-dark text-white" style={styles.card}>
-          <Card.Img fluid="true" src={require("./img/bts-festa.jpg")} alt="BTS image"/>
+        <Card className="text-center bg-dark text-white" style={styles.photo}>
+          <Card.Img fluid="true" src={require("./img/bts-festa1.jpg")} alt="BTS image"/>
           <Card.ImgOverlay>
-            <Title/>
-            <Description/>
-            <GoogleButton
-              responseGoogleFailure={this.responseGoogleFailure}
-              responseGoogleSuccess={this.responseGoogleSuccess}
-            />
+            <Card.Title as="h2" style={styles.header}>
+              <mark style={styles.mark}>
+                Welcome!
+              </mark>
+            </Card.Title>
           </Card.ImgOverlay>
         </Card>
         </animated.div>
         }
         </Transition>
+        <Transition
+          items={true}
+          from={{ transform: 'translate3d(300px,0,0)' }}
+          enter={{ transform: 'translate3d(0px,0,0)' }}
+          leave={{ opacity:0 }}
+        >
+        {show => (props) => <animated.div style={props}>
+        <Card className="text-dark" style={styles.middleCard0}>
+        <Card.Body>
+        <Card.Title as="h3" style={{textAlign:'right'}}>
+            Would you like to be in our Hall of Fame?
+        </Card.Title>
+        <Card.Text style={{textAlign:'right'}}>
+          Login with your Google account above to do our 2 minute quiz to become a verified BTS-ARMY and get your
+          social media username up on our Hall of Fame! If you would like to try the quiz without signing in,
+          you can do so too but upon completion you would not be able to get on the Hall of Fame!
+        </Card.Text>
+        <Card.Text style={{textAlign:'right'}}>
+        <GoogleButton
+          responseGoogleFailure={this.responseGoogleFailure}
+          responseGoogleSuccess={this.responseGoogleSuccess}
+        />
+        </Card.Text>
+        </Card.Body>
+        </Card>
+        </animated.div>
+        }
+      </Transition>
+      <Transition
+        items={true}
+        from={{ transform: 'translate3d(-300px,0,0)' }}
+        enter={{ transform: 'translate3d(0px,0,0)' }}
+        leave={{ opacity:0 }}
+      >
+      {show => (props) => <animated.div style={props}>
+        <Card className="text-dark" style={styles.middleCard1}>
+        <Card.Body>
+          <Card.Title as="h3">
+            Looking to buy or sell something? Perhaps
+            looking for fellow BTS-ARMY to share
+            the cost for merchandise?
+          </Card.Title>
+          <Card.Text>
+            Head over to our Community to look at posts that are selling,
+            buying or sharing to find just what you need! To list something to
+            sell, do login using your Google account above!
+          </Card.Text>
+          <Card.Text>
+            <a href="/community" style={styles.link}>Community &gt;</a>
+          </Card.Text>
+          </Card.Body>
+          </Card>
+          </animated.div>
+          }
+        </Transition>
+        <Transition
+          items={true}
+          from={{ transform: 'translate3d(300px,0,0)' }}
+          enter={{ transform: 'translate3d(0px,0,0)' }}
+          leave={{ opacity:0 }}
+        >
+        {show => (props) => <animated.div style={props}>
+          <Card className="text-dark" style={styles.middleCard2}>
+          <Card.Body>
+          <Card.Title as="h3" style={{textAlign:'right'}}>
+            Want to jam to some BTS music?
+          </Card.Title>
+          <Card.Text style={{textAlign:'right'}}>
+            Try the music tab powered by Deezer which also allows you to search
+            for the romanized lyrics to sing along.
+          </Card.Text>
+          <Card.Text style={{textAlign:'right'}}>
+            <a href="/music" style={styles.link}>&lt; Music</a>
+          </Card.Text>
+          </Card.Body>
+        </Card>
+        </animated.div>
+        }
+      </Transition>
       </Container>
       </div>
     );
@@ -134,11 +191,39 @@ class Login extends React.Component {
 const styles = {
   card: {
     marginTop: 30,
-    marginBottom: 30,
-    minWidth: 400
+    minWidth: 400,
+    borderRadius:0,
+    borderWidth:0
   },
-  cardText: {
-    marginRight: 50,
+  middleCard1: {
+    minWidth: 400,
+    borderRadius:0,
+    backgroundColor: '#cec2ff',
+    borderWidth:0
+  },
+  middleCard2: {
+    minWidth: 400,
+    borderRadius:0,
+    backgroundColor: '#f1d7fc',
+    borderWidth:0
+  },
+  middleCard0: {
+    minWidth: 400,
+    borderRadius:0,
+    backgroundColor: '#dad7fc',
+    borderWidth:0
+  },
+  photo: {
+    minWidth: 400,
+    borderRadius:0,
+    borderWidth:0
+  },
+  link: {
+    color: 'black',
+    fontSize: 18,
+    textDecoration: 'underline',
+    textDecorationColor: 'white',
+    fontWeight: 'bold'
   },
   error: {
     textAlign: 'center',
@@ -146,7 +231,7 @@ const styles = {
     color: 'red'
   },
   header: {
-    color: '#e8d9fa'
+    color: 'white',
   },
   mark: {
     backgroundColor: 'black',

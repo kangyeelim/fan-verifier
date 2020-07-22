@@ -6,9 +6,17 @@ import LoginNavBar from './component/LoginNavBar';
 import { connect } from 'react-redux';
 import auth from './services/auth';
 import { LoadingOutlined } from '@ant-design/icons';
+import { Spring, Transition, animated } from 'react-spring/renderprops';
 
 function ImageCarousel() {
     return (
+      <Transition
+        items={true}
+        from={{ transform: 'translate3d(-300px,0,0)' }}
+        enter={{ transform: 'translate3d(0px,0,0)' }}
+        leave={{ opacity:0 }}
+      >
+      {show => (props) => <animated.div style={props}>
       <Carousel style={styles.carousel}>
         <Carousel.Item>
           <img
@@ -32,6 +40,9 @@ function ImageCarousel() {
           />
         </Carousel.Item>
       </Carousel>
+      </animated.div>
+      }
+      </Transition>
     );
 }
 
@@ -75,16 +86,40 @@ class Home extends React.Component {
       )}
       <Container>
         { this.state.isLoggedIn && (
+          <Transition
+            items={true}
+            from={{ transform: 'translate3d(-300px,0,0)' }}
+            enter={{ transform: 'translate3d(0px,0,0)' }}
+            leave={{ opacity:0 }}
+          >
+          {show => (props) => <animated.div style={props}>
           <h1 className="my-4">Welcome {this.props.profile[0].name} !</h1>
+          </animated.div>
+          }
+          </Transition>
         )}
         { !this.state.isLoggedIn && (
+          <Transition
+            items={true}
+            from={{ transform: 'translate3d(-300px,0,0)' }}
+            enter={{ transform: 'translate3d(0px,0,0)' }}
+            leave={{ opacity:0 }}
+          >
+          {show => (props) => <animated.div style={props}>
           <h1 className="my-4">Am I a verified BTS-ARMY?</h1>
+          </animated.div>
+          }
+          </Transition>
         )}
         <Row style={{display: 'flex', alignItems:'center'}}>
           <Col fluid md={8}>
             <ImageCarousel/>
           </Col>
           <Col md={4} style={styles.instruction}>
+          <Spring
+            from={{ opacity: 0 }}
+            to={{ opacity: 1 }}>
+            {props => <div style={props}>
             <Container style={styles.instructionContainer}>
             { this.state.isLoggedIn && (
               <div>
@@ -113,6 +148,8 @@ class Home extends React.Component {
             <Button onClick={this.onStartQuiz}>Start Quiz</Button>
             </div>
             </Container>
+            </div>}
+            </Spring>
           </Col>
         </Row>
     </Container>
