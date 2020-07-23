@@ -28,7 +28,7 @@ function Footer(props) {
     return (
         <div>
             <div style={phantom}/>
-            <div style={style} class="shadow-lg">
+            <div style={style} className="shadow-lg">
               <Row style={{alignItems:'center'}}>
               <Col md="auto">
               <div style={{display:'flex'}}>

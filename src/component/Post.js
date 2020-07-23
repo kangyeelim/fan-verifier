@@ -14,6 +14,7 @@ export function ImageCarousel(props) {
         return (
           <Carousel.Item key={image.public_id} style={{backgroundColor:'grey'}}>
           <img
+            onLoad={props.measure}
             key={image.public_id}
             className="d-block w-100"
             src={image.secure_url}
@@ -55,7 +56,7 @@ export function PostEntry(props) {
 
             </OverlayTrigger>
             </div>
-            <ImageCarousel images={props.post.images} height="400"/>
+            <ImageCarousel measure={props.measure} images={props.post.images} height="400"/>
           </div>
         )}
         <p>posted on: {new Date(props.post.postedAt).toLocaleDateString()} {new Date(props.post.postedAt).toLocaleTimeString()}</p>

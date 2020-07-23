@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import auth from './services/auth';
 import { FormOutlined, FullscreenExitOutlined } from '@ant-design/icons';
 import { PostEntry, ImageCarousel, PostBottomBar } from './component/Post';
+import { List, AutoSizer, CellMeasurer, CellMeasurerCache, WindowScroller } from 'react-virtualized';
 
 export function FilterPopover(props) {
   return (
@@ -39,6 +40,10 @@ export function FilterPopover(props) {
 
 const LinkFilterPopover = React.forwardRef((props, ref) => <FilterPopover innerRef={ref} {...props} />);
 
+const cache = new CellMeasurerCache({
+    fixedWidth: true
+});
+
 class Community extends React.Component {
 
   constructor() {
@@ -60,6 +65,7 @@ class Community extends React.Component {
     this.showImages = this.showImages.bind(this);
     this.favouritePost = this.favouritePost.bind(this);
     this.unfavouritePost = this.unfavouritePost.bind(this);
+    this.renderRow = this.renderRow.bind(this);
   }
 
   async componentDidMount() {
@@ -187,6 +193,37 @@ class Community extends React.Component {
     await this.apply(true);
   }
 
+  renderRow({ index, key, parent, style }) {
+    var post = this.state.filteredPosts[index];
+    var isLiked = false;
+    if (this.props.profile.length > 0) {
+      var mygoogleId = this.props.profile[0].googleId;
+      var googleIds = post.favouritedBy;
+      if (googleIds.includes(mygoogleId)) {
+        isLiked = true;
+      }
+    }
+
+    return (
+      <CellMeasurer
+        rowIndex={index}
+        columnIndex={0}
+        key={key}
+        cache={cache}
+        parent={parent}
+        enableMargins
+      >
+      {({ measure }) => (
+        <div style={{backgroundColor:'white'}}>
+          <PostEntry post={post} showImages={this.showImages} measure={measure}/>
+          <PostBottomBar post={post} favouritesNum={post.favouritedBy.length} isLiked={isLiked}
+          favouritePost={this.favouritePost} unfavouritePost={this.unfavouritePost} isLoggedIn={this.state.isLoggedIn}/>
+        </div>
+      )}
+      </CellMeasurer>
+    )
+  }
+
   render() {
     if (this.state.isShowingImagesFull) {
       return (
@@ -246,25 +283,28 @@ class Community extends React.Component {
           </Col>
         </Row>
         {this.state.filteredPosts && (
-          <ListGroup>
-          {this.state.filteredPosts.map(post => {
-            var isLiked = false;
-            if (this.props.profile.length > 0) {
-              var mygoogleId = this.props.profile[0].googleId;
-              var googleIds = post.favouritedBy;
-              if (googleIds.includes(mygoogleId)) {
-                isLiked = true;
-              }
-            }
-            return (
-              <div key={post._id} style={{backgroundColor:'white'}}>
-                <PostEntry post={post} showImages={this.showImages}/>
-                <PostBottomBar post={post} favouritesNum={post.favouritedBy.length} isLiked={isLiked}
-                favouritePost={this.favouritePost} unfavouritePost={this.unfavouritePost} isLoggedIn={this.state.isLoggedIn}/>
-              </div>
-            )
-          })}
-          </ListGroup>
+          <WindowScroller>
+          {({ height, isScrolling, scrollTop, onChildScroll }) => (
+            <ListGroup>
+              <AutoSizer disableHeight>
+                {({ width }) => (
+                  <List
+                    height={height}
+                    width={width}
+                    deferredMeasurementCache={cache}
+                    isScrolling={isScrolling}
+                    rowCount={this.state.filteredPosts.length}
+                    rowHeight={cache.rowHeight}
+                    rowRenderer={this.renderRow}
+                    autoHeight
+                    scrollTop={scrollTop}
+                    onChildScroll={onChildScroll}
+                  />
+                )}
+              </AutoSizer>
+            </ListGroup>
+          )}
+        </WindowScroller>
         )}
       </Container>
       </div>

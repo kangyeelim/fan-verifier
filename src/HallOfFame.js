@@ -8,6 +8,11 @@ import { faFacebookSquare, faInstagramSquare, faTwitterSquare } from '@fortaweso
 import { connect } from 'react-redux';
 import auth from './services/auth';
 import { Entry } from './component/SocialMediaEntry';
+import { List, AutoSizer, CellMeasurer, CellMeasurerCache, WindowScroller } from 'react-virtualized';
+
+const cache = new CellMeasurerCache({
+    fixedWidth: true
+  });
 
 class HallOfFame extends React.Component {
 
@@ -21,6 +26,7 @@ class HallOfFame extends React.Component {
     }
     this.handleKeywordInput = this.handleKeywordInput.bind(this);
     this.searchKeyword = this.searchKeyword.bind(this);
+    this.renderRow = this.renderRow.bind(this);
   }
 
   async componentDidMount() {
@@ -35,6 +41,22 @@ class HallOfFame extends React.Component {
       .catch((error) => {
         console.error(error);
       })
+  }
+
+  renderRow({ index, key, parent, style }) {
+    var entry = this.state.filteredEntries[index];
+    return (
+      <CellMeasurer
+        rowIndex={index}
+        columnIndex={0}
+        key={key}
+        cache={cache}
+        parent={parent}
+        enableMargins
+      >
+        <Entry entry={entry}/>
+      </CellMeasurer>
+    )
   }
 
   searchKeyword() {
@@ -74,11 +96,28 @@ class HallOfFame extends React.Component {
           </Col>
         </Row>
         {this.state.filteredEntries && (
-          <ListGroup>
-          {this.state.filteredEntries.map(entry => {
-             return <Entry key={entry.social + entry.name} entry={entry}/>
-          })}
-          </ListGroup>
+          <WindowScroller>
+          {({ height, isScrolling, scrollTop, onChildScroll }) => (
+            <ListGroup>
+              <AutoSizer disableHeight>
+                {({ width }) => (
+                  <List
+                    height={height}
+                    width={width}
+                    deferredMeasurementCache={cache}
+                    isScrolling={isScrolling}
+                    rowCount={this.state.filteredEntries.length}
+                    rowHeight={cache.rowHeight}
+                    rowRenderer={this.renderRow}
+                    autoHeight
+                    scrollTop={scrollTop}
+                    onChildScroll={onChildScroll}
+                  />
+                )}
+              </AutoSizer>
+            </ListGroup>
+          )}
+        </WindowScroller>
         )}
       </Container>
       </div>

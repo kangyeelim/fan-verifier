@@ -1,5 +1,5 @@
 import React from 'react';
-import { ListGroup} from 'react-bootstrap';
+import { ListGroupItem } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookSquare, faInstagramSquare, faTwitterSquare } from '@fortawesome/free-brands-svg-icons'
 
@@ -33,21 +33,21 @@ export function Instagram(props) {
 export function Entry(props) {
   if (props.entry.social == "twitter") {
     return (
-      <ListGroup.Item>
+      <ListGroupItem>
         <Twitter entry={props.entry}/>
-      </ListGroup.Item>
+      </ListGroupItem>
     );
   } else if (props.entry.social == "instagram") {
     return (
-      <ListGroup.Item>
+      <ListGroupItem>
         <Instagram entry={props.entry}/>
-      </ListGroup.Item>
+      </ListGroupItem>
     );
   } else {
     return (
-      <ListGroup.Item>
+      <ListGroupItem>
         <Facebook entry={props.entry}/>
-      </ListGroup.Item>
+      </ListGroupItem>
     );
   }
 }
