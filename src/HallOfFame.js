@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 import auth from './services/auth';
 import { Entry } from './component/SocialMediaEntry';
 import { List, AutoSizer, CellMeasurer, CellMeasurerCache, WindowScroller } from 'react-virtualized';
+import { Spring, Transition, animated } from 'react-spring/renderprops';
 
 const cache = new CellMeasurerCache({
     fixedWidth: true
@@ -86,13 +87,29 @@ class HallOfFame extends React.Component {
       <Container>
         <Row>
           <Col>
+          <Transition
+            items={true}
+            from={{ transform: 'translate3d(-300px,0,0)' }}
+            enter={{ transform: 'translate3d(0px,0,0)' }}
+            leave={{ opacity:0 }}
+          >
+          {show => (props) => <animated.div style={props}>
             <h1 className="my-4">Hall of Fame</h1>
+            </animated.div>
+          }
+          </Transition>
           </Col>
           <Col md="auto">
-            <Form style={styles.form} inline>
-             <FormControl onChange={this.handleKeywordInput} type="text" placeholder="Search" className="mr-sm-2" />
-             <Button onClick={this.searchKeyword} variant="outline-success">Search</Button>
-            </Form>
+          <Spring
+            from={{ opacity: 0 }}
+            to={{ opacity: 1 }}>
+            {props => <div style={props}>
+              <Form style={styles.form} inline>
+               <FormControl onChange={this.handleKeywordInput} type="text" placeholder="Search" className="mr-sm-2" />
+               <Button onClick={this.searchKeyword} variant="outline-success">Search</Button>
+              </Form>
+            </div>}
+          </Spring>
           </Col>
         </Row>
         {this.state.filteredEntries && (

@@ -3,6 +3,7 @@ import { Container, Row, Col, Image } from 'react-bootstrap';
 import NavBar from './component/NavBar';
 import LoginNavBar from './component/LoginNavBar';
 import auth from './services/auth';
+import { Spring, Transition, animated } from 'react-spring/renderprops';
 
 class Contact extends React.Component {
   constructor() {
@@ -22,18 +23,42 @@ class Contact extends React.Component {
     return (
       <div>
       { this.state.isLoggedIn && (
-        <NavBar history={this.props.history} activeKey={0}/>
+        <NavBar history={this.props.history} activeKey={100}/>
       )}
       { !this.state.isLoggedIn && (
-        <LoginNavBar activeKey={5}/>
+        <LoginNavBar activeKey={100}/>
       )}
       <Container>
+        <Transition
+          items={true}
+          from={{ transform: 'translate3d(-300px,0,0)' }}
+          enter={{ transform: 'translate3d(0px,0,0)' }}
+          leave={{ opacity:0 }}
+        >
+        {show => (props) => <animated.div style={props}>
         <h1 className="my-4">Contact Developer</h1>
+        </animated.div>
+        }
+        </Transition>
         <Row>
           <Col md={6}>
+          <Transition
+            items={true}
+            from={{ transform: 'translate3d(-300px,0,0)' }}
+            enter={{ transform: 'translate3d(0px,0,0)' }}
+            leave={{ opacity:0 }}
+          >
+          {show => (props) => <animated.div style={props}>
             <Image fluid style={styles.image} src={require('./img/bwl.jpg')}/>
+            </animated.div>
+            }
+            </Transition>
           </Col>
           <Col md={6}>
+          <Spring
+            from={{ opacity: 0 }}
+            to={{ opacity: 1 }}>
+            {props => <div style={props}>
             <h3 className="my-3">Message from the developer</h3>
             <p style={styles.text}>
             I am a 21 year old ARMY from Singapore and I am the only developer for this website.
@@ -60,6 +85,8 @@ class Contact extends React.Component {
             <p style={styles.text}>
             Email: kangyee2408@gmail.com
             </p>
+            </div>}
+            </Spring>
           </Col>
         </Row>
       </Container>

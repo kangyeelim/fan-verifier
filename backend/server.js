@@ -31,6 +31,7 @@ const imagesRouter = require('./routes/images');
 const favouriteRouter = require('./routes/UserFavourites');
 const languageCheckRouter = require('./services/offensiveLanguageChecks');
 const imageCheckRouter = require('./services/nsfwImageChecks');
+const scheduleRetrieverRouter = require('./services/retrieveSchedules');
 
 app.use('/questions', questionsRouter);
 app.use('/users', usersRouter);
@@ -41,6 +42,7 @@ app.use('/images', imagesRouter);
 app.use('/favourites', favouriteRouter);
 app.use('/offensiveLanguageChecks', languageCheckRouter);
 app.use('/nsfwImageChecks', imageCheckRouter);
+app.use('/schedules', scheduleRetrieverRouter);
 
 //starts server
 app.listen(port, () => {

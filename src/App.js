@@ -12,6 +12,7 @@ import PostForm from './PostForm';
 import Posts from './Posts';
 import Drafts from './Drafts';
 import Favourites from './Favourites';
+import Schedule from './Schedule';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Footer from './component/Footer';
 
@@ -34,6 +35,7 @@ class App extends React.Component {
           <Route exact path="/drafts" component={Drafts}/>
           <Route exact path="/myposts" component={Posts}/>
           <Route exact path="/favourites" component={Favourites}/>
+          <Route exact path="/schedules" component={Schedule}/>
         </Switch>
       </Router>
       </div>

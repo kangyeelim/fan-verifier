@@ -9,6 +9,7 @@ import auth from './services/auth';
 import { FormOutlined, FullscreenExitOutlined } from '@ant-design/icons';
 import { PostEntry, ImageCarousel, PostBottomBar } from './component/Post';
 import { List, AutoSizer, CellMeasurer, CellMeasurerCache, WindowScroller } from 'react-virtualized';
+import { Spring, Transition, animated } from 'react-spring/renderprops';
 
 export function FilterPopover(props) {
   return (
@@ -256,10 +257,24 @@ class Community extends React.Component {
       <Container style={styles.container}>
         <Row>
           <Col>
-            <h1 className="my-4">Community</h1>
+          <Transition
+            items={true}
+            from={{ transform: 'translate3d(-300px,0,0)' }}
+            enter={{ transform: 'translate3d(0px,0,0)' }}
+            leave={{ opacity:0 }}
+          >
+            {show => (props) => <animated.div style={props}>
+              <h1 className="my-4">Community</h1>
+            </animated.div>
+            }
+          </Transition>
           </Col>
           <Col md={2}>
           </Col>
+          <Spring
+            from={{ opacity: 0 }}
+            to={{ opacity: 1 }}>
+            {props => <div style={props}>
           <Col md="auto" style={{padding:10}}>
             <>
             <OverlayTrigger
@@ -281,6 +296,8 @@ class Community extends React.Component {
             <Button style={styles.icon} onClick={this.reset} variant="outline-success">Clear Filters</Button>
             { this.state.isLoggedIn && (<Button style={styles.icon} onClick={this.handleNewPost} variant="outline-primary">Make New Post</Button>)}
           </Col>
+          </div>}
+        </Spring>
         </Row>
         {this.state.filteredPosts && (
           <WindowScroller>

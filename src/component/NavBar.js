@@ -19,6 +19,7 @@ class NavBar extends React.Component {
     this.goPosts = this.goPosts.bind(this);
     this.goDrafts = this.goDrafts.bind(this);
     this.goFavourites = this.goFavourites.bind(this);
+    this.goSchedule = this.goSchedule.bind(this);
   }
 
   handleLogout(){
@@ -63,11 +64,15 @@ class NavBar extends React.Component {
     this.props.history.push("/favourites");
   }
 
+  goSchedule() {
+    this.props.history.push('/schedules');
+  }
+
   render() {
     return (
       <Navbar style={styles.navbar} expand="lg" className="shadow">
         <Navbar.Brand href="#">
-          <Image style={styles.logo} fluid src={require("../img/bts-army-logo.png")}/>
+          <Image style={styles.logo} fluid src={require("../img/bts-army-logo.svg")}/>
           BTS-ARMY Verifier
         </Navbar.Brand>
         <Navbar.Toggle style={styles.navlink} aria-controls="basic-navbar-nav" />
@@ -77,6 +82,7 @@ class NavBar extends React.Component {
             <Nav.Link eventKey={2} style={styles.navlink} onClick={this.goHOF}>Hall of Fame</Nav.Link>
             <Nav.Link eventKey={3} style={styles.navlink} onClick={this.goMusic}>Music</Nav.Link>
             <Nav.Link eventKey={4} style={styles.navlink} onClick={this.goCommunity}>Community</Nav.Link>
+            <Nav.Link eventKey={5} style={styles.navlink} onClick={this.goSchedule}>Schedule</Nav.Link>
             <NavDropdown className="nav-dropdown"
               id="nav-dropdown" style={styles.dropdown}
               title={

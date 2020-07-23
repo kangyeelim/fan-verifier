@@ -90,7 +90,7 @@ class Login extends React.Component {
           leave={{ opacity:0 }}
         >
         {show => (props) => <animated.div style={props}>
-        <Card className="text-center bg-dark text-white" style={styles.photo}>
+        <Card className="text-center bg-dark text-white shadow-lg" style={styles.photo}>
           <Card.Img fluid="true" src={require("./img/bts-festa1.jpg")} alt="BTS image"/>
           <Card.ImgOverlay>
             <Card.Title as="h2" style={styles.header}>
@@ -110,7 +110,7 @@ class Login extends React.Component {
           leave={{ opacity:0 }}
         >
         {show => (props) => <animated.div style={props}>
-        <Card className="text-dark" style={styles.middleCard0}>
+        <Card className="text-dark shadow-lg" style={styles.middleCard0}>
         <Card.Body>
         <Card.Title as="h3" style={{textAlign:'right'}}>
             Would you like to be in our Hall of Fame?
@@ -138,7 +138,7 @@ class Login extends React.Component {
         leave={{ opacity:0 }}
       >
       {show => (props) => <animated.div style={props}>
-        <Card className="text-dark" style={styles.middleCard1}>
+        <Card className="text-dark shadow-lg" style={styles.middleCard1}>
         <Card.Body>
           <Card.Title as="h3">
             Looking to buy or sell something? Perhaps
@@ -165,7 +165,7 @@ class Login extends React.Component {
           leave={{ opacity:0 }}
         >
         {show => (props) => <animated.div style={props}>
-          <Card className="text-dark" style={styles.middleCard2}>
+          <Card className="text-dark shadow-lg" style={styles.middleCard2}>
           <Card.Body>
           <Card.Title as="h3" style={{textAlign:'right'}}>
             Want to jam to some BTS music?

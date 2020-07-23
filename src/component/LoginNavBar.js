@@ -18,6 +18,7 @@ class LoginNavBar extends React.Component {
             <Nav.Link eventKey={2} style={styles.navlink} href="/hallOfFame">Hall of Fame</Nav.Link>
             <Nav.Link eventKey={3} style={styles.navlink} href="/music">Music</Nav.Link>
             <Nav.Link eventKey={4} style={styles.navlink} href="/community">Community</Nav.Link>
+            <Nav.Link eventKey={5} style={styles.navlink} href="/schedules">Schedule</Nav.Link>
          </Nav>
         </Navbar.Collapse>
       </Navbar>

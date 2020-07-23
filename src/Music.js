@@ -4,6 +4,7 @@ import LoginNavBar from './component/LoginNavBar';
 import NavBar from './component/NavBar';
 import auth from './services/auth';
 import { LoadingOutlined } from '@ant-design/icons';
+import { Spring, Transition, animated } from 'react-spring/renderprops';
 
 const LYRICS_KEY = process.env.REACT_APP_LYRICS_API_KEY;
 const LYRICS_KEY_ROM = process.env.REACT_APP_LYRICS_API_KEY_ROM;
@@ -159,8 +160,25 @@ class Music extends React.Component {
       )}
       <Container>
         <div>
-        <h1 className="my-4">Discover BTS Music</h1>
+        <Transition
+          items={true}
+          from={{ transform: 'translate3d(-300px,0,0)' }}
+          enter={{ transform: 'translate3d(0px,0,0)' }}
+          leave={{ opacity:0 }}
+        >
+          {show => (props) => <animated.div style={props}>
+            <h1 className="my-4">Discover BTS Music</h1>
+          </animated.div>
+          }
+        </Transition>
         <Row>
+        <Transition
+          items={true}
+          from={{ transform: 'translate3d(-300px,0,0)' }}
+          enter={{ transform: 'translate3d(0px,0,0)' }}
+          leave={{ opacity:0 }}
+        >
+        {show => (props) => <animated.div style={props}>
         <Col md={8}>
         <h3>BTS Top 100 tracks</h3>
         <p>Make sure you are signed in to Deezer to enjoy this.</p>
@@ -193,7 +211,18 @@ class Music extends React.Component {
         <Button href="https://www.deezer.com/us/artist/6982223"type="primary">Hear more from BTS @deezer</Button>
         </div>
         </Col>
+        </animated.div>
+        }
+        </Transition>
+
         <Col md={4} style={{minWidth: 350}}>
+          <Transition
+            items={true}
+            from={{ transform: 'translate3d(300px,0,0)' }}
+            enter={{ transform: 'translate3d(0px,0,0)' }}
+            leave={{ opacity:0 }}
+          >
+        {show => (props) => <animated.div style={props}>
           <h3>Want to sing along?</h3>
           <p>Search for the korean hangul lyrics or romanized lyrics here.</p>
             <Form inline>
@@ -204,6 +233,9 @@ class Music extends React.Component {
              <Button onClick={this.searchRomLyrics} variant="outline-success" style={styles.button}>Rom</Button>
              </div>
             </Form>
+          </animated.div>
+          }
+          </Transition>
             { this.state.isLoading && <LoadingOutlined style={styles.loading}/>}
             { (this.state.isKorLyricsNotFound || this.state.isRomLyricsNotFound) && (
               <p style={styles.visit}>Sorry the lyrics for that song could not be found. It may be updated in the database in the future. Do check back again in the future.
