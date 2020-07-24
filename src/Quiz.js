@@ -101,6 +101,12 @@ class Quiz extends React.Component {
       this.setState({isWrong: true});
     }
   }
+  /*<Container style={styles.container}>
+    <h3 className="my-4">Congratulations on getting all the questions correct!</h3>
+    <p style={styles.text}>However, you have to be signed in to enter your social media
+    username in the Hall of Fame. Do try the quiz again when you are signed in if you wish to do so.
+    If you did the quiz for fun then no worries.</p>
+  </Container>*/
 
   render() {
     if (this.state.isLoading) {
@@ -114,11 +120,18 @@ class Quiz extends React.Component {
       return (
         <div>
         <LoginNavBar activeKey={1}/>
-        <Container style={styles.container}>
-          <h3 className="my-4">Congratulations on getting all the questions correct!</h3>
-          <p style={styles.text}>However, you have to be signed in to enter your social media
-          username in the Hall of Fame. Do try the quiz again when you are signed in if you wish to do so.
-          If you did the quiz for fun then no worries.</p>
+        <Container style={styles.messageContainer}>
+          <Row style={styles.row}>
+            <Col>
+            <h3 className="my-4">Congratulations on getting all the questions correct!</h3>
+            <p style={styles.text}>However, you have to be signed in to enter your social media
+            username in the Hall of Fame. Do try the quiz again when you are signed in if you wish to do so.
+            If you did the quiz for fun then no worries.</p>
+            </Col>
+            <Col md="auto">
+            <Image fluid src={require('./img/congrats.jpg')} style={styles.messageImage}/>
+            </Col>
+          </Row>
         </Container>
         </div>
       )
@@ -141,7 +154,7 @@ class Quiz extends React.Component {
         <div>
         <NavBar history={this.props.history} activeKey={1}/>
         <Container style={styles.messageContainer}>
-          <Row>
+          <Row style={styles.row}>
             <Col>
             <h3 className="my-4">Congratulations on being a verified BTS-ARMY for this {months[new Date().getMonth()]}'s Hall of Fame!</h3>
             <p style={styles.text}>Now you may input your social media username to be put up on our Hall of Fame where everyone can see. </p>

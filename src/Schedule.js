@@ -62,7 +62,7 @@ class Schedule extends React.PureComponent {
           enter={{ height: 60, opacity: 1, background: '#f1d7fc' }}
           leave={{ height: 0, opacity: 0, background: '#c23369' }}
           update={{ background: '#cec2ff' }}
-          trail={5}>
+          trail={1}>
           {item => styles => (
             <animated.div style={{...defaultStyles, ...styles}} className="shadow-lg">
               <div style={{width:'100%'}}>
