@@ -73,7 +73,7 @@ class NavBar extends React.Component {
     return (
       <Navbar style={styles.navbar} expand="lg" className="shadow">
         <Navbar.Brand href="#">
-          <Logo/>
+          <Logo isNotAnimate={this.props.isNotAnimate}/>
         </Navbar.Brand>
         <Navbar.Toggle style={styles.navlink} aria-controls="basic-navbar-nav" />
         <Navbar.Collapse style={styles.navlink} id="basic-navbar-nav">

@@ -8,7 +8,7 @@ class LoginNavBar extends React.Component {
     return (
       <Navbar style={styles.navbar} expand="lg" className="shadow">
         <Navbar.Brand href="#">
-          <Logo/>
+          <Logo isNotAnimate={this.props.isNotAnimate}/>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">

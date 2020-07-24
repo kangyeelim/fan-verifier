@@ -101,12 +101,6 @@ class Quiz extends React.Component {
       this.setState({isWrong: true});
     }
   }
-  /*<Container style={styles.container}>
-    <h3 className="my-4">Congratulations on getting all the questions correct!</h3>
-    <p style={styles.text}>However, you have to be signed in to enter your social media
-    username in the Hall of Fame. Do try the quiz again when you are signed in if you wish to do so.
-    If you did the quiz for fun then no worries.</p>
-  </Container>*/
 
   render() {
     if (this.state.isLoading) {
@@ -171,10 +165,10 @@ class Quiz extends React.Component {
     return (
       <div>
       { this.state.isLoggedIn && (
-        <NavBar history={this.props.history} activeKey={1}/>
+        <NavBar isNotAnimate={true} history={this.props.history} activeKey={1}/>
       )}
       { !this.state.isLoggedIn && (
-        <LoginNavBar activeKey={1}/>
+        <LoginNavBar isNotAnimate={true} activeKey={1}/>
       )}
       <Container style={styles.quizContainer}>
         { !this.state.isStarted && !this.state.isWrong &&
