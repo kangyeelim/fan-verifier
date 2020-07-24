@@ -10,6 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { AlertDimissible } from './Account';
 import { FullscreenExitOutlined } from '@ant-design/icons';
+import { Spring, Transition, animated } from 'react-spring/renderprops';
 
 class Entry extends React.Component {
   constructor(props) {
@@ -139,7 +140,17 @@ class Drafts extends React.Component {
       <div>
       <NavBar history={this.props.history} activeKey={0}/>
       <Container style={styles.messageContainer}>
-        <h1 className="my-4">Drafts</h1>
+        <Transition
+          items={true}
+          from={{ transform: 'translate3d(-300px,0,0)' }}
+          enter={{ transform: 'translate3d(0px,0,0)' }}
+          leave={{ opacity:0 }}
+        >
+        {show => (props) => <animated.div style={props}>
+            <h1 className="my-4">Drafts</h1>
+          </animated.div>
+        }
+        </Transition>
         { this.state.posts.map(post => {
           return <Entry key={post._id} history={this.props.history} refreshPage={this.refreshPage} post={post} showImages={this.showImages}/>
         })}

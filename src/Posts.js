@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Row, Col, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { Container, Row, Col, OverlayTrigger, Tooltip, ListGroup } from 'react-bootstrap';
 import NavBar from './component/NavBar';
 import { Redirect } from 'react-router-dom';
 import { PostEntry, ImageCarousel } from './component/Post';
@@ -10,6 +10,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { AlertDimissible } from './Account';
 import { FullscreenExitOutlined } from '@ant-design/icons';
+import { List, AutoSizer, CellMeasurer, CellMeasurerCache, WindowScroller } from 'react-virtualized';
+import { Spring, Transition, animated } from 'react-spring/renderprops';
 
 class Entry extends React.Component {
   constructor(props) {
@@ -55,7 +57,7 @@ class Entry extends React.Component {
   render() {
     return (
       <div style={{backgroundColor:'white'}}>
-        <PostEntry key={this.props.post._id} post={this.props.post} showImages={this.props.showImages}/>
+        <PostEntry key={this.props.post._id} post={this.props.post} measure={this.props.measure} showImages={this.props.showImages}/>
         <Row style={{marginLeft: 10, marginRight:10, alignSelf:'right'}}>
           <Col>
           </Col>
@@ -71,6 +73,10 @@ class Entry extends React.Component {
   }
 }
 
+const cache = new CellMeasurerCache({
+    fixedWidth: true
+});
+
 class Posts extends React.Component {
   constructor() {
     super();
@@ -83,6 +89,7 @@ class Posts extends React.Component {
     };
     this.refreshPage = this.refreshPage.bind(this);
     this.showImages = this.showImages.bind(this);
+    this.renderRow = this.renderRow.bind(this);
   }
 
   async componentDidMount() {
@@ -109,6 +116,22 @@ class Posts extends React.Component {
   showImages(images) {
     this.setState({isShowingImagesFull:!this.state.isShowingImagesFull});
     this.setState({imagesToShow:images});
+  }
+
+  renderRow({ index, key, parent, style }) {
+    var post = this.state.posts[index];
+    return (<CellMeasurer
+      rowIndex={index}
+      columnIndex={0}
+      key={key}
+      cache={cache}
+      parent={parent}
+      enableMargins
+    >
+    {({ measure }) => (
+      <Entry key={post._id} refreshPage={this.refreshPage} post={post} measure={measure} showImages={this.showImages}/>
+    )}
+    </CellMeasurer>);
   }
 
   render() {
@@ -139,10 +162,39 @@ class Posts extends React.Component {
       <div>
       <NavBar history={this.props.history} activeKey={0}/>
       <Container style={styles.messageContainer}>
-        <h1 className="my-4">Posts</h1>
-        { this.state.posts.map(post => {
-          return <Entry key={post._id} refreshPage={this.refreshPage} post={post} showImages={this.showImages}/>
-        })}
+        <Transition
+          items={true}
+          from={{ transform: 'translate3d(-300px,0,0)' }}
+          enter={{ transform: 'translate3d(0px,0,0)' }}
+          leave={{ opacity:0 }}
+        >
+        {show => (props) => <animated.div style={props}>
+            <h1 className="my-4">Posts</h1>
+          </animated.div>
+        }
+        </Transition>
+        <WindowScroller>
+        {({ height, isScrolling, scrollTop, onChildScroll }) => (
+          <ListGroup>
+            <AutoSizer disableHeight>
+              {({ width }) => (
+                <List
+                  height={height}
+                  width={width}
+                  deferredMeasurementCache={cache}
+                  isScrolling={isScrolling}
+                  rowCount={this.state.posts.length}
+                  rowHeight={cache.rowHeight}
+                  rowRenderer={this.renderRow}
+                  autoHeight
+                  scrollTop={scrollTop}
+                  onChildScroll={onChildScroll}
+                />
+              )}
+            </AutoSizer>
+          </ListGroup>
+        )}
+      </WindowScroller>
       </Container>
       </div>
   );

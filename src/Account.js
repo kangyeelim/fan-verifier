@@ -9,6 +9,7 @@ import { Twitter, Facebook, Instagram } from './component/SocialMediaEntry';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import InputForm from './component/InputForm';
+import { Spring, Transition, animated } from 'react-spring/renderprops';
 
 export function AlertDimissible(props) {
   const [show, setShow] = useState(true);
@@ -199,11 +200,21 @@ class Account extends React.Component {
       <div>
       <NavBar history={this.props.history}/>
       <Container style={styles.container}>
-        <h3 className="my-4">Account Information</h3>
+        <Transition
+          items={true}
+          from={{ transform: 'translate3d(-300px,0,0)' }}
+          enter={{ transform: 'translate3d(0px,0,0)' }}
+          leave={{ opacity:0 }}
+        >
+        {show => (props) => <animated.div style={props}>
+            <h1 className="my-4">Account Information</h1>
+          </animated.div>
+        }
+        </Transition>
         <Image style={styles.image} src={this.props.profile[0].imageUrl}/>
-        <h6 style={styles.text}>Name: {this.props.profile[0].name}</h6>
-        <h6 style={styles.text}>Email: {this.props.profile[0].email}</h6>
-        <h6 style={styles.text}>Hall of Fame entries:</h6>
+        <h5 style={styles.text}>Name: {this.props.profile[0].name}</h5>
+        <h5 style={styles.text}>Email: {this.props.profile[0].email}</h5>
+        <h5 style={styles.text}>Hall of Fame entries:</h5>
         <ListGroup>
           { this.state.entries && (
             this.state.entries.map(entry => {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Row, Col, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { Container, Row, Col, OverlayTrigger, Tooltip, ListGroup } from 'react-bootstrap';
 import NavBar from './component/NavBar';
 import { Redirect } from 'react-router-dom';
 import auth from './services/auth';
@@ -10,6 +10,12 @@ import { faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { AlertDimissible } from './Account';
 import { FullscreenExitOutlined } from '@ant-design/icons';
 import { PostEntry, ImageCarousel, PostBottomBar } from './component/Post';
+import { List, AutoSizer, CellMeasurer, CellMeasurerCache, WindowScroller } from 'react-virtualized';
+import { Spring, Transition, animated } from 'react-spring/renderprops';
+
+const cache = new CellMeasurerCache({
+    fixedWidth: true
+});
 
 class Favourites extends React.Component {
   constructor() {
@@ -24,6 +30,7 @@ class Favourites extends React.Component {
     this.refreshPage = this.refreshPage.bind(this);
     this.showImages = this.showImages.bind(this);
     this.unfavouritePost = this.unfavouritePost.bind(this);
+    this.renderRow = this.renderRow.bind(this);
   }
 
   async componentDidMount() {
@@ -110,6 +117,28 @@ class Favourites extends React.Component {
     this.setState({imagesToShow:images});
   }
 
+  renderRow({ index, key, parent, style }) {
+    var post = this.state.posts[index];
+    return (
+      <CellMeasurer
+        rowIndex={index}
+        columnIndex={0}
+        key={key}
+        cache={cache}
+        parent={parent}
+        enableMargins
+      >
+      {({ measure }) => (
+        <div key={post._id} style={{backgroundColor:'white'}}>
+          <PostEntry post={post} showImages={this.showImages} measure={measure}/>
+          <PostBottomBar post={post} favouritesNum={post.favouritedBy.length} isLiked={true}
+          unfavouritePost={this.unfavouritePost} isLoggedIn={this.state.isLoggedIn}/>
+        </div>
+      )}
+      </CellMeasurer>
+    );
+  }
+
   render() {
     if (!this.state.isLoggedIn && this.props.profile.length !== 1) {
       return <Redirect to="/"/>
@@ -138,16 +167,39 @@ class Favourites extends React.Component {
       <div>
       <NavBar history={this.props.history} activeKey={0}/>
       <Container style={styles.messageContainer}>
-        <h1 className="my-4">Favourites</h1>
-        { this.state.posts.map(post => {
-          return (
-            <div key={post._id} style={{backgroundColor:'white'}}>
-              <PostEntry post={post} showImages={this.showImages}/>
-              <PostBottomBar post={post} favouritesNum={post.favouritedBy.length} isLiked={true}
-              unfavouritePost={this.unfavouritePost} isLoggedIn={this.state.isLoggedIn}/>
-            </div>
-          )
-        })}
+        <Transition
+          items={true}
+          from={{ transform: 'translate3d(-300px,0,0)' }}
+          enter={{ transform: 'translate3d(0px,0,0)' }}
+          leave={{ opacity:0 }}
+        >
+        {show => (props) => <animated.div style={props}>
+            <h1 className="my-4">Favourites</h1>
+          </animated.div>
+        }
+        </Transition>
+        <WindowScroller>
+        {({ height, isScrolling, scrollTop, onChildScroll }) => (
+          <ListGroup>
+            <AutoSizer disableHeight>
+              {({ width }) => (
+                <List
+                  height={height}
+                  width={width}
+                  deferredMeasurementCache={cache}
+                  isScrolling={isScrolling}
+                  rowCount={this.state.posts.length}
+                  rowHeight={cache.rowHeight}
+                  rowRenderer={this.renderRow}
+                  autoHeight
+                  scrollTop={scrollTop}
+                  onChildScroll={onChildScroll}
+                />
+              )}
+            </AutoSizer>
+          </ListGroup>
+        )}
+      </WindowScroller>
       </Container>
       </div>
   );

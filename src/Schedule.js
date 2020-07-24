@@ -143,7 +143,7 @@ const venue = {
 
 const scheduleFrame = {
   width:'100%',
-  height:2200
+  height:2500
 }
 
 const mapStateToProps = (state) => {

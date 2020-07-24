@@ -4,6 +4,7 @@ import auth from '../services/auth';
 import { connect } from 'react-redux';
 import { deleteProfile } from '../redux/actions';
 import axios from 'axios';
+import Logo from './Logo';
 
 class NavBar extends React.Component {
 
@@ -67,13 +68,12 @@ class NavBar extends React.Component {
   goSchedule() {
     this.props.history.push('/schedules');
   }
-
+//<Image style={styles.logo} fluid src={require("../img/bts-army-logo.svg")}/>
   render() {
     return (
       <Navbar style={styles.navbar} expand="lg" className="shadow">
         <Navbar.Brand href="#">
-          <Image style={styles.logo} fluid src={require("../img/bts-army-logo.svg")}/>
-          BTS-ARMY Verifier
+          <Logo/>
         </Navbar.Brand>
         <Navbar.Toggle style={styles.navlink} aria-controls="basic-navbar-nav" />
         <Navbar.Collapse style={styles.navlink} id="basic-navbar-nav">
