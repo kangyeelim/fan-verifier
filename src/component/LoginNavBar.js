@@ -1,5 +1,6 @@
 import React from 'react';
 import { Navbar, Nav, Image } from 'react-bootstrap';
+import Logo from './Logo';
 
 class LoginNavBar extends React.Component {
 
@@ -7,8 +8,7 @@ class LoginNavBar extends React.Component {
     return (
       <Navbar style={styles.navbar} expand="lg" className="shadow">
         <Navbar.Brand href="#">
-          <Image style={styles.logo} fluid src={require("../img/bts-army-logo.png")}/>
-          BTS-ARMY Verifier
+          <Logo/>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
