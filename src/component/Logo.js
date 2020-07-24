@@ -7,7 +7,7 @@ export default function Logo() {
     <Spring
       reset
       from={{
-        transform:'scale(3) rotateX(90deg)',
+        transform:'scale(2) rotateX(45deg)',
       }}
       to={{
         transform:'scale(1) rotateX(0deg)',
@@ -17,7 +17,7 @@ export default function Logo() {
         <div className="row" style={{alignItems:'center'}}>
         <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
          width="621.000000pt" height="647.000000pt" viewBox="0 0 621.000000 647.000000"
-         preserveAspectRatio="xMidYMid meet" width="10%" height="10%" style={{...props}}>
+         preserveAspectRatio="xMidYMid meet" width="10%" height="10%" style={{...logo, ...props}}>
         <metadata>
         Created by potrace 1.16, written by Peter Selinger 2001-2019
         </metadata>
@@ -34,11 +34,19 @@ export default function Logo() {
         127 -283 232 -292 232 -13 0 -15 -217 -14 -2047z"/>
         </g>
         </svg>
-        <div style={{...props}}>
+        <div style={{...name, ...props}}>
         ARMY GALAXY
         </div>
         </div>
       )}
     </Spring>
   )
+}
+
+const logo = {
+  marginLeft:30
+}
+
+const name = {
+  marginLeft: 5
 }
