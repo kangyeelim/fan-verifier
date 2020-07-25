@@ -194,6 +194,8 @@ class Favourites extends React.Component {
                   autoHeight
                   scrollTop={scrollTop}
                   onChildScroll={onChildScroll}
+                  style={{ outline: 'none' }}
+                  unfavouritePost={this.unfavouritePost.bind(this)}
                 />
               )}
             </AutoSizer>

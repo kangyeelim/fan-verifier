@@ -116,7 +116,7 @@ class HallOfFame extends React.Component {
         {this.state.filteredEntries && (
           <WindowScroller>
           {({ height, isScrolling, scrollTop, onChildScroll }) => (
-            <ListGroup>
+            <ListGroup className="shadow">
               <AutoSizer disableHeight>
                 {({ width }) => (
                   <List
@@ -130,6 +130,7 @@ class HallOfFame extends React.Component {
                     autoHeight
                     scrollTop={scrollTop}
                     onChildScroll={onChildScroll}
+                    style={{ outline: 'none' }}
                   />
                 )}
               </AutoSizer>

@@ -56,7 +56,7 @@ class Community extends React.Component {
       filteredPosts: null,
       keyword: "",
       isShowingImagesFull: false,
-      imagesToShow: null
+      imagesToShow: null,
     }
     this.apply = this.apply.bind(this);
     this.handleFilterInput = this.handleFilterInput.bind(this);
@@ -205,6 +205,7 @@ class Community extends React.Component {
       }
     }
 
+
     return (
       <CellMeasurer
         rowIndex={index}
@@ -302,21 +303,26 @@ class Community extends React.Component {
         </Row>
         {this.state.filteredPosts && (
           <WindowScroller>
-          {({ height, isScrolling, scrollTop, onChildScroll }) => (
+          {({ height, isScrolling, scrollTop, onChildScroll, scrollBottom }) => (
             <ListGroup>
-              <AutoSizer disableHeight>
+              <AutoSizer disableHeight  style={{borderWidth:2, borderColor:'black', paddingBottom:-500}}>
                 {({ width }) => (
                   <List
                     height={height}
                     width={width}
                     deferredMeasurementCache={cache}
-                    isScrolling={isScrolling}
                     rowCount={this.state.filteredPosts.length}
                     rowHeight={cache.rowHeight}
                     rowRenderer={this.renderRow}
                     autoHeight
                     scrollTop={scrollTop}
+                    scrollBottom={scrollBottom}
                     onChildScroll={onChildScroll}
+                    overscanRollCount={20}
+                    isScrolling={isScrolling}
+                    favouritePost={this.favouritePost.bind(this)}
+                    unfavouritePost={this.unfavouritePost.bind(this)}
+                    style={{ outline: 'none' }}
                   />
                 )}
               </AutoSizer>

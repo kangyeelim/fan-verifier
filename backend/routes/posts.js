@@ -117,7 +117,7 @@ router.route('/update/:id').post((req, res) => {
       post.images = req.body.images,
       post.isPosted = req.body.isPosted,
       post.social = req.body.social,
-      post.name = req.body.username,
+      post.name = req.body.name,
       post.favouritedBy = req.body.favouritedBy
       post.postedAt = req.body.date
 

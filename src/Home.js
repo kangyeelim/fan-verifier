@@ -17,7 +17,7 @@ function ImageCarousel() {
         leave={{ opacity:0 }}
       >
       {show => (props) => <animated.div style={props}>
-      <Carousel style={styles.carousel}>
+      <Carousel style={styles.carousel} className="shadow">
         <Carousel.Item>
           <img
             className="d-block w-100"
@@ -121,7 +121,7 @@ class Home extends React.Component {
             from={{ opacity: 0 }}
             to={{ opacity: 1 }}>
             {props => <div style={props}>
-            <Container style={styles.instructionContainer}>
+            <Container style={styles.instructionContainer} className="shadow">
             { this.state.isLoggedIn && (
               <div>
               <h3>Take our 2 minute quiz!</h3>

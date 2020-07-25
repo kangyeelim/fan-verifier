@@ -153,9 +153,11 @@ class Drafts extends React.Component {
           </animated.div>
         }
         </Transition>
+        <ListGroup>
         { this.state.posts.map(post => {
           return <Entry key={post._id} history={this.props.history} refreshPage={this.refreshPage} post={post} showImages={this.showImages}/>
         })}
+        </ListGroup>
       </Container>
       </div>
   );

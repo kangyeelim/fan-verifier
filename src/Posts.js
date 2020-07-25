@@ -191,6 +191,8 @@ class Posts extends React.Component {
                   autoHeight
                   scrollTop={scrollTop}
                   onChildScroll={onChildScroll}
+                  refreshPage={this.refreshPage.bind(this)}
+                  showImages={this.showImages.bind(this)}
                 />
               )}
             </AutoSizer>

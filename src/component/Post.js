@@ -30,7 +30,7 @@ export function ImageCarousel(props) {
 
 export function PostEntry(props) {
     return (
-      <ListGroup.Item style={{borderColor: 'white'}} className="shadow-sm">
+      <ListGroup.Item style={{borderColor: 'white'}} className="shadow-lg">
         <p>User {props.post.googleName} posted:</p>
         <h5>{props.post.title} <Badge variant="secondary">{props.post.tag}</Badge></h5>
         <h6>{props.post.description}</h6>
