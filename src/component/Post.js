@@ -30,7 +30,7 @@ export function ImageCarousel(props) {
 
 export function PostEntry(props) {
     return (
-      <ListGroup.Item>
+      <ListGroup.Item style={{borderColor: 'white'}} className="shadow-sm">
         <p>User {props.post.googleName} posted:</p>
         <h5>{props.post.title} <Badge variant="secondary">{props.post.tag}</Badge></h5>
         <h6>{props.post.description}</h6>
@@ -50,10 +50,9 @@ export function PostEntry(props) {
                 Show in fullscreen
               </Tooltip>
             }>
-
+              <div style={{float:'right'}}>
               <FullscreenOutlined onClick={()=> props.showImages(props.post.images)} style={styles.screenIcon}/>
-
-
+              </div>
             </OverlayTrigger>
             </div>
             <ImageCarousel measure={props.measure} images={props.post.images} height="400"/>
@@ -66,6 +65,7 @@ export function PostEntry(props) {
 
 export function PostBottomBar(props) {
   return (
+    <ListGroup.Item style={{marginTop:-30, maxHeight:50, borderColor: 'white'}} className="shadow-sm">
     <Row style={{marginLeft: 10, marginRight:10, alignSelf:'right'}}>
       <Col>
       </Col>
@@ -94,6 +94,7 @@ export function PostBottomBar(props) {
         </a>
       </Col>
     </Row>
+    </ListGroup.Item>
   )
 }
 

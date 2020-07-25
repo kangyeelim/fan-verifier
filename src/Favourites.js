@@ -129,7 +129,7 @@ class Favourites extends React.Component {
         enableMargins
       >
       {({ measure }) => (
-        <div key={post._id} style={{backgroundColor:'white'}}>
+        <div key={post._id} style={{backgroundColor:'white', marginBottom:5}}>
           <PostEntry post={post} showImages={this.showImages} measure={measure}/>
           <PostBottomBar post={post} favouritesNum={post.favouritedBy.length} isLiked={true}
           unfavouritePost={this.unfavouritePost} isLoggedIn={this.state.isLoggedIn}/>

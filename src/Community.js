@@ -215,7 +215,7 @@ class Community extends React.Component {
         enableMargins
       >
       {({ measure }) => (
-        <div style={{backgroundColor:'white'}}>
+        <div style={{backgroundColor:'white', marginBottom:5}}>
           <PostEntry post={post} showImages={this.showImages} measure={measure}/>
           <PostBottomBar post={post} favouritesNum={post.favouritedBy.length} isLiked={isLiked}
           favouritePost={this.favouritePost} unfavouritePost={this.unfavouritePost} isLoggedIn={this.state.isLoggedIn}/>
@@ -272,6 +272,7 @@ class Community extends React.Component {
           <Col md={2}>
           </Col>
           <Spring
+            config={{duration:1000}}
             from={{ opacity: 0 }}
             to={{ opacity: 1 }}>
             {props => <div style={props}>

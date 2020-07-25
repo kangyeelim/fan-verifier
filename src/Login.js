@@ -7,7 +7,7 @@ import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { updateProfile, deleteProfile } from './redux/actions';
 import backgroundImg from './img/bg.png';
-import { Transition, animated } from 'react-spring/renderprops';
+import { Spring, Transition, animated } from 'react-spring/renderprops';
 
 const GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 
@@ -93,11 +93,18 @@ class Login extends React.Component {
         <Card className="text-center bg-dark text-white shadow-lg" style={styles.photo}>
           <Card.Img fluid="true" src={require("./img/bts-festa1.jpg")} alt="BTS image"/>
           <Card.ImgOverlay>
+          <Spring
+            config={{delay:1000}}
+            from={{ opacity: 0 }}
+            to={{ opacity: 1 }}>
+            {props => <div style={props}>
             <Card.Title as="h2" style={styles.header}>
               <mark style={styles.mark}>
                 Welcome!
               </mark>
             </Card.Title>
+            </div>}
+          </Spring>
           </Card.ImgOverlay>
         </Card>
         </animated.div>
@@ -107,7 +114,7 @@ class Login extends React.Component {
           items={true}
           from={{ transform: 'translate3d(300px,0,0)' }}
           enter={{ transform: 'translate3d(0px,0,0)' }}
-          leave={{ opacity:0 }}
+          leave={{ transform: 'translate3d(-300px,0,0)' }}
         >
         {show => (props) => <animated.div style={props}>
         <Card className="text-dark shadow-lg" style={styles.middleCard0}>

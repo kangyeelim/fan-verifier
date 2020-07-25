@@ -101,6 +101,7 @@ class HallOfFame extends React.Component {
           </Col>
           <Col md="auto">
           <Spring
+            config={{duration:1000}}
             from={{ opacity: 0 }}
             to={{ opacity: 1 }}>
             {props => <div style={props}>

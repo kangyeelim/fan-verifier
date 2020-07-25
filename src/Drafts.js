@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Row, Col, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { Container, Row, Col, OverlayTrigger, Tooltip, ListGroup } from 'react-bootstrap';
 import NavBar from './component/NavBar';
 import { Redirect } from 'react-router-dom';
 import { PostEntry, ImageCarousel } from './component/Post';
@@ -50,8 +50,9 @@ class Entry extends React.Component {
 
   render() {
     return (
-      <div style={{backgroundColor:'white'}}>
+      <div style={{backgroundColor:'white', marginBottom:5}}>
         <PostEntry key={this.props.post._id} post={this.props.post} showImages={this.props.showImages}/>
+        <ListGroup.Item style={{marginTop:-30, maxHeight:50, borderColor: 'white'}} className="shadow-sm">
         <Row style={{marginLeft: 10, marginRight:10, alignSelf:'right'}}>
           <Col>
           </Col>
@@ -67,6 +68,7 @@ class Entry extends React.Component {
           </Col>
         </Row>
         { this.state.showAlert && <AlertDimissible deleteEntry={this.deletePost}/>}
+        </ListGroup.Item>
       </div>
     );
   }

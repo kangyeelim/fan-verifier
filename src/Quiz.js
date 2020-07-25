@@ -101,7 +101,12 @@ class Quiz extends React.Component {
       this.setState({isWrong: true});
     }
   }
-
+/*<Container style={styles.container}>
+  <h3 className="my-4">Congratulations on getting all the questions correct!</h3>
+  <p style={styles.text}>However, you already have 3 Hall of Fame entries which is the maximum per account.
+  You can edit or delete your previous entries under your account. If you did the quiz for
+  fun then no worries.</p>
+</Container>*/
   render() {
     if (this.state.isLoading) {
       return (
@@ -114,7 +119,7 @@ class Quiz extends React.Component {
       return (
         <div>
         <LoginNavBar activeKey={1}/>
-        <Container style={styles.messageContainer}>
+        <Container style={styles.messageContainer} className="shadow">
           <Row style={styles.row}>
             <Col>
             <h3 className="my-4">Congratulations on getting all the questions correct!</h3>
@@ -134,11 +139,18 @@ class Quiz extends React.Component {
       return (
         <div>
         <NavBar history={this.props.history} activeKey={1}/>
-        <Container style={styles.container}>
-          <h3 className="my-4">Congratulations on getting all the questions correct!</h3>
-          <p style={styles.text}>However, you already have 3 Hall of Fame entries which is the maximum per account.
-          You can edit or delete your previous entries under your account. If you did the quiz for
-          fun then no worries.</p>
+        <Container style={styles.messageContainer} className="shadow">
+          <Row style={styles.row}>
+            <Col>
+            <h3 className="my-4">Congratulations on getting all the questions correct!</h3>
+            <p style={styles.text}>However, you already have 3 Hall of Fame entries which is the maximum per account.
+            You can edit or delete your previous entries under your account. If you did the quiz for
+            fun then no worries.</p>
+            </Col>
+            <Col md="auto">
+            <Image fluid src={require('./img/congrats.jpg')} style={styles.messageImage}/>
+            </Col>
+          </Row>
         </Container>
         </div>
       )
@@ -147,7 +159,7 @@ class Quiz extends React.Component {
       return (
         <div>
         <NavBar history={this.props.history} activeKey={1}/>
-        <Container style={styles.messageContainer}>
+        <Container style={styles.messageContainer} className="shadow">
           <Row style={styles.row}>
             <Col>
             <h3 className="my-4">Congratulations on being a verified BTS-ARMY for this {months[new Date().getMonth()]}'s Hall of Fame!</h3>
@@ -222,8 +234,10 @@ const styles = {
     margin: 20,
   },
   messageContainer:{
+    marginTop: 30,
     padding: 20,
-    backgroundColor: 'white'
+    backgroundColor: 'white',
+    borderRadius:5
   },
   message: {
     alignSelf: 'center',

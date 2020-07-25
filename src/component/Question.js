@@ -111,7 +111,8 @@ class Question extends React.Component {
 const styles = {
   container: {
     padding: 20,
-    backgroundColor: 'white'
+    backgroundColor: 'white',
+    borderRadius: 5
   },
   radio: {
     height: 30,

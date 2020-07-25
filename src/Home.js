@@ -117,6 +117,7 @@ class Home extends React.Component {
           </Col>
           <Col md={4} style={styles.instruction}>
           <Spring
+            config={{duration:1000}}
             from={{ opacity: 0 }}
             to={{ opacity: 1 }}>
             {props => <div style={props}>
@@ -149,7 +150,7 @@ class Home extends React.Component {
             </div>
             </Container>
             </div>}
-            </Spring>
+          </Spring>
           </Col>
         </Row>
     </Container>
