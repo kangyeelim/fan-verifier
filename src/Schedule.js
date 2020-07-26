@@ -35,10 +35,10 @@ class Schedule extends React.PureComponent {
     return (
       <div>
       { this.props.profile.length === 1 && this.state.isLoggedIn && (
-        <NavBar history={this.props.history} activeKey={5} isNotAnimate={true}/>
+        <NavBar history={this.props.history} activeKey={5}/>
       )}
       { this.props.profile.length !== 1 && !this.state.isLoggedIn && (
-        <LoginNavBar activeKey={5} isNotAnimate={true}/>
+        <LoginNavBar activeKey={5}/>
       )}
       <Container>
         <Transition
