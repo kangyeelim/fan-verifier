@@ -124,7 +124,11 @@ class Home extends React.Component {
             <Container style={styles.instructionContainer} className="shadow">
             { this.state.isLoggedIn && (
               <div>
-              <h3>Take our 2 minute quiz!</h3>
+              <h3>
+              <span className="u--highlight" style={{background:'linear-gradient(180deg, rgba(255,255,255,0) 65%, #e7bfff 65%)', height:'50%', display:'inline'}}>
+                Take our 2 minute quiz!
+              </span>
+              </h3>
               <p style={styles.text}>Complete all quiz questions correctly to get a chance to put your social media username
               in our Hall of Fame if you do not have 3 entries yet! This hall of fame is renewed monthly so do come back to do this quiz
               to be back on the Hall of Fame next month.</p>
@@ -132,13 +136,19 @@ class Home extends React.Component {
             )}
             { !this.state.isLoggedIn && (
               <div>
-              <h3>Take our 2 minute quiz to find out!</h3>
+              <h3>
+              <span className="u--highlight" style={{background:'linear-gradient(180deg, rgba(255,255,255,0) 65%, #e7bfff 65%)', height:'50%', display:'inline'}}>
+              Take our 2 minute quiz to find out!</span></h3>
               <p style={styles.text}>Have fun and try to complete all the quiz questions correctly. However, do note that
               you are not logged in so you would not be able to input your social media username in our Hall of Fame
               upon completion.</p>
               </div>
             )}
-            <h3 className="my-3">Quiz Rules</h3>
+            <h3 className="my-3">
+            <span className="u--highlight" style={{background:'linear-gradient(180deg, rgba(255,255,255,0) 65%, #e7bfff 65%)', height:'50%', display:'inline'}}>
+            Quiz Rules
+            </span>
+            </h3>
               <ul>
                 <li style={styles.text}>Each question has 4 options, 1 is correct</li>
                 <li style={styles.text}>You are given 20 seconds per question</li>

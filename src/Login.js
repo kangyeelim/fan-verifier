@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Container, Card, Alert, Button } from 'react-bootstrap';
+import { Container, Card, Alert, Button, Image, Row, Col } from 'react-bootstrap';
 import LoginNavBar from './component/LoginNavBar';
 import auth from './services/auth';
 import GoogleLogin from 'react-google-login';
@@ -8,6 +8,8 @@ import { connect } from 'react-redux';
 import { updateProfile, deleteProfile } from './redux/actions';
 import backgroundImg from './img/bg.png';
 import { Spring, Transition, animated } from 'react-spring/renderprops';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 const GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 
@@ -91,7 +93,14 @@ class Login extends React.Component {
         >
         {show => (props) => <animated.div style={props}>
         <Card className="text-center bg-dark text-white shadow-lg" style={styles.photo}>
+          <div style={{borderColor:'#d786f0', borderWidth:'2px', borderStyle:'solid'}}>
+            <div style={{height:20, backgroundColor:'#dec3ff', textAlign:'right'}}>
+              <FontAwesomeIcon icon={faTimes} style={{fontSize:14, marginRight:10, color:'#d786f0'}}/>
+            </div>
+          </div>
+          <div style={{borderColor:'#d786f0', borderWidth:'2px', borderStyle:'solid', borderTop:'none'}}>
           <Card.Img fluid="true" src={require("./img/bts-festa1.jpg")} alt="BTS image"/>
+          </div>
           <Card.ImgOverlay>
           <Spring
             config={{delay:1000}}
@@ -118,9 +127,22 @@ class Login extends React.Component {
         >
         {show => (props) => <animated.div style={props}>
         <Card className="text-dark shadow-lg" style={styles.middleCard0}>
+        <div style={{borderColor:'#d786f0', borderWidth:'2px', borderStyle:'solid'}}>
+          <div style={{height:20, backgroundColor:'#dad7fc', textAlign:'right'}}>
+            <FontAwesomeIcon icon={faTimes} style={{fontSize:14, marginRight:10, color:'#d786f0'}}/>
+          </div>
+        </div>
+        <div style={{borderColor:'#d786f0', borderWidth:'2px', borderStyle:'solid', borderTop:'none'}}>
         <Card.Body>
+        <Row>
+        <Col style={{maxWidth:'40%'}}>
+        <Image fluid src={require("./img/social_girl.svg")} style={{marginLeft:20}}/>
+        </Col>
+        <Col mstyle={{maxWidth:'60%'}}>
         <Card.Title as="h3" style={{textAlign:'right'}}>
-            Would you like to be in our Hall of Fame?
+          <span className="u--highlight" style={{background:'linear-gradient(180deg, rgba(255,255,255,0) 65%, #c5c2ff 65%)', height:'50%', display:'inline'}}>
+          Would you like to be in our Hall of Fame?
+          </span>
         </Card.Title>
         <Card.Text style={{textAlign:'right'}}>
           Login with your Google account above to do our 2 minute quiz to become a verified BTS-ARMY and get your
@@ -133,7 +155,10 @@ class Login extends React.Component {
           responseGoogleSuccess={this.responseGoogleSuccess}
         />
         </Card.Text>
+        </Col>
+        </Row>
         </Card.Body>
+        </div>
         </Card>
         </animated.div>
         }
@@ -146,11 +171,21 @@ class Login extends React.Component {
       >
       {show => (props) => <animated.div style={props}>
         <Card className="text-dark shadow-lg" style={styles.middleCard1}>
+        <div style={{borderColor:'#d786f0', borderWidth:'2px', borderStyle:'solid'}}>
+          <div style={{height:20, backgroundColor:'#cec2ff', textAlign:'right'}}>
+            <FontAwesomeIcon icon={faTimes} style={{fontSize:14, marginRight:10, color:'#d786f0'}}/>
+          </div>
+        </div>
+        <div style={{borderColor:'#d786f0', borderWidth:'2px', borderStyle:'solid', borderTop:'none'}}>
         <Card.Body>
+          <Row>
+          <Col style={{maxWidth:'60%'}}>
           <Card.Title as="h3">
+            <span className="u--highlight" style={{background:'linear-gradient(180deg, rgba(255,255,255,0) 65%, #ceb3ff 65%)', height:'50%', display:'inline'}}>
             Looking to buy or sell something? Perhaps
-            looking for fellow BTS-ARMY to share
+            looking to share
             the cost for merchandise?
+            </span>
           </Card.Title>
           <Card.Text>
             Head over to our Community to look at posts that are selling,
@@ -160,7 +195,13 @@ class Login extends React.Component {
           <Card.Text>
             <a href="/community" style={styles.link}>Community &gt;</a>
           </Card.Text>
+          </Col>
+          <Col style={{maxWidth:'40%', textAlign:'right'}}>
+          <Image fluid src={require("./img/shopping.svg")} style={{marginRight:10}}/>
+          </Col>
+          </Row>
           </Card.Body>
+          </div>
           </Card>
           </animated.div>
           }
@@ -173,9 +214,22 @@ class Login extends React.Component {
         >
         {show => (props) => <animated.div style={props}>
           <Card className="text-dark shadow-lg" style={styles.middleCard2}>
+          <div style={{borderColor:'#d786f0', borderWidth:'2px', borderStyle:'solid'}}>
+            <div style={{height:20, backgroundColor:'#f1d7fc', textAlign:'right'}}>
+              <FontAwesomeIcon icon={faTimes} style={{fontSize:14, marginRight:10, color:'#d786f0'}}/>
+            </div>
+          </div>
+          <div style={{borderColor:'#d786f0', borderWidth:'2px', borderStyle:'solid', borderTop:'none'}}>
           <Card.Body>
+          <Row>
+          <Col style={{maxWidth:'40%'}}>
+          <Image fluid src={require("./img/listening.svg")} style={{marginLeft:10}}/>
+          </Col>
+          <Col style={{alignText:'right', maxWidth:'60%'}}>
           <Card.Title as="h3" style={{textAlign:'right'}}>
+          <span className="u--highlight" style={{background:'linear-gradient(180deg, rgba(255,255,255,0) 65%, #e7bfff 65%)', height:'50%', display:'inline'}}>
             Want to jam to some BTS music?
+          </span>
           </Card.Title>
           <Card.Text style={{textAlign:'right'}}>
             Try the music tab powered by Deezer which also allows you to search
@@ -184,7 +238,10 @@ class Login extends React.Component {
           <Card.Text style={{textAlign:'right'}}>
             <a href="/music" style={styles.link}>&lt; Music</a>
           </Card.Text>
+          </Col>
+          </Row>
           </Card.Body>
+          </div>
         </Card>
         </animated.div>
         }
@@ -206,24 +263,28 @@ const styles = {
     minWidth: 400,
     borderRadius:0,
     backgroundColor: '#cec2ff',
-    borderWidth:0
+    borderWidth:0,
+    marginTop: 20
   },
   middleCard2: {
     minWidth: 400,
     borderRadius:0,
     backgroundColor: '#f1d7fc',
-    borderWidth:0
+    borderWidth:0,
+    marginTop: 20
   },
   middleCard0: {
     minWidth: 400,
     borderRadius:0,
     backgroundColor: '#dad7fc',
-    borderWidth:0
+    borderWidth:0,
+    marginTop: 20
   },
   photo: {
     minWidth: 400,
     borderRadius:0,
-    borderWidth:0
+    borderWidth:0,
+    marginTop:20
   },
   link: {
     color: 'black',
@@ -241,7 +302,7 @@ const styles = {
     color: 'white',
   },
   mark: {
-    backgroundColor: 'black',
+    backgroundColor: '#d786f0',
     color: 'white'
   },
 }
