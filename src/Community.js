@@ -204,8 +204,6 @@ class Community extends React.Component {
         isLiked = true;
       }
     }
-
-
     return (
       <CellMeasurer
         rowIndex={index}

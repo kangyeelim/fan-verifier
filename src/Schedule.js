@@ -65,21 +65,28 @@ class Schedule extends React.PureComponent {
         </Transition>
         {this.state.tourList.map(item => {
           return (
-            <div style={{borderColor:'#d786f0', borderWidth:'2px', borderStyle:'solid', width:'100%', marginBottom:10, backgroundColor:'#cec2ff'}} className="shadow">
-            <Row>
-            <Col md="auto">
-              <p style={dateTop}>{item.date}</p>
-              <p style={dateBottom}>{item.year}</p>
-            </Col>
-            <Col>
-              <hr style={{marginTop:35}}/>
-            </Col>
-            <Col md="auto" style={{justifyContent: "end"}}>
-              <p style={city}>{item.city}</p>
-              <p style={venue}>{item.venue}</p>
-            </Col>
-            </Row>
-            </div>);
+            <Spring
+              config={{duration:1000}}
+              from={{ opacity: 0 }}
+              to={{ opacity: 1 }}>
+              {props => <div style={props}>
+                <div style={{borderColor:'#d786f0', borderWidth:'2px', borderStyle:'solid', width:'100%', marginBottom:10, backgroundColor:'#cec2ff'}} className="shadow">
+                <Row>
+                <Col md="auto">
+                  <p style={dateTop}>{item.date}</p>
+                  <p style={dateBottom}>{item.year}</p>
+                </Col>
+                <Col>
+                  <hr style={{marginTop:35}}/>
+                </Col>
+                <Col md="auto" style={{justifyContent: "end"}}>
+                  <p style={city}>{item.city}</p>
+                  <p style={venue}>{item.venue}</p>
+                </Col>
+                </Row>
+                </div>
+            </div>}
+          </Spring>);
         })}
         <Transition
           items={true}

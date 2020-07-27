@@ -181,7 +181,7 @@ class Login extends React.Component {
           <Row>
           <Col style={{maxWidth:'60%'}}>
           <Card.Title as="h3">
-            <span className="u--highlight" style={{background:'linear-gradient(180deg, rgba(255,255,255,0) 65%, #ceb3ff 65%)', height:'50%', display:'inline'}}>
+            <span className="u--highlight" style={{background:'linear-gradient(180deg, rgba(255,255,255,0) 65%, #e4d1ff 65%)', height:'50%', display:'inline'}}>
             Looking to buy or sell something? Perhaps
             looking to share
             the cost for merchandise?

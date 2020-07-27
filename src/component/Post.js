@@ -55,7 +55,7 @@ export function PostEntry(props) {
               </div>
             </OverlayTrigger>
             </div>
-            <ImageCarousel measure={props.measure} images={props.post.images} height="400"/>
+            <ImageCarousel measure={props.measure} images={props.post.images} height="300"/>
           </div>
         )}
         <p>posted on: {new Date(props.post.postedAt).toLocaleDateString()} {new Date(props.post.postedAt).toLocaleTimeString()}</p>
