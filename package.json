@@ -37,7 +37,7 @@
     "typescript": "^3.9.7"
   },
   "scripts": {
-    "start": "nodemon server --prefix backend",
+    "start": "node server.js --prefix backend",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install && npm run build",
     "build": "react-scripts build",
     "test": "react-scripts test",
