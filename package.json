@@ -60,5 +60,7 @@
   },
   "proxy": "http://localhost:5000",
   "devDependencies": {},
-  "engines": "14.2.0"
+  "engines": {
+    "node":"14.2.0"
+  }
 }
